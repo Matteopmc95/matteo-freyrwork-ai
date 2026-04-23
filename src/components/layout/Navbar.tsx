@@ -99,7 +99,6 @@ export default function Navbar() {
                 style={{ transitionDelay: isOpen ? `${0.1 + i * 0.06}s` : '0s' }}
                 onClick={() => setIsOpen(false)}
               >
-                <span className="mobile-menu-num">{String(i + 1).padStart(2, '0')}</span>
                 <span className="mobile-menu-text">{link.label}</span>
                 {pathname === link.href && <span className="mobile-menu-dot"></span>}
               </Link>
@@ -117,13 +116,9 @@ export default function Navbar() {
                 <span className="mobile-menu-contact-label">Email</span>
                 <span className="mobile-menu-contact-value">info@freyrwork.it</span>
               </a>
-              <a href="tel:+390000000000" className="mobile-menu-contact">
+              <a href="tel:+390743297711" className="mobile-menu-contact">
                 <span className="mobile-menu-contact-label">Telefono</span>
-                <span className="mobile-menu-contact-value">+39 000 000 0000</span>
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="mobile-menu-contact">
-                <span className="mobile-menu-contact-label">LinkedIn</span>
-                <span className="mobile-menu-contact-value">/freyrwork</span>
+                <span className="mobile-menu-contact-value">+39 0743 297711</span>
               </a>
             </div>
 
@@ -192,8 +187,8 @@ export default function Navbar() {
           display: flex; align-items: baseline; gap: 16px;
           padding: 14px 0; text-decoration: none;
           color: rgba(244,243,238,0.5);
-          font-size: 32px; font-weight: 500;
-          letter-spacing: -0.025em; line-height: 1.1;
+          font-size: 24px; font-weight: 500;
+          letter-spacing: -0.02em; line-height: 1.1;
           position: relative;
           opacity: 0; transform: translateY(24px);
           transition: opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1), color .3s;
@@ -297,7 +292,7 @@ export default function Navbar() {
         }
 
         @media (max-width: 400px) {
-          .mobile-menu-link { font-size: 28px; padding: 12px 0; }
+          .mobile-menu-link { font-size: 22px; padding: 12px 0; }
           .mobile-menu-content { padding: 90px 6vw 30px; }
         }
 
