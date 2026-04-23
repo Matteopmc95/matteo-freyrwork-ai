@@ -81,7 +81,7 @@ section:not(.alt) .pain-card{background:var(--bg2)}
 .compare-row div:last-child{border-right:none;background:#ffffff}
 .compare-row .col-first{font-weight:500;color:rgba(244,243,238,.5);font-size:12px}
 .compare-row .col-acc{color:#0D0F14;font-weight:500}
-@media(max-width:640px){.compare-header{grid-template-columns:1fr 1fr}.compare-header div:first-child{display:none}.compare-row{grid-template-columns:1fr 1fr}.compare-row .col-first{display:none}#chi .biz-grid{gap:8px;margin-top:32px;justify-content:flex-start}.biz-pill{flex:1 1 calc(50% - 4px);text-align:center;padding:12px 10px;font-size:12px;white-space:normal;line-height:1.3;min-height:44px;display:flex;align-items:center;justify-content:center}}
+@media(max-width:640px){.compare-header{grid-template-columns:1fr 1fr}.compare-header div:first-child{display:none}.compare-row{grid-template-columns:1fr 1fr}.compare-row .col-first{display:none}#chi .biz-grid{gap:8px;margin-top:32px;justify-content:flex-start}.biz-pill{flex:1 1 calc(50% - 4px);text-align:center;padding:12px 10px;font-size:12px;white-space:normal;line-height:1.3;min-height:44px;display:flex;align-items:center;justify-content:center}#chi .section-cta{text-align:center}}
 #chi .biz-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:48px}
 .biz-pill{padding:10px 18px;border-radius:8px;font-size:13px;border:1px solid rgba(0,0,0,0.08);color:#0D0F14;background:#F4F3EE;font-weight:500;transition:border-color .2s,color .2s,background .2s,transform .15s;cursor:default}
 .biz-pill:hover{border-color:rgba(75,107,251,.5);color:#0D0F14;background:#FFFFFF;transform:translateY(-1px)}
