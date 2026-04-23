@@ -422,7 +422,7 @@ function initializeCanvas(
   let startTime: number | null = null, lastTime = 0, lastRenderTime = 0;
   let cOp = 0, raf = 0;
   let heroVisible = true, pageVisible = !document.hidden;
-  const frameInterval = slowMode ? 1000 / 12 : 1000 / 36;
+  let frameInterval = slowMode ? 1000 / 8 : 1000 / 36;
 
   const T0 = 300, T1 = 1400, TS = 160, TD = 720;
   const TM = 3200, TMD = 500, TMS = 90, FOV = 850;
@@ -471,8 +471,9 @@ function initializeCanvas(
   };
 
   const buildScene = () => {
-    const pos = fibSphere(LABELS.length, RADIUS);
-    nodes = LABELS.map((label, i) => ({
+    const activeLabels = isMobile ? LABELS.slice(0, 6) : LABELS;
+    const pos = fibSphere(activeLabels.length, RADIUS);
+    nodes = activeLabels.map((label, i) => ({
       base: { ...pos[i] },
       label,
       opacity: 0,
@@ -503,16 +504,17 @@ function initializeCanvas(
 
   const resize = () => {
     const wasMobile = isMobile;
-    dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.35);
+    dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
     W = canvas.offsetWidth;
     H = canvas.offsetHeight;
     isMobile = W < 640;
+    frameInterval = slowMode ? 1000 / 8 : (isMobile ? 1000 / 24 : 1000 / 36);
     canvas.width = W * dpr;
     canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     CX = W / 2;
     CY = H * (isMobile ? 0.47 : 0.42);
-    RADIUS = Math.min(W, H) * (isMobile ? 0.4 : 0.5) * (isMobile ? 0.88 : 1);
+    RADIUS = Math.min(W, H) * (isMobile ? 0.32 : 0.5);
     if (wasMobile !== isMobile) buildScene();
   };
 
@@ -574,7 +576,7 @@ function initializeCanvas(
   ) => {
     if (alpha < 0.02) return;
     const ac = hRgb(ACC);
-    const fs = Math.max(isMobile ? 7 : 9, (isMobile ? 10 : 12) * scale);
+    const fs = Math.max(isMobile ? 11 : 9, (isMobile ? 11 : 12) * scale);
     const px = 10 * scale, py = 4.5 * scale, br = 6 * scale;
     ctx.font = `400 ${fs}px Inter,sans-serif`;
     const disp = text.toUpperCase();
