@@ -165,7 +165,7 @@ function TaskVisual() {
   ];
 
   return (
-    <div ref={visRef} style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div ref={visRef} className="ops-animate" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ fontSize: 12, fontWeight: 500, color: C.txt, marginBottom: 8, paddingBottom: 12, borderBottom: `1px solid ${C.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         Operazioni quotidiane
         <span ref={doneRef} style={{ fontSize: 11, color: C.acc, fontWeight: 400 }}>0 / 5 automatizzate</span>
@@ -437,6 +437,32 @@ function ServiceSection({
 export default function ServiziPage() {
   useReveal();
 
+  useEffect(() => {
+    let opsObserver: IntersectionObserver | undefined;
+    const opsSection = document.querySelector('.ops-animate');
+    if (opsSection) {
+      opsObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+              opsObserver!.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2, rootMargin: '0px 0px -50px 0px' }
+      );
+      opsObserver.observe(opsSection);
+    }
+    const fallback = setTimeout(() => {
+      document.querySelectorAll('.ops-animate:not(.in-view)').forEach((el) => el.classList.add('in-view'));
+    }, 3000);
+    return () => {
+      opsObserver?.disconnect();
+      clearTimeout(fallback);
+    };
+  }, []);
+
   return (
     <div style={{ background: C.bg, color: C.txt, fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
       <style>{`
@@ -444,6 +470,10 @@ export default function ServiziPage() {
           .svc-grid{display:flex!important;flex-direction:column;gap:40px!important}
           .svc-visual{order:-1;margin-bottom:0}
         }
+        .ops-animate{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+        .ops-animate.in-view{opacity:1;transform:none}
+        .ops-animate .animated-row,.ops-animate .animated-bar,.ops-animate [class*="pulse"]{animation-play-state:paused}
+        .ops-animate.in-view .animated-row,.ops-animate.in-view .animated-bar,.ops-animate.in-view [class*="pulse"]{animation-play-state:running}
       `}</style>
 
       {/* page hero */}
