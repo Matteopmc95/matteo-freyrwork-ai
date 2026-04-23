@@ -34,8 +34,8 @@ section.alt{background:var(--bg2)}
 section:not(.alt) .pain-card{background:var(--bg2)}
 .pain-card strong{display:block;font-size:14px;font-weight:500;color:var(--txt);margin-bottom:8px}
 .pain-card p{font-size:13px;color:var(--muted);line-height:1.65}
-.chaos-visual{position:relative;height:320px;border:1px solid var(--border);border-radius:16px;background:rgba(75,107,251,.03);overflow:hidden;transform:translateZ(0)}
-.chaos-msg{position:absolute;background:rgba(13,15,20,.9);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--muted);white-space:nowrap;animation:floatMsg 6s ease-in-out infinite}
+.chaos-visual{position:relative;height:320px;border:none;border-radius:0;background:transparent;overflow:visible;transform:translateZ(0)}
+.chaos-msg{position:absolute;background:rgba(13,15,20,.9);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--muted);white-space:normal;max-width:180px;word-wrap:break-word;animation:floatMsg 6s ease-in-out infinite}
 .chaos-msg .ch{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:8px;vertical-align:middle}
 .chaos-msg.active{border-color:rgba(75,107,251,.4);color:rgba(244,243,238,.8)}
 @keyframes floatMsg{0%{opacity:0;transform:translateY(8px)}15%{opacity:1;transform:translateY(0)}85%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-8px)}}
@@ -46,7 +46,7 @@ section:not(.alt) .pain-card{background:var(--bg2)}
 .chaos-center p{font-size:11px;color:var(--muted);margin-top:10px;letter-spacing:.06em;text-transform:uppercase}
 .connector-line{position:absolute;top:50%;height:1px;transform-origin:left center;animation:drawLine 3s ease-in-out infinite}
 @keyframes drawLine{0%{opacity:0;width:0}40%{opacity:.5;width:100%}80%{opacity:.5;width:100%}100%{opacity:0;width:100%}}
-@media(max-width:768px){#problema .prob-layout{grid-template-columns:1fr}.chaos-visual{height:220px}}
+@media(max-width:768px){#problema .prob-layout{grid-template-columns:1fr}.chaos-visual{height:220px}.chaos-msg{max-width:140px;font-size:11px;padding:8px 10px}}
 #soluzione .two-col{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;margin-top:56px}
 .feature-list{display:flex;flex-direction:column;gap:20px;margin-top:28px}
 .feature-item{display:flex;gap:14px;align-items:flex-start}
@@ -806,7 +806,7 @@ export default function ImportedHomepage() {
       msgs.forEach((m) => {
         const msgEl = document.createElement("div");
         msgEl.className = "chaos-msg";
-        msgEl.style.cssText = `top:${m.top};left:${m.left};animation-delay:${m.delay}s;max-width:200px`;
+        msgEl.style.cssText = `top:${m.top};left:${m.left};animation-delay:${m.delay}s;max-width:180px`;
         msgEl.innerHTML = `<span class="ch" style="background:${m.color}"></span>${m.text}`;
         el.appendChild(msgEl);
         const line = document.createElement("div");
