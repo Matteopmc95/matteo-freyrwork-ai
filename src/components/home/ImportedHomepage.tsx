@@ -893,8 +893,6 @@ export default function ImportedHomepage() {
           pageVisible = !document.hidden;
         };
 
-        resize();
-        buildScene();
         const resizeObserver = new ResizeObserver(() => { resize(); });
         resizeObserver.observe(canvas.parentElement || canvas);
         document.addEventListener("visibilitychange", onVisibilityChange);
@@ -912,7 +910,17 @@ export default function ImportedHomepage() {
         };
         canvas.addEventListener("mousemove", onMouseMove);
         canvas.addEventListener("touchmove", onTouchMove, { passive: false });
-        raf = requestAnimationFrame(draw);
+
+        const initCanvas = () => {
+          if (canvas.offsetWidth === 0) {
+            requestAnimationFrame(initCanvas);
+            return;
+          }
+          resize();
+          buildScene();
+          raf = requestAnimationFrame(draw);
+        };
+        requestAnimationFrame(initCanvas);
 
         cleanupCanvas = () => {
           cancelAnimationFrame(raf);
