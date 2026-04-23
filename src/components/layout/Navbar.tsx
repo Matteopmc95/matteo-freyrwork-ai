@@ -9,6 +9,7 @@ const navItems = [
   { href: "/servizi", label: "Servizi" },
   { href: "/agente-ai", label: "Agente AI" },
   { href: "/casi-studio", label: "Casi Studio" },
+  { href: "/contatti", label: "Contatti" },
   { href: "/chi-siamo", label: "Chi Siamo" },
 ];
 export default function Navbar() {
