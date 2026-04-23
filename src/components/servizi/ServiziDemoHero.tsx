@@ -74,13 +74,13 @@ const FLOW: Record<Sector, Step[]> = {
     },
     {
       channel: 'call', from: '+39 347 ••• ••31',
-      request: 'Chiamata persa alle 22:47 — fuori orario reception',
-      thought: 'Chiamata fuori orario, reception chiusa. Richiamare al mattino, nel frattempo inviare SMS di cortesia con orari e link prenotazione.',
-      classify: 'Callback · Fuori orario',
+      request: 'Chiamata in arrivo alle 22:47 — richiesta disponibilità camere',
+      thought: 'Chiamata fuori orario ricevuta. Avvio conversazione automatica: rispondo alla richiesta, verifico disponibilità e gestisco la prenotazione in tempo reale senza rimandare.',
+      classify: 'Prenotazione · Fuori orario',
       actions: [
-        { system: 'Agenda reception', detail: 'Callback programmato ore 8:30' },
-        { system: 'SMS automatico', detail: 'Inviato: orari + link diretto booking' },
-        { system: 'CRM', detail: 'Contatto registrato con nota "callback"' },
+        { system: 'Conversazione AI', detail: 'Agente avviato · risposta in 3s' },
+        { system: 'PMS · Disponibilità', detail: 'Verificata e comunicata al cliente' },
+        { system: 'Prenotazione', detail: 'Confermata direttamente in chat' },
       ],
       manual: 358, agent: 2.4,
     },
@@ -260,14 +260,14 @@ export default function ServiziDemoHero() {
                   clearInterval(ai);
                   timers.push(setTimeout(() => {
                     setPhase('done');
-                    timers.push(setTimeout(() => { setActiveStep((prev) => (prev + 1) % steps.length); }, 1400));
-                  }, 1200));
+                    timers.push(setTimeout(() => { setActiveStep((prev) => (prev + 1) % steps.length); }, 2500));
+                  }, 2000));
                 }
-              }, 420);
-            }, 320));
+              }, 700);
+            }, 600));
           }
-        }, 22);
-      }, 820));
+        }, 35);
+      }, 1400));
     };
 
     run();

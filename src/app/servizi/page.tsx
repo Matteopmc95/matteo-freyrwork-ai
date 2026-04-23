@@ -215,9 +215,9 @@ function FlowVisual() {
             fn.querySelector('.flow-content')?.appendChild(s);
           }
           step++;
-          if (step <= 4) timer = setTimeout(advance, 1200);
+          if (step <= 4) timer = setTimeout(advance, 2200);
         }
-        setTimeout(advance, 1000);
+        setTimeout(advance, 2000);
         io.disconnect();
       },
       { threshold: 0.3 }
@@ -253,7 +253,7 @@ function FlowVisual() {
                 background: n.done ? C.acc : 'rgba(75,107,251,0.08)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 10, fontWeight: 600, color: n.done ? '#fff' : C.acc,
-                flexShrink: 0, animation: n.pulsing ? 'flowPulse 1.5s ease-in-out infinite' : undefined,
+                flexShrink: 0, animation: n.pulsing ? 'flowPulse 3s ease-in-out infinite' : undefined,
               }}
             >
               {n.done ? '✓' : n.pulsing ? '→' : n.id + 1}
