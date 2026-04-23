@@ -7,7 +7,10 @@ import { usePathname } from 'next/navigation';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -87,7 +90,7 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile Menu Overlay */}
-      <div className={`mobile-menu ${isOpen ? 'is-open' : ''}`}>
+      {mounted && <div className={`mobile-menu ${isOpen ? 'is-open' : ''}`}>
         <div className="mobile-menu-bg"></div>
         <div className="mobile-menu-content">
           <nav className="mobile-menu-links">
@@ -129,7 +132,7 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
 
       <style jsx global>{`
         @media (min-width: 901px) {
