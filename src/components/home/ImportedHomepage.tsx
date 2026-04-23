@@ -128,6 +128,7 @@ footer{padding:40px 8vw;border-top:1px solid var(--border);display:flex;align-it
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   .reveal,.reveal.visible,.chaos-msg,.connector-line,.chaos-center .ring,.agent-dot,.vis-row.on,.vis-ticker > span{animation:none!important;transition:none!important;transform:none!important;opacity:1!important}
+  .reveal{opacity:1!important;transform:none!important;transition:none!important}
 }
 `;
 
@@ -839,6 +840,10 @@ export default function ImportedHomepage() {
       { threshold: 0, rootMargin: "0px 0px -40px 0px" },
     );
     document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+
+    if (prefersReducedMotion) {
+      document.querySelectorAll(".reveal").forEach((el) => el.classList.add("visible"));
+    }
 
     // stats observer
     const statsObserver = new IntersectionObserver(
