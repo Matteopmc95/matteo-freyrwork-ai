@@ -380,7 +380,7 @@ function ServiceSection({
 }) {
   return (
     <section id={id} style={{ padding: '96px 8vw', borderBottom: `1px solid ${C.border}`, background: alt ? C.bg2 : C.bg }}>
-      <div style={{
+      <div className="svc-grid" style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,420px),1fr))',
         gap: 72,
@@ -420,7 +420,7 @@ function ServiceSection({
             {cta}
           </a>
         </div>
-        <div data-reveal style={{
+        <div className="svc-visual" data-reveal style={{
           ...rev(0.2), direction: 'ltr',
           border: `1px solid ${C.border}`, borderRadius: 16, overflow: 'hidden',
           background: 'rgba(75,107,251,0.03)', minHeight: 300, position: 'relative',
@@ -439,6 +439,12 @@ export default function ServiziPage() {
 
   return (
     <div style={{ background: C.bg, color: C.txt, fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
+      <style>{`
+        @media(max-width:768px){
+          .svc-grid{display:flex!important;flex-direction:column;gap:40px!important}
+          .svc-visual{order:-1;margin-bottom:0}
+        }
+      `}</style>
 
       {/* page hero */}
       <div style={{ padding: '140px 8vw 80px', borderBottom: `1px solid ${C.border}` }}>
