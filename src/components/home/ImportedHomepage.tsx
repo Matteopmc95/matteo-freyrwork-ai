@@ -497,7 +497,8 @@ export default function ImportedHomepage() {
     if (canvas) {
       const ctx = canvas.getContext("2d");
 
-      if (ctx && !prefersReducedMotion) {
+      if (ctx) {
+        const slowMode = prefersReducedMotion;
         const ACC = "#4B6BFB";
         const LABELS = [
           "Analisi e lettura del dato",
@@ -528,7 +529,7 @@ export default function ImportedHomepage() {
         let raf = 0;
         let heroVisible = true;
         let pageVisible = !document.hidden;
-        const frameInterval = 1000 / 36;
+        const frameInterval = slowMode ? 1000 / 12 : 1000 / 36;
 
         type Vec3 = { x: number; y: number; z: number };
         type Node = {
