@@ -229,24 +229,31 @@ type Member = {
 const TEAM: Member[] = [
   {
     name: 'Matteo Bartoli',
-    role: 'Marketing Automation Specialist',
+    role: 'Marketing Automation Specialist AI',
     bio:
-      'Da dieci anni mi occupo di automazioni. Affianco aziende e professionisti nell\'ottimizzazione dei processi, partendo dal lavoro reale di chi li vive ogni giorno: capire dove si perde tempo, costruire strumenti che lo recuperano, farli entrare con naturalezza nella routine del team.',
+      'Marketing Automation Specialist AI di Freyr Technology, contribuisce allo sviluppo strategico e operativo delle soluzioni di marketing avanzato. Con oltre 10 anni di esperienza nel digital marketing, supporta la progettazione e l\'ottimizzazione di funnel, campagne e processi automatizzati orientati alla crescita. Negli ultimi 2 anni ha focalizzato il proprio lavoro sull\'integrazione dell\'intelligenza artificiale, sviluppando sistemi di personalizzazione, analisi dei dati e automazioni intelligenti.',
     initials: 'MB',
   },
   {
     name: 'Alan Santi',
-    role: 'Co-founder',
+    role: 'CEO & Co-founder',
     bio:
-      'Descrizione in arrivo. Parte del team che segue lo sviluppo e l\'adattamento degli agenti AI ai contesti specifici di ogni attività.',
+      'CEO e cofondatore di Freyr Technology. Con oltre 5 anni di esperienza nel settore tech e nello sviluppo software, guida la direzione strategica dell\'azienda, coordina i progetti e prende le principali decisioni operative e commerciali. Oltre al ruolo manageriale, contribuisce attivamente allo sviluppo front-end e alla progettazione di interfacce moderne e orientate all\'esperienza utente.',
     initials: 'AS',
   },
   {
     name: 'Fabiano Bertini',
-    role: 'Co-founder',
+    role: 'Socio Fondatore',
     bio:
-      'Descrizione in arrivo. Si occupa di portare le soluzioni nel quotidiano dei clienti e di mantenere vivo il dialogo tra tecnologia e persone.',
+      'Socio fondatore di Freyr Technology e fondatore di PC Work di Bertini Fabiano. Con oltre 20 anni di esperienza nel settore IT e nella consulenza informatica, apporta una solida competenza maturata sul campo in infrastrutture, sicurezza informatica e gestione tecnologica. All\'interno dell\'azienda rappresenta una figura chiave per affidabilità, visione pratica e consolidamento operativo dei progetti.',
     initials: 'FB',
+  },
+  {
+    name: 'Gaetano Santini',
+    role: 'Sviluppatore',
+    bio:
+      'Sviluppatore di Freyr Technology, contribuisce alla realizzazione tecnica dei progetti aziendali. Con oltre 10 anni di esperienza tra operatività, digitale e processi aziendali, si occupa dello sviluppo di automazioni, integrazioni software e nuove soluzioni basate su intelligenza artificiale. È una risorsa centrale nell\'esecuzione tecnica e nell\'evoluzione dei prodotti dell\'azienda.',
+    initials: 'GS',
   },
 ];
 

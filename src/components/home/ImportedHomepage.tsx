@@ -8,7 +8,7 @@ const styles = `
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--txt);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
-#hero{position:relative;width:100%;height:100svh;min-height:860px;overflow:hidden;background:radial-gradient(ellipse 58% 42% at 50% 43%, rgba(75,107,251,.10), transparent 72%),linear-gradient(180deg, rgba(8,10,16,.96) 0%, rgba(13,15,20,.92) 58%, var(--bg) 100%)}
+#hero{position:relative;width:100%;min-height:min(100svh,900px);overflow:hidden;background:radial-gradient(ellipse 58% 42% at 50% 43%, rgba(75,107,251,.10), transparent 72%),linear-gradient(180deg, rgba(8,10,16,.96) 0%, rgba(13,15,20,.92) 58%, var(--bg) 100%)}
 #hero canvas{display:block;position:absolute;inset:-4% 0 0 0;width:100%;height:108%;transform:scale(1.04);transform-origin:center 40%}
 .hero-center{position:absolute;left:50%;top:43%;transform:translate(-50%,-50%);z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none;width:min(100%,980px);padding:0 24px}
 .hero-title{font-size:clamp(72px,8.2vw,132px);font-weight:600;line-height:.96;letter-spacing:-.055em;color:#fff;text-shadow:0 0 24px rgba(123,148,252,.28),0 0 52px rgba(123,148,252,.12)}
@@ -20,8 +20,8 @@ a{text-decoration:none;color:inherit}
 .btn-primary:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 22px 48px rgba(123,148,252,.28)}
 .btn-ghost{font-size:15px;font-weight:400;color:var(--txt);padding:14px 28px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.02);cursor:pointer;transition:border-color .2s,background .2s,transform .15s;display:inline-block}
 .btn-ghost:hover{border-color:rgba(75,107,251,.45);background:rgba(75,107,251,.07);transform:translateY(-1px)}
-@media(max-width:900px){#hero{min-height:780px}.hero-center{top:42.5%;width:min(100%,760px)}.hero-title{font-size:clamp(62px,9vw,108px)}.hero-kicker{font-size:clamp(28px,3.6vw,44px)}.hero-bottom{width:min(100%,740px);padding:24px 20px 0}#hero canvas{transform:scale(1.01);inset:-2% 0 0 0}}
-@media(max-width:640px){#hero{min-height:720px}.hero-center{top:41%;padding:0 18px}.hero-title{font-size:clamp(52px,15vw,78px);line-height:.98}.hero-kicker{margin-top:8px;font-size:clamp(24px,7.2vw,34px)}#hero canvas{inset:4% 0 0 0;transform:scale(1.06)}.hero-bottom{bottom:22px;padding:18px 16px 0;gap:16px}.hero-sub{font-size:15px;line-height:1.74}.hero-actions{width:100%;flex-direction:column}.btn-primary,.btn-ghost{width:min(100%,320px);padding:15px 22px}}
+@media(max-width:900px){#hero{min-height:min(100svh,780px)}.hero-center{top:42.5%;width:min(100%,760px)}.hero-title{font-size:clamp(62px,9vw,108px)}.hero-kicker{font-size:clamp(28px,3.6vw,44px)}.hero-bottom{width:min(100%,740px);padding:24px 20px 0}#hero canvas{transform:scale(1.01);inset:-2% 0 0 0}}
+@media(max-width:640px){#hero{min-height:min(100svh,720px)}.hero-center{top:41%;padding:0 18px}.hero-title{font-size:clamp(52px,15vw,78px);line-height:.98}.hero-kicker{margin-top:8px;font-size:clamp(24px,7.2vw,34px)}#hero canvas{inset:4% 0 0 0;transform:scale(1.06)}.hero-bottom{bottom:22px;padding:18px 16px 0;gap:16px}.hero-sub{font-size:15px;line-height:1.74}.hero-actions{width:100%;flex-direction:column}.btn-primary,.btn-ghost{width:min(100%,320px);padding:15px 22px}}
 section{padding:100px 8vw}
 section.alt{background:var(--bg2)}
 .section-tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);font-weight:500;margin-bottom:18px}
@@ -34,8 +34,8 @@ section.alt{background:var(--bg2)}
 section:not(.alt) .pain-card{background:var(--bg2)}
 .pain-card strong{display:block;font-size:14px;font-weight:500;color:var(--txt);margin-bottom:8px}
 .pain-card p{font-size:13px;color:var(--muted);line-height:1.65}
-.chaos-visual{position:relative;height:320px;border:1px solid var(--border);border-radius:16px;background:rgba(75,107,251,.03);overflow:hidden}
-.chaos-msg{position:absolute;background:rgba(13,15,20,.9);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--muted);white-space:nowrap;animation:floatMsg 6s ease-in-out infinite;will-change:transform,opacity}
+.chaos-visual{position:relative;height:320px;border:1px solid var(--border);border-radius:16px;background:rgba(75,107,251,.03);overflow:hidden;transform:translateZ(0)}
+.chaos-msg{position:absolute;background:rgba(13,15,20,.9);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--muted);white-space:nowrap;animation:floatMsg 6s ease-in-out infinite}
 .chaos-msg .ch{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:8px;vertical-align:middle}
 .chaos-msg.active{border-color:rgba(75,107,251,.4);color:rgba(244,243,238,.8)}
 @keyframes floatMsg{0%{opacity:0;transform:translateY(8px)}15%{opacity:1;transform:translateY(0)}85%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-8px)}}
@@ -44,7 +44,7 @@ section:not(.alt) .pain-card{background:var(--bg2)}
 .chaos-center .ring-inner{width:8px;height:8px;border-radius:50%;background:var(--acc)}
 @keyframes pulseRing{0%,100%{box-shadow:0 0 0 0 rgba(75,107,251,.3)}50%{box-shadow:0 0 0 12px rgba(75,107,251,.0)}}
 .chaos-center p{font-size:11px;color:var(--muted);margin-top:10px;letter-spacing:.06em;text-transform:uppercase}
-.connector-line{position:absolute;top:50%;height:1px;transform-origin:left center;animation:drawLine 3s ease-in-out infinite;will-change:width,opacity}
+.connector-line{position:absolute;top:50%;height:1px;transform-origin:left center;animation:drawLine 3s ease-in-out infinite}
 @keyframes drawLine{0%{opacity:0;width:0}40%{opacity:.5;width:100%}80%{opacity:.5;width:100%}100%{opacity:0;width:100%}}
 @media(max-width:768px){#problema .prob-layout{grid-template-columns:1fr}.chaos-visual{height:220px}}
 #soluzione .two-col{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;margin-top:56px}
@@ -438,7 +438,7 @@ export default function ImportedHomepage() {
           }
         });
       },
-      { threshold: 0.1 },
+      { threshold: 0, rootMargin: '0px 0px -40px 0px' },
     );
 
     document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
@@ -466,7 +466,7 @@ export default function ImportedHomepage() {
           statsObserver.unobserve(entry.target);
         });
       },
-      { threshold: 0.3 },
+      { threshold: 0, rootMargin: '0px 0px -40px 0px' },
     );
 
     if (statsVis) statsObserver.observe(statsVis);
@@ -479,11 +479,18 @@ export default function ImportedHomepage() {
           stepObserver.unobserve(entry.target);
         });
       },
-      { threshold: 0.3 },
+      { threshold: 0, rootMargin: '0px 0px -40px 0px' },
     );
 
     const stepSection = stepFill?.closest("section");
     if (stepSection) stepObserver.observe(stepSection);
+
+    // Mobile Safari fallback: force all animations if observers haven't fired after 2.5s
+    const animFallbackTimer = setTimeout(() => {
+      document.querySelectorAll('.stat-bar-fill:not(.loaded)').forEach((el) => el.classList.add('loaded'));
+      document.querySelectorAll('.reveal:not(.visible)').forEach((el) => el.classList.add('visible'));
+      document.querySelectorAll('.step-progress-fill:not(.loaded)').forEach((el) => el.classList.add('loaded'));
+    }, 2500);
 
     let cleanupCanvas: (() => void) | undefined;
 
@@ -589,6 +596,7 @@ export default function ImportedHomepage() {
         };
 
         const resize = () => {
+          const wasMobile = isMobile;
           dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.35);
           W = canvas.offsetWidth;
           H = canvas.offsetHeight;
@@ -599,6 +607,7 @@ export default function ImportedHomepage() {
           CX = W / 2;
           CY = H * (isMobile ? 0.47 : 0.42);
           RADIUS = Math.min(W, H) * (isMobile ? 0.4 : 0.5) * (isMobile ? 0.88 : 1);
+          if (wasMobile !== isMobile) buildScene();
         };
 
         const buildScene = () => {
@@ -871,11 +880,6 @@ export default function ImportedHomepage() {
             });
         };
 
-        const onResize = () => {
-          resize();
-          buildScene();
-        };
-
         const visibilityObserver = new IntersectionObserver(
           (entries) => {
             const entry = entries[0];
@@ -890,16 +894,32 @@ export default function ImportedHomepage() {
 
         resize();
         buildScene();
-        window.addEventListener("resize", onResize);
+        const resizeObserver = new ResizeObserver(() => { resize(); });
+        resizeObserver.observe(canvas.parentElement || canvas);
         document.addEventListener("visibilitychange", onVisibilityChange);
         if (hero) visibilityObserver.observe(hero);
+
+        const onMouseMove = (e: MouseEvent) => {
+          const rect = canvas.getBoundingClientRect();
+          rotY += ((e.clientX - rect.left) / rect.width - 0.5) * 0.004;
+        };
+        const onTouchMove = (e: TouchEvent) => {
+          e.preventDefault();
+          const touch = e.touches[0];
+          const rect = canvas.getBoundingClientRect();
+          rotY += ((touch.clientX - rect.left) / rect.width - 0.5) * 0.004;
+        };
+        canvas.addEventListener("mousemove", onMouseMove);
+        canvas.addEventListener("touchmove", onTouchMove, { passive: false });
         raf = requestAnimationFrame(draw);
 
         cleanupCanvas = () => {
           cancelAnimationFrame(raf);
-          window.removeEventListener("resize", onResize);
+          resizeObserver.disconnect();
           document.removeEventListener("visibilitychange", onVisibilityChange);
           visibilityObserver.disconnect();
+          canvas.removeEventListener("mousemove", onMouseMove);
+          canvas.removeEventListener("touchmove", onTouchMove);
         };
       }
     }
@@ -909,6 +929,7 @@ export default function ImportedHomepage() {
       revealObserver.disconnect();
       statsObserver.disconnect();
       stepObserver.disconnect();
+      clearTimeout(animFallbackTimer);
       cleanupCanvas?.();
     };
   }, [instanceKey]);
