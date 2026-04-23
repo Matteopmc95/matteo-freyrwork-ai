@@ -407,11 +407,6 @@ export default function ServiziPage() {
         visual={<InboxVisual />}
       />
 
-      {/* Dashboard demo */}
-      <div style={{ marginTop: '64px', marginBottom: '32px', padding: '0 8vw', background: C.bg }}>
-        <DashboardDemo />
-      </div>
-
       {/* 02 Supporto operativo */}
       <ServiceSection
         id="s2" num="02 — Supporto operativo" alt flip
@@ -438,6 +433,11 @@ export default function ServiziPage() {
         ]}
         cta="Richiedi una demo" ctaHref="#cta-finale" ctaVariant="primary"
       />
+
+      {/* Dashboard demo */}
+      <div style={{ marginTop: '72px', marginBottom: '48px', padding: '0 8vw', background: C.bg }}>
+        <DashboardDemo />
+      </div>
 
       {/* 04 Automazione flussi */}
       <ServiceSection
