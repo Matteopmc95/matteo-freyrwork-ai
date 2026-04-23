@@ -74,13 +74,13 @@ section:not(.alt) .pain-card{background:var(--bg2)}
 #differenza .compare-table{margin-top:56px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .compare-header{display:grid;grid-template-columns:1fr 1fr 1fr;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)}
 .compare-header div{padding:14px 24px;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.compare-header .col-acc{color:var(--acc2);background:rgba(75,107,251,.05)}
+.compare-header .col-acc{color:#0D0F14;background:#ffffff;font-weight:600}
 .compare-row{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--border)}
 .compare-row:last-child{border-bottom:none}
 .compare-row div{padding:16px 24px;font-size:13px;color:var(--muted);line-height:1.5;border-right:1px solid var(--border)}
-.compare-row div:last-child{border-right:none;background:rgba(75,107,251,.03)}
+.compare-row div:last-child{border-right:none;background:#ffffff}
 .compare-row .col-first{font-weight:500;color:rgba(244,243,238,.5);font-size:12px}
-.compare-row .col-acc{color:rgba(244,243,238,.8)}
+.compare-row .col-acc{color:#0D0F14;font-weight:500}
 @media(max-width:640px){.compare-header{grid-template-columns:1fr 1fr}.compare-header div:first-child{display:none}.compare-row{grid-template-columns:1fr 1fr}.compare-row .col-first{display:none}}
 #chi .biz-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:48px}
 .biz-pill{padding:10px 18px;border-radius:8px;font-size:13px;border:1px solid var(--border);color:var(--muted);transition:border-color .2s,color .2s,background .2s;cursor:default}
