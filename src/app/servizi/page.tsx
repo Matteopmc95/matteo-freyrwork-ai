@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import DashboardDemo from '@/components/servizi/DashboardDemo';
 
 /* ─── design tokens ─── */
 const C = {
@@ -181,123 +182,6 @@ function TaskVisual() {
   );
 }
 
-/* ─── Dashboard visual (ex ChartVisual) ─── */
-type TabKey = 'prenotazioni' | 'richieste' | 'fatturato' | 'canali';
-const TAB_DATA: Record<TabKey, { values: number[]; label: string; total: string; sub: string; breakdown: { label: string; value: string | number; color: string }[] }> = {
-  prenotazioni: {
-    values: [18, 24, 21, 28, 35, 42, 38],
-    label: 'Prenotazioni settimanali', total: '206', sub: '+18% vs settimana scorsa',
-    breakdown: [
-      { label: 'Confermate', value: 178, color: '#4B6BFB' },
-      { label: 'In attesa', value: 22, color: '#FB923C' },
-      { label: 'Cancellate', value: 6, color: 'rgba(13,15,20,0.25)' },
-    ],
-  },
-  richieste: {
-    values: [42, 38, 51, 48, 63, 58, 45],
-    label: 'Richieste gestite', total: '345', sub: '+24% vs settimana scorsa',
-    breakdown: [
-      { label: 'WhatsApp', value: 168, color: '#25D366' },
-      { label: 'Instagram', value: 92, color: '#E1306C' },
-      { label: 'Email', value: 85, color: '#4B6BFB' },
-    ],
-  },
-  fatturato: {
-    values: [1240, 1580, 1420, 1890, 2340, 2890, 2410],
-    label: 'Fatturato settimanale', total: '€13.770', sub: '+31% vs settimana scorsa',
-    breakdown: [
-      { label: 'Media giornaliera', value: '€1.967', color: '#4B6BFB' },
-      { label: 'Picco settimanale', value: 'Sab €2.890', color: '#7B94FC' },
-    ],
-  },
-  canali: {
-    values: [48, 38, 18, 12, 8, 4, 2],
-    label: 'Contatti per canale', total: '128 oggi', sub: 'Distribuzione canali attivi',
-    breakdown: [
-      { label: 'WhatsApp', value: '48%', color: '#25D366' },
-      { label: 'Instagram', value: '30%', color: '#E1306C' },
-      { label: 'Telefono', value: '14%', color: '#FB923C' },
-      { label: 'Email/Altro', value: '8%', color: '#4B6BFB' },
-    ],
-  },
-};
-const DAYS = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-
-function ChartVisual() {
-  const [activeTab, setActiveTab] = useState<TabKey>('prenotazioni');
-  const tab = TAB_DATA[activeTab];
-  const maxVal = Math.max(...tab.values);
-
-  return (
-    <div className="dashboard-card chart-inverted" style={{ flex: 1 }}>
-      {/* Tab switcher */}
-      <div className="tab-switcher">
-        {(['prenotazioni', 'richieste', 'fatturato', 'canali'] as TabKey[]).map((t) => (
-          <button key={t} className={`tab-btn${activeTab === t ? ' active' : ''}`} onClick={() => setActiveTab(t)}>
-            {t.charAt(0).toUpperCase() + t.slice(1)}
-          </button>
-        ))}
-      </div>
-
-      {/* Metric header */}
-      <div className="metric-header">
-        <div>
-          <div className="metric-title">{tab.label}</div>
-          <div className="metric-value">{tab.total}</div>
-        </div>
-        <div className="metric-sub">{tab.sub}</div>
-      </div>
-
-      {/* Bar chart */}
-      <div className="chart-bars">
-        {tab.values.map((val, i) => (
-          <div key={i} className="bar-wrap" title={`${DAYS[i]}: ${val}`}>
-            <div className="bar-tooltip">{val}</div>
-            <div className="bar" style={{ height: `${(val / maxVal) * 100}%` }} />
-            <span className="bar-label">{DAYS[i]}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* KPI breakdown */}
-      <div className="kpi-breakdown">
-        {tab.breakdown.map((item, i) => (
-          <div key={i} className="kpi-item">
-            <span className="kpi-dot" style={{ background: item.color }} />
-            <span className="kpi-label">{item.label}</span>
-            <span className="kpi-value">{item.value}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Mini CRM */}
-      <div className="crm-section">
-        <div className="crm-header">
-          <h4>Clienti recenti</h4>
-          <span className="crm-live">● Live</span>
-        </div>
-        <div className="crm-list">
-          {[
-            { initials: 'MB', color: '#25D366', name: 'Marco Bianchi', ch: 'WhatsApp · 2 min fa', status: 'confirmed', label: 'Confermato' },
-            { initials: 'LR', color: '#E1306C', name: 'Laura Rossi', ch: 'Instagram · 8 min fa', status: 'pending', label: 'In attesa' },
-            { initials: 'AS', color: '#4B6BFB', name: 'Andrea Serra', ch: 'Email · 14 min fa', status: 'replied', label: 'Risposta inviata' },
-            { initials: 'GF', color: '#FB923C', name: 'Giulia Ferri', ch: 'Telefono · 22 min fa', status: 'confirmed', label: 'Confermato' },
-          ].map((r) => (
-            <div key={r.initials} className="crm-row">
-              <div className="crm-avatar" style={{ background: r.color }}>{r.initials}</div>
-              <div className="crm-info">
-                <strong>{r.name}</strong>
-                <span>{r.ch}</span>
-              </div>
-              <span className={`crm-status ${r.status}`}>{r.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ─── Flow visual ─── */
 function FlowVisual() {
   const visRef = useRef<HTMLDivElement>(null);
@@ -396,13 +280,13 @@ function ServiceSection({
   id: string; num: string; headline: string; sub: string; body: string;
   meta: { title: string; text: string }[];
   cta: string; ctaHref: string; ctaVariant?: 'primary' | 'ghost';
-  flip?: boolean; alt?: boolean; visual: React.ReactNode;
+  flip?: boolean; alt?: boolean; visual?: React.ReactNode;
 }) {
   return (
     <section id={id} className={alt ? 's-to-alt' : 's-to-main'} style={{ padding: '96px 8vw', background: alt ? C.bg2 : C.bg }}>
       <div className="svc-grid" style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,420px),1fr))',
+        gridTemplateColumns: visual ? 'repeat(auto-fit, minmax(min(100%,420px),1fr))' : '1fr',
         gap: 72,
         alignItems: 'center',
         direction: flip ? 'rtl' : 'ltr',
@@ -440,14 +324,16 @@ function ServiceSection({
             {cta}
           </a>
         </div>
-        <div className="svc-visual" data-reveal style={{
-          ...rev(0.2), direction: 'ltr',
-          border: `1px solid ${C.border}`, borderRadius: 16, overflow: 'hidden',
-          background: 'rgba(75,107,251,0.03)', minHeight: 300, position: 'relative',
-          display: 'flex', flexDirection: 'column',
-        }}>
-          {visual}
-        </div>
+        {visual && (
+          <div className="svc-visual" data-reveal style={{
+            ...rev(0.2), direction: 'ltr',
+            border: `1px solid ${C.border}`, borderRadius: 16, overflow: 'hidden',
+            background: 'rgba(75,107,251,0.03)', minHeight: 300, position: 'relative',
+            display: 'flex', flexDirection: 'column',
+          }}>
+            {visual}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -490,51 +376,6 @@ export default function ServiziPage() {
           .svc-grid{display:flex!important;flex-direction:column;gap:40px!important}
           .svc-visual{order:-1;margin-bottom:0}
         }
-        .chart-inverted{background:#F4F3EE !important;color:#0D0F14}
-        .svc-visual:has(.chart-inverted){background:#F4F3EE !important;border-color:rgba(0,0,0,0.08) !important}
-        .dashboard-card{background:#F4F3EE;border:1px solid rgba(0,0,0,0.08);border-radius:16px;padding:28px;color:#0D0F14}
-        .tab-switcher{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap}
-        .tab-btn{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:500;background:transparent;border:1px solid rgba(0,0,0,0.1);color:rgba(13,15,20,0.65);cursor:pointer;transition:all .2s}
-        .tab-btn:hover{background:rgba(13,15,20,0.04)}
-        .tab-btn.active{background:#4B6BFB;border-color:#4B6BFB;color:#fff}
-        .metric-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(0,0,0,0.06)}
-        .metric-title{font-size:13px;color:rgba(13,15,20,0.55);font-weight:500}
-        .metric-value{font-size:28px;font-weight:600;letter-spacing:-0.02em}
-        .metric-sub{font-size:11px;color:#4B6BFB;font-weight:500;margin-top:4px;text-align:right;max-width:140px}
-        .chart-bars{display:flex;align-items:flex-end;justify-content:space-between;height:140px;gap:6px;padding:0 4px}
-        .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;cursor:pointer}
-        .bar{width:100%;background:linear-gradient(180deg,#4B6BFB,#7B94FC);border-radius:4px 4px 0 0;transition:all .3s;min-height:4px}
-        .bar-wrap:hover .bar{background:linear-gradient(180deg,#3A57E8,#4B6BFB);transform:scaleY(1.02)}
-        .bar-label{font-size:10px;color:rgba(13,15,20,0.45);font-weight:500}
-        .bar-tooltip{position:absolute;top:-26px;left:50%;transform:translateX(-50%);background:#0D0F14;color:#fff;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap;z-index:2}
-        .bar-wrap:hover .bar-tooltip{opacity:1}
-        .kpi-breakdown{display:flex;flex-direction:column;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid rgba(0,0,0,0.06)}
-        .kpi-item{display:flex;align-items:center;gap:10px;font-size:13px}
-        .kpi-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-        .kpi-label{flex:1;color:rgba(13,15,20,0.7)}
-        .kpi-value{font-weight:600;color:#0D0F14}
-        .crm-section{margin-top:24px;padding-top:20px;border-top:1px solid rgba(0,0,0,0.06)}
-        .crm-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-        .crm-header h4{font-size:13px;font-weight:600;color:#0D0F14;margin:0}
-        .crm-live{font-size:10px;color:#22c55e;font-weight:500;letter-spacing:0.04em;text-transform:uppercase}
-        .crm-list{display:flex;flex-direction:column;gap:8px}
-        .crm-row{display:flex;align-items:center;gap:12px;padding:10px;background:rgba(13,15,20,0.03);border-radius:8px;transition:background .2s;cursor:pointer}
-        .crm-row:hover{background:rgba(13,15,20,0.06)}
-        .crm-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600;flex-shrink:0}
-        .crm-info{flex:1;display:flex;flex-direction:column;gap:2px}
-        .crm-info strong{font-size:13px;color:#0D0F14;font-weight:500}
-        .crm-info span{font-size:11px;color:rgba(13,15,20,0.5)}
-        .crm-status{font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;letter-spacing:0.02em}
-        .crm-status.confirmed{background:rgba(34,197,94,0.12);color:#16a34a}
-        .crm-status.pending{background:rgba(251,146,60,0.12);color:#ea580c}
-        .crm-status.replied{background:rgba(75,107,251,0.12);color:#4B6BFB}
-        @media(max-width:640px){
-          .dashboard-card{padding:20px}
-          .tab-btn{padding:7px 10px;font-size:11px;flex:1 1 calc(50% - 3px);text-align:center}
-          .metric-value{font-size:22px}
-          .chart-bars{height:100px}
-          .bar-label{font-size:9px}
-        }
         .ops-animate{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
         .ops-animate.in-view{opacity:1;transform:none}
         .ops-animate .animated-row,.ops-animate .animated-bar,.ops-animate [class*="pulse"]{animation-play-state:paused}
@@ -566,6 +407,11 @@ export default function ServiziPage() {
         visual={<InboxVisual />}
       />
 
+      {/* Dashboard demo */}
+      <div style={{ marginTop: '64px', marginBottom: '32px', padding: '0 8vw', background: C.bg }}>
+        <DashboardDemo />
+      </div>
+
       {/* 02 Supporto operativo */}
       <ServiceSection
         id="s2" num="02 — Supporto operativo" alt flip
@@ -591,7 +437,6 @@ export default function ServiziPage() {
           { title: 'Beneficio finale', text: "Più consapevolezza, decisioni più rapide, maggiore controllo sull'andamento reale del business." },
         ]}
         cta="Richiedi una demo" ctaHref="#cta-finale" ctaVariant="primary"
-        visual={<ChartVisual />}
       />
 
       {/* 04 Automazione flussi */}
