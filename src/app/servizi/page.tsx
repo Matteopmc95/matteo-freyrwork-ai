@@ -276,12 +276,12 @@ function FlowVisual() {
 /* ─── Section wrapper ─── */
 function ServiceSection({
   id, num, headline, sub, body, meta, cta, ctaHref, ctaVariant = 'primary', flip = false, alt = false,
-  visual,
+  visual, visualLast = false,
 }: {
   id: string; num: string; headline: string; sub: string; body: string;
   meta: { title: string; text: string }[];
   cta: string; ctaHref: string; ctaVariant?: 'primary' | 'ghost';
-  flip?: boolean; alt?: boolean; visual?: React.ReactNode;
+  flip?: boolean; alt?: boolean; visual?: React.ReactNode; visualLast?: boolean;
 }) {
   return (
     <section id={id} className={alt ? 's-to-alt' : 's-to-main'} style={{ padding: '96px 8vw', background: alt ? C.bg2 : C.bg }}>
@@ -326,7 +326,7 @@ function ServiceSection({
           </a>
         </div>
         {visual && (
-          <div className="svc-visual" data-reveal style={{
+          <div className={'svc-visual' + (visualLast ? ' svc-visual-last' : '')} data-reveal style={{
             ...rev(0.2), direction: 'ltr',
             border: `1px solid ${C.border}`, borderRadius: 16, overflow: 'hidden',
             background: 'rgba(75,107,251,0.03)', minHeight: 300, position: 'relative',
@@ -376,7 +376,7 @@ export default function ServiziPage() {
         @media(max-width:768px){
           .svc-grid{display:flex!important;flex-direction:column;gap:40px!important}
           .svc-visual{order:-1;margin-bottom:0}
-          #s1 .svc-visual{order:2}
+          .svc-visual-last{order:2!important}
         }
         .ops-animate{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
         .ops-animate.in-view{opacity:1;transform:none}
@@ -409,7 +409,7 @@ export default function ServiziPage() {
           { title: 'Beneficio finale', text: 'Più velocità, meno dispersione, migliore esperienza per il cliente e maggiore continuità nella gestione.' },
         ]}
         cta="Scopri come funziona" ctaHref="#cta-finale" ctaVariant="primary"
-        visual={<InboxVisual />}
+        visual={<InboxVisual />} visualLast
       />
 
       {/* 02 Supporto operativo */}
