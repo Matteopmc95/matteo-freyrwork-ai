@@ -83,8 +83,8 @@ section:not(.alt) .pain-card{background:var(--bg2)}
 .compare-row .col-acc{color:#0D0F14;font-weight:500}
 @media(max-width:640px){.compare-header{grid-template-columns:1fr 1fr}.compare-header div:first-child{display:none}.compare-row{grid-template-columns:1fr 1fr}.compare-row .col-first{display:none}}
 #chi .biz-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:48px}
-.biz-pill{padding:10px 18px;border-radius:8px;font-size:13px;border:1px solid var(--border);color:var(--muted);transition:border-color .2s,color .2s,background .2s;cursor:default}
-.biz-pill:hover{border-color:rgba(75,107,251,.4);color:var(--txt);background:rgba(75,107,251,.06)}
+.biz-pill{padding:10px 18px;border-radius:8px;font-size:13px;border:1px solid rgba(0,0,0,0.08);color:#0D0F14;background:#F4F3EE;font-weight:500;transition:border-color .2s,color .2s,background .2s,transform .15s;cursor:default}
+.biz-pill:hover{border-color:rgba(75,107,251,.5);color:#0D0F14;background:#FFFFFF;transform:translateY(-1px)}
 #chi .section-cta{margin-top:40px}
 #benefici .ben-layout{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;margin-top:56px}
 #benefici .benefit-grid{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
