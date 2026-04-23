@@ -135,29 +135,41 @@ function SectionCategorie() {
       sub="Ogni attività ha una sua organizzazione. Ma i collaboratori AI possono adattarsi a problemi reali molto concreti."
     >
       <div data-reveal style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s', marginTop: 48, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,340px),1fr))', gap: 14 }}>
-        {CATEGORIES.map((cat) => (
-          <div key={cat.id}
-            style={{ padding: 24, borderRadius: 12, border: `1px solid ${C.border}`, background: 'rgba(13,15,20,0.6)', display: 'flex', flexDirection: 'column', gap: 14, transition: 'border-color 0.25s' }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(75,107,251,0.3)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 14, borderBottom: `1px solid ${C.border}` }}>
-              <h3 style={{ fontSize: 17, fontWeight: 600, color: C.txt, fontFamily: 'Syne, sans-serif', letterSpacing: '-0.01em' }}>{cat.label}</h3>
-              <span style={{ fontSize: 10, color: C.acc2, padding: '3px 10px', borderRadius: 999, background: 'rgba(75,107,251,0.08)', border: '1px solid rgba(75,107,251,0.25)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Caso d&apos;uso</span>
-            </div>
-            {[
-              { label: 'Problema reale', text: cat.problem },
-              { label: 'Cosa succede oggi', text: cat.today },
-              { label: "Cosa fa l'agente AI", text: cat.does, accent: true },
-              { label: 'Risultato', text: cat.result },
-            ].map((r) => (
-              <div key={r.label}>
-                <div style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: r.accent ? C.acc2 : 'rgba(244,243,238,0.35)', fontWeight: 500, marginBottom: 5 }}>{r.label}</div>
-                <p style={{ fontSize: 13, color: r.accent ? 'rgba(244,243,238,0.85)' : C.muted, lineHeight: 1.6 }}>{r.text}</p>
+        {CATEGORIES.map((cat, i) => {
+          const light = i % 2 === 1;
+          const cardBg = light ? '#F4F3EE' : 'rgba(13,15,20,0.6)';
+          const cardBorder = light ? 'rgba(0,0,0,0.08)' : C.border;
+          const hoverBorder = 'rgba(75,107,251,0.4)';
+          const h3Color = light ? '#0D0F14' : C.txt;
+          const dividerColor = light ? 'rgba(0,0,0,0.1)' : C.border;
+          const labelColor = light ? 'rgba(13,15,20,0.4)' : 'rgba(244,243,238,0.35)';
+          const labelAccentColor = light ? C.acc : C.acc2;
+          const textColor = light ? 'rgba(13,15,20,0.65)' : C.muted;
+          const textAccentColor = light ? 'rgba(13,15,20,0.85)' : 'rgba(244,243,238,0.85)';
+          return (
+            <div key={cat.id}
+              style={{ padding: 24, borderRadius: 12, border: `1px solid ${cardBorder}`, background: cardBg, display: 'flex', flexDirection: 'column', gap: 14, transition: 'border-color 0.25s, transform 0.2s' }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = hoverBorder; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = cardBorder; e.currentTarget.style.transform = ''; }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 14, borderBottom: `1px solid ${dividerColor}` }}>
+                <h3 style={{ fontSize: 17, fontWeight: 600, color: h3Color, fontFamily: 'Syne, sans-serif', letterSpacing: '-0.01em' }}>{cat.label}</h3>
+                <span style={{ fontSize: 10, color: C.acc, padding: '3px 10px', borderRadius: 999, background: 'rgba(75,107,251,0.1)', border: '1px solid rgba(75,107,251,0.3)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Caso d&apos;uso</span>
               </div>
-            ))}
-          </div>
-        ))}
+              {[
+                { label: 'Problema reale', text: cat.problem },
+                { label: 'Cosa succede oggi', text: cat.today },
+                { label: "Cosa fa l'agente AI", text: cat.does, accent: true },
+                { label: 'Risultato', text: cat.result },
+              ].map((r) => (
+                <div key={r.label}>
+                  <div style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: r.accent ? labelAccentColor : labelColor, fontWeight: 500, marginBottom: 5 }}>{r.label}</div>
+                  <p style={{ fontSize: 13, color: r.accent ? textAccentColor : textColor, lineHeight: 1.6 }}>{r.text}</p>
+                </div>
+              ))}
+            </div>
+          );
+        })}
       </div>
     </Section>
   );
