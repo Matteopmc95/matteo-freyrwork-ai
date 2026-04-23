@@ -377,14 +377,403 @@ const markup = `
 </footer>
 `;
 
+// ---- canvas types ----
+type Vec3 = { x: number; y: number; z: number };
+type CanvasNode = {
+  base: Vec3;
+  label: string;
+  opacity: number;
+  scale: number;
+  active: boolean;
+  pulsePhase: number;
+  hubDone: boolean;
+};
+type CanvasEdge = { to: number; progress: number; done: boolean };
+type MeshEdge = { from: number; to: number; progress: number; done: boolean };
+type Particle = { type: "hub" | "mesh"; idx: number; t: number; speed: number };
+
+function initializeCanvas(
+  canvas: HTMLCanvasElement,
+  hero: HTMLElement | null,
+  prefersReducedMotion: boolean,
+): () => void {
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return () => {};
+
+  const slowMode = prefersReducedMotion;
+  const ACC = "#4B6BFB";
+  const LABELS = [
+    "Analisi e lettura del dato",
+    "Statistiche in tempo reale",
+    "Analisi di mercato",
+    "Dashboard intelligenti",
+    "Sistema di prenotazioni",
+    "Gestione del personale",
+    "Gestione amministrativa",
+    "Automatizzazione flussi",
+    "Automatizzazione dei processi",
+    "Reportistica e progetti",
+  ];
+
+  let W = 0, H = 0, CX = 0, CY = 0, RADIUS = 0;
+  let isMobile = false, dpr = 1;
+  let rotY = 0, rotX = 0.22;
+  let startTime: number | null = null, lastTime = 0, lastRenderTime = 0;
+  let cOp = 0, raf = 0;
+  let heroVisible = true, pageVisible = !document.hidden;
+  const frameInterval = slowMode ? 1000 / 12 : 1000 / 36;
+
+  const T0 = 300, T1 = 1400, TS = 160, TD = 720;
+  const TM = 3200, TMD = 500, TMS = 90, FOV = 850;
+
+  let nodes: CanvasNode[] = [];
+  let hubEdges: CanvasEdge[] = [];
+  let meshEdges: MeshEdge[] = [];
+  let particles: Particle[] = [];
+
+  const fibSphere = (n: number, r: number): Vec3[] => {
+    const phi = Math.PI * (3 - Math.sqrt(5));
+    return Array.from({ length: n }, (_, i) => {
+      const y = 1 - (i / (n - 1)) * 2;
+      const rr = Math.sqrt(Math.max(0, 1 - y * y));
+      const th = phi * i;
+      return { x: rr * Math.cos(th) * r, y: y * r * 0.68, z: rr * Math.sin(th) * r };
+    });
+  };
+
+  const ry3 = (p: Vec3, a: number): Vec3 => {
+    const c = Math.cos(a), s = Math.sin(a);
+    return { x: p.x * c + p.z * s, y: p.y, z: -p.x * s + p.z * c };
+  };
+
+  const rx3 = (p: Vec3, a: number): Vec3 => {
+    const c = Math.cos(a), s = Math.sin(a);
+    return { x: p.x, y: p.y * c - p.z * s, z: p.y * s + p.z * c };
+  };
+
+  const d3 = (a: Vec3, b: Vec3) =>
+    Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2);
+
+  const hRgb = (h: string) => ({
+    r: parseInt(h.slice(1, 3), 16),
+    g: parseInt(h.slice(3, 5), 16),
+    b: parseInt(h.slice(5, 7), 16),
+  });
+
+  const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+  const eOut = (t: number) => 1 - (1 - t) ** 3;
+
+  const proj = (p: Vec3) => {
+    const z = p.z + FOV;
+    const s = FOV / Math.max(z, 1);
+    return { x: CX + p.x * s, y: CY + p.y * s, z: p.z };
+  };
+
+  const buildScene = () => {
+    const pos = fibSphere(LABELS.length, RADIUS);
+    nodes = LABELS.map((label, i) => ({
+      base: { ...pos[i] },
+      label,
+      opacity: 0,
+      scale: 0,
+      active: false,
+      pulsePhase: Math.random() * Math.PI * 2,
+      hubDone: false,
+    }));
+    hubEdges = nodes.map((_, i) => ({ to: i, progress: 0, done: false }));
+    const used = new Set<string>();
+    meshEdges = [];
+    for (let i = 0; i < nodes.length; i++) {
+      nodes
+        .map((n, j) => ({ j, d: d3(nodes[i].base, n.base) }))
+        .filter((x) => x.j !== i)
+        .sort((a, b) => a.d - b.d)
+        .slice(0, 3)
+        .forEach(({ j }) => {
+          const k = [Math.min(i, j), Math.max(i, j)].join("-");
+          if (!used.has(k)) {
+            used.add(k);
+            meshEdges.push({ from: i, to: j, progress: 0, done: false });
+          }
+        });
+    }
+    particles = [];
+  };
+
+  const resize = () => {
+    const wasMobile = isMobile;
+    dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.35);
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    isMobile = W < 640;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    CX = W / 2;
+    CY = H * (isMobile ? 0.47 : 0.42);
+    RADIUS = Math.min(W, H) * (isMobile ? 0.4 : 0.5) * (isMobile ? 0.88 : 1);
+    if (wasMobile !== isMobile) buildScene();
+  };
+
+  const getRot = (n: CanvasNode) => rx3(ry3(n.base, rotY), rotX);
+
+  const dLine = (
+    x1: number, y1: number, x2: number, y2: number,
+    pg: number, al: number, thin: boolean,
+  ) => {
+    if (pg <= 0 || al < 0.01) return;
+    const ac = hRgb(ACC);
+    const tx = x1 + (x2 - x1) * pg;
+    const ty = y1 + (y2 - y1) * pg;
+    ctx.save();
+    if (!thin) {
+      ctx.globalAlpha = al * 0.18;
+      ctx.strokeStyle = `rgb(${ac.r},${ac.g},${ac.b})`;
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(tx, ty); ctx.stroke();
+    } else {
+      ctx.globalAlpha = al * 0.14;
+      ctx.strokeStyle = `rgb(${ac.r},${ac.g},${ac.b})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(tx, ty); ctx.stroke();
+    }
+    ctx.globalAlpha = al * (thin ? 0.22 : 0.4);
+    ctx.strokeStyle = `rgb(${ac.r},${ac.g},${ac.b})`;
+    ctx.lineWidth = thin ? 0.6 : 0.9;
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(tx, ty); ctx.stroke();
+    ctx.restore();
+  };
+
+  const dPt = (x: number, y: number, a: number, sz: number) => {
+    const ac = hRgb(ACC);
+    ctx.save();
+    const g = ctx.createRadialGradient(x, y, 0, x, y, sz * 3.5);
+    g.addColorStop(0, `rgba(${ac.r},${ac.g},${ac.b},${a * 0.65})`);
+    g.addColorStop(1, `rgba(${ac.r},${ac.g},${ac.b},0)`);
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(x, y, sz * 3.5, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = a;
+    ctx.fillStyle = `rgb(${Math.min(255, ac.r + 80)},${Math.min(255, ac.g + 80)},${Math.min(255, ac.b + 80)})`;
+    ctx.beginPath(); ctx.arc(x, y, sz, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  };
+
+  const rrect = (x: number, y: number, w: number, h: number, r: number) => {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.arcTo(x + w, y, x + w, y + r, r);
+    ctx.lineTo(x + w, y + h - r); ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+    ctx.lineTo(x + r, y + h); ctx.arcTo(x, y + h, x, y + h - r, r);
+    ctx.lineTo(x, y + r); ctx.arcTo(x, y, x + r, y, r);
+    ctx.closePath();
+  };
+
+  const dLabel = (
+    x: number, y: number, text: string,
+    alpha: number, scale: number, active: boolean,
+  ) => {
+    if (alpha < 0.02) return;
+    const ac = hRgb(ACC);
+    const fs = Math.max(isMobile ? 7 : 9, (isMobile ? 10 : 12) * scale);
+    const px = 10 * scale, py = 4.5 * scale, br = 6 * scale;
+    ctx.font = `400 ${fs}px Inter,sans-serif`;
+    const disp = text.toUpperCase();
+    const tw = ctx.measureText(disp).width;
+    const w = tw + px * 2, h = fs + py * 2;
+    const bx = x - w / 2, by = y - h / 2;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = "rgba(13,15,20,0.88)";
+    rrect(bx, by, w, h, br); ctx.fill();
+    if (active) {
+      ctx.shadowColor = `rgba(${ac.r},${ac.g},${ac.b},0.45)`;
+      ctx.shadowBlur = 8;
+    }
+    ctx.strokeStyle = active
+      ? `rgba(${ac.r},${ac.g},${ac.b},0.9)`
+      : `rgba(${ac.r},${ac.g},${ac.b},0.3)`;
+    ctx.lineWidth = active ? 1.2 : 0.8;
+    rrect(bx, by, w, h, br); ctx.stroke();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = active ? "#FFFFFF" : "rgba(244,243,238,0.85)";
+    ctx.font = `400 ${fs}px Inter,sans-serif`;
+    ctx.textBaseline = "middle"; ctx.textAlign = "center";
+    ctx.fillText(disp, x, y);
+    ctx.restore();
+  };
+
+  const dCenter = (alpha: number, t: number) => {
+    if (alpha < 0.01) return;
+    const ac = hRgb(ACC);
+    const pulse = 0.92 + 0.08 * Math.sin(t * 0.0014);
+    ctx.save();
+    const hR = (isMobile ? 58 : 92) * pulse;
+    const halo = ctx.createRadialGradient(CX, CY, 8, CX, CY, hR);
+    halo.addColorStop(0, `rgba(${ac.r},${ac.g},${ac.b},${0.12 * alpha})`);
+    halo.addColorStop(1, `rgba(${ac.r},${ac.g},${ac.b},0)`);
+    ctx.fillStyle = halo;
+    ctx.beginPath(); ctx.arc(CX, CY, hR, 0, Math.PI * 2); ctx.fill();
+    const dR = 4.2 * pulse;
+    const dG = ctx.createRadialGradient(CX, CY, 0, CX, CY, dR * 5);
+    dG.addColorStop(0, `rgba(${ac.r},${ac.g},${ac.b},${0.55 * alpha})`);
+    dG.addColorStop(1, `rgba(${ac.r},${ac.g},${ac.b},0)`);
+    ctx.fillStyle = dG;
+    ctx.beginPath(); ctx.arc(CX, CY, dR * 5, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = "#FFFFFF";
+    ctx.beginPath(); ctx.arc(CX, CY, dR, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  };
+
+  const spawnHub = (i: number) => {
+    for (let k = 0; k < 2; k++)
+      particles.push({ type: "hub", idx: i, t: k / 2, speed: 0.00032 + Math.random() * 0.00022 });
+  };
+
+  const spawnMesh = (i: number) => {
+    particles.push({
+      type: "mesh", idx: i, t: Math.random(),
+      speed: (0.00015 + Math.random() * 0.0001) * (Math.random() > 0.5 ? 1 : -1),
+    });
+  };
+
+  const updPart = (dt: number) => {
+    for (const p of particles) p.t = ((p.t + p.speed * dt) % 1 + 1) % 1;
+  };
+
+  const draw = (now: number) => {
+    raf = requestAnimationFrame(draw);
+    if (!heroVisible || !pageVisible) return;
+    if (!startTime) startTime = now;
+    if (lastRenderTime && now - lastRenderTime < frameInterval) return;
+    lastRenderTime = now;
+    const el = now - startTime;
+    const dt = Math.min(now - lastTime, 50);
+    lastTime = now;
+    rotY += (2 * Math.PI / (20 * 1000)) * dt;
+    rotX = 0.18 + 0.08 * Math.sin(el * 0.0002);
+    ctx.clearRect(0, 0, W, H);
+
+    if (el >= T0) cOp = eOut(Math.min(1, (el - T0) / (T1 - T0)));
+    dCenter(cOp, el);
+
+    hubEdges.forEach((edge, i) => {
+      const st = T1 + i * TS;
+      if (el < st) return;
+      const pg = eOut(Math.min(1, (el - st) / TD));
+      edge.progress = pg;
+      if (pg >= 1 && !edge.done) {
+        edge.done = true;
+        nodes[i].hubDone = true;
+        spawnHub(i);
+      }
+      nodes[i].opacity = Math.min(1, pg * 1.6);
+      nodes[i].scale = nodes[i].hubDone ? 1 : pg;
+      nodes[i].active = nodes[i].hubDone && el - (st + TD) < 700;
+      const rp = getRot(nodes[i]);
+      const pr = proj(rp);
+      const dep = Math.max(0.38, Math.min(1.16, (rp.z + RADIUS) / (RADIUS * 2)));
+      dLine(CX, CY, pr.x, pr.y, pg, 0.55 * dep, false);
+    });
+
+    meshEdges.forEach((edge, i) => {
+      const st = TM + i * TMS;
+      if (el < st) return;
+      edge.progress = eOut(Math.min(1, (el - st) / TMD));
+      if (edge.progress >= 1 && !edge.done) {
+        edge.done = true;
+        spawnMesh(i);
+      }
+      const pA = proj(getRot(nodes[edge.from]));
+      const pB = proj(getRot(nodes[edge.to]));
+      const rA = getRot(nodes[edge.from]);
+      const rB = getRot(nodes[edge.to]);
+      const dep = Math.max(0.3, Math.min(1, ((rA.z + rB.z) * 0.5 + RADIUS) / (RADIUS * 2)));
+      dLine(pA.x, pA.y, pB.x, pB.y, edge.progress, 0.55 * dep, true);
+    });
+
+    updPart(dt);
+
+    for (const p of particles) {
+      if (p.type === "hub") {
+        if (!hubEdges[p.idx]?.done) continue;
+        const rp = getRot(nodes[p.idx]);
+        const pr = proj(rp);
+        const dep = Math.max(0.38, Math.min(1.16, (rp.z + RADIUS) / (RADIUS * 2)));
+        dPt(lerp(CX, pr.x, p.t), lerp(CY, pr.y, p.t), dep * 0.9, 2.4 * dep);
+      } else {
+        const edge = meshEdges[p.idx];
+        if (!edge?.done) continue;
+        const pA = proj(getRot(nodes[edge.from]));
+        const pB = proj(getRot(nodes[edge.to]));
+        const rA = getRot(nodes[edge.from]);
+        const rB = getRot(nodes[edge.to]);
+        const dep = Math.max(0.24, Math.min(0.84, (rA.z + rB.z) * 0.5 / RADIUS + 0.6));
+        dPt(lerp(pA.x, pB.x, p.t), lerp(pA.y, pB.y, p.t), dep * 0.45, 1.4 * dep);
+      }
+    }
+
+    nodes
+      .map((n) => { const rp = getRot(n); const pr = proj(rp); return { n, rp, pr }; })
+      .sort((a, b) => a.rp.z - b.rp.z)
+      .forEach(({ n, rp, pr }) => {
+        if (n.opacity < 0.01) return;
+        const dep = Math.max(0.42, Math.min(1.08, (rp.z + RADIUS) / (RADIUS * 2)));
+        const pulse = 1 + 0.024 * Math.sin(el * 0.0014 + n.pulsePhase);
+        dLabel(pr.x, pr.y, n.label, n.opacity * Math.max(0.42, dep), n.scale * dep * pulse, n.active);
+      });
+  };
+
+  const visibilityObserver = new IntersectionObserver(
+    (entries) => { heroVisible = Boolean(entries[0]?.isIntersecting); },
+    { threshold: 0.05 },
+  );
+
+  const onVisibilityChange = () => { pageVisible = !document.hidden; };
+
+  const resizeObserver = new ResizeObserver(() => { resize(); });
+  resizeObserver.observe(canvas.parentElement || canvas);
+  document.addEventListener("visibilitychange", onVisibilityChange);
+  if (hero) visibilityObserver.observe(hero);
+
+  const onMouseMove = (e: MouseEvent) => {
+    const rect = canvas.getBoundingClientRect();
+    rotY += ((e.clientX - rect.left) / rect.width - 0.5) * 0.004;
+  };
+  const onTouchMove = (e: TouchEvent) => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    rotY += ((touch.clientX - rect.left) / rect.width - 0.5) * 0.004;
+  };
+  canvas.addEventListener("mousemove", onMouseMove);
+  canvas.addEventListener("touchmove", onTouchMove, { passive: false });
+
+  const initCanvas = () => {
+    if (canvas.offsetWidth === 0) {
+      requestAnimationFrame(initCanvas);
+      return;
+    }
+    resize();
+    buildScene();
+    raf = requestAnimationFrame(draw);
+  };
+  requestAnimationFrame(initCanvas);
+
+  return () => {
+    cancelAnimationFrame(raf);
+    resizeObserver.disconnect();
+    document.removeEventListener("visibilitychange", onVisibilityChange);
+    visibilityObserver.disconnect();
+    canvas.removeEventListener("mousemove", onMouseMove);
+    canvas.removeEventListener("touchmove", onTouchMove);
+  };
+}
+
 export default function ImportedHomepage() {
   const [instanceKey, setInstanceKey] = useState(0);
 
   useEffect(() => {
-    const handlePageShow = () => {
-      setInstanceKey((key) => key + 1);
-    };
-
+    const handlePageShow = () => setInstanceKey((key) => key + 1);
     window.addEventListener("pageshow", handlePageShow);
     return () => window.removeEventListener("pageshow", handlePageShow);
   }, []);
@@ -393,19 +782,16 @@ export default function ImportedHomepage() {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const nav = document.getElementById("nav");
     const hero = document.getElementById("hero");
-    const canvas = document.getElementById("hero-canvas") as HTMLCanvasElement | null;
-    const chaosVis = document.getElementById("chaosVis");
-    const statsVis = document.getElementById("statsVis");
-    const stepFill = document.getElementById("stepFill");
 
-    const onScroll = () => {
-      nav?.classList.toggle("scrolled", window.scrollY > 60);
-    };
-
+    const onScroll = () => nav?.classList.toggle("scrolled", window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
 
-    if (chaosVis) {
+    // track all pending retry intervals for cleanup
+    const pendingIntervals: ReturnType<typeof setInterval>[] = [];
+
+    // chaosVis: populate with animated messages
+    const setupChaosVis = (el: HTMLElement) => {
       const msgs = [
         { text: 'WhatsApp: "Posso prenotare per domani?"', color: "#25D366", delay: 0, top: "12%", left: "5%" },
         { text: 'Email: "Richiesta informazioni prezzi"', color: "#4B6BFB", delay: 1.2, top: "22%", left: "60%" },
@@ -414,21 +800,33 @@ export default function ImportedHomepage() {
         { text: "Form web: Prenotazione ricevuta", color: "#4B6BFB", delay: 1.8, top: "40%", left: "62%" },
         { text: "Google: Nuova recensione", color: "#FBBC04", delay: 3.0, top: "82%", left: "15%" },
       ];
-
       msgs.forEach((m) => {
-        const el = document.createElement("div");
-        el.className = "chaos-msg";
-        el.style.cssText = `top:${m.top};left:${m.left};animation-delay:${m.delay}s;max-width:200px`;
-        el.innerHTML = `<span class="ch" style="background:${m.color}"></span>${m.text}`;
-        chaosVis.appendChild(el);
-
+        const msgEl = document.createElement("div");
+        msgEl.className = "chaos-msg";
+        msgEl.style.cssText = `top:${m.top};left:${m.left};animation-delay:${m.delay}s;max-width:200px`;
+        msgEl.innerHTML = `<span class="ch" style="background:${m.color}"></span>${m.text}`;
+        el.appendChild(msgEl);
         const line = document.createElement("div");
         line.className = "connector-line";
         line.style.cssText = `background:linear-gradient(90deg,rgba(75,107,251,0.0),rgba(75,107,251,0.25),rgba(75,107,251,0.0));animation-delay:${m.delay + 0.3}s`;
-        chaosVis.appendChild(line);
+        el.appendChild(line);
       });
+    };
+
+    const chaosVisEl = document.getElementById("chaosVis");
+    if (!chaosVisEl) {
+      let attempts = 0;
+      const iv = setInterval(() => {
+        const found = document.getElementById("chaosVis");
+        attempts++;
+        if (found || attempts > 20) { clearInterval(iv); if (found) setupChaosVis(found); }
+      }, 100);
+      pendingIntervals.push(iv);
+    } else {
+      setupChaosVis(chaosVisEl);
     }
 
+    // reveal observer
     const revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -438,16 +836,15 @@ export default function ImportedHomepage() {
           }
         });
       },
-      { threshold: 0, rootMargin: '0px 0px -40px 0px' },
+      { threshold: 0, rootMargin: "0px 0px -40px 0px" },
     );
-
     document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 
+    // stats observer
     const statsObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-
           entry.target.querySelectorAll(".stat-bar-fill").forEach((bar) => bar.classList.add("loaded"));
           const targets = [
             { id: "s1", val: "-72%" },
@@ -455,482 +852,87 @@ export default function ImportedHomepage() {
             { id: "s3", val: "+90%" },
             { id: "s4", val: "+78%" },
           ];
-
           targets.forEach((target, index) => {
             setTimeout(() => {
               const el = document.getElementById(target.id);
               if (el) el.textContent = target.val;
             }, 400 + index * 150);
           });
-
           statsObserver.unobserve(entry.target);
         });
       },
-      { threshold: 0, rootMargin: '0px 0px -40px 0px' },
+      { threshold: 0, rootMargin: "0px 0px -40px 0px" },
     );
 
-    if (statsVis) statsObserver.observe(statsVis);
+    const statsVisEl = document.getElementById("statsVis");
+    if (!statsVisEl) {
+      let attempts = 0;
+      const iv = setInterval(() => {
+        const found = document.getElementById("statsVis");
+        attempts++;
+        if (found || attempts > 20) { clearInterval(iv); if (found) statsObserver.observe(found); }
+      }, 100);
+      pendingIntervals.push(iv);
+    } else {
+      statsObserver.observe(statsVisEl);
+    }
 
+    // step progress observer
     const stepObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
-          setTimeout(() => stepFill?.classList.add("loaded"), 300);
+          setTimeout(() => { document.getElementById("stepFill")?.classList.add("loaded"); }, 300);
           stepObserver.unobserve(entry.target);
         });
       },
-      { threshold: 0, rootMargin: '0px 0px -40px 0px' },
+      { threshold: 0, rootMargin: "0px 0px -40px 0px" },
     );
 
-    const stepSection = stepFill?.closest("section");
-    if (stepSection) stepObserver.observe(stepSection);
+    const stepFillEl = document.getElementById("stepFill");
+    if (!stepFillEl) {
+      let attempts = 0;
+      const iv = setInterval(() => {
+        const found = document.getElementById("stepFill");
+        attempts++;
+        if (found || attempts > 20) {
+          clearInterval(iv);
+          if (found) {
+            const section = found.closest("section");
+            if (section) stepObserver.observe(section);
+          }
+        }
+      }, 100);
+      pendingIntervals.push(iv);
+    } else {
+      const stepSection = stepFillEl.closest("section");
+      if (stepSection) stepObserver.observe(stepSection);
+    }
 
     // Mobile Safari fallback: force all animations if observers haven't fired after 2.5s
     const animFallbackTimer = setTimeout(() => {
-      document.querySelectorAll('.stat-bar-fill:not(.loaded)').forEach((el) => el.classList.add('loaded'));
-      document.querySelectorAll('.reveal:not(.visible)').forEach((el) => el.classList.add('visible'));
-      document.querySelectorAll('.step-progress-fill:not(.loaded)').forEach((el) => el.classList.add('loaded'));
+      document.querySelectorAll(".stat-bar-fill:not(.loaded)").forEach((el) => el.classList.add("loaded"));
+      document.querySelectorAll(".reveal:not(.visible)").forEach((el) => el.classList.add("visible"));
+      document.querySelectorAll(".step-progress-fill:not(.loaded)").forEach((el) => el.classList.add("loaded"));
     }, 2500);
 
+    // canvas with retry
     let cleanupCanvas: (() => void) | undefined;
 
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-
-      if (ctx) {
-        const slowMode = prefersReducedMotion;
-        const ACC = "#4B6BFB";
-        const LABELS = [
-          "Analisi e lettura del dato",
-          "Statistiche in tempo reale",
-          "Analisi di mercato",
-          "Dashboard intelligenti",
-          "Sistema di prenotazioni",
-          "Gestione del personale",
-          "Gestione amministrativa",
-          "Automatizzazione flussi",
-          "Automatizzazione dei processi",
-          "Reportistica e progetti",
-        ];
-
-        let W = 0;
-        let H = 0;
-        let CX = 0;
-        let CY = 0;
-        let RADIUS = 0;
-        let isMobile = false;
-        let dpr = 1;
-        let rotY = 0;
-        let rotX = 0.22;
-        let startTime: number | null = null;
-        let lastTime = 0;
-        let lastRenderTime = 0;
-        let cOp = 0;
-        let raf = 0;
-        let heroVisible = true;
-        let pageVisible = !document.hidden;
-        const frameInterval = slowMode ? 1000 / 12 : 1000 / 36;
-
-        type Vec3 = { x: number; y: number; z: number };
-        type Node = {
-          base: Vec3;
-          label: string;
-          opacity: number;
-          scale: number;
-          active: boolean;
-          pulsePhase: number;
-          hubDone: boolean;
-        };
-        type Edge = { to: number; progress: number; done: boolean };
-        type MeshEdge = { from: number; to: number; progress: number; done: boolean };
-        type Particle = { type: "hub" | "mesh"; idx: number; t: number; speed: number };
-
-        let nodes: Node[] = [];
-        let hubEdges: Edge[] = [];
-        let meshEdges: MeshEdge[] = [];
-        let particles: Particle[] = [];
-
-        const T0 = 300;
-        const T1 = 1400;
-        const TS = 160;
-        const TD = 720;
-        const TM = 3200;
-        const TMD = 500;
-        const TMS = 90;
-        const FOV = 850;
-
-        const fibSphere = (n: number, r: number): Vec3[] => {
-          const phi = Math.PI * (3 - Math.sqrt(5));
-          return Array.from({ length: n }, (_, i) => {
-            const y = 1 - (i / (n - 1)) * 2;
-            const rr = Math.sqrt(Math.max(0, 1 - y * y));
-            const th = phi * i;
-            return { x: rr * Math.cos(th) * r, y: y * r * 0.68, z: rr * Math.sin(th) * r };
-          });
-        };
-
-        const ry3 = (p: Vec3, a: number): Vec3 => {
-          const c = Math.cos(a);
-          const s = Math.sin(a);
-          return { x: p.x * c + p.z * s, y: p.y, z: -p.x * s + p.z * c };
-        };
-
-        const rx3 = (p: Vec3, a: number): Vec3 => {
-          const c = Math.cos(a);
-          const s = Math.sin(a);
-          return { x: p.x, y: p.y * c - p.z * s, z: p.y * s + p.z * c };
-        };
-
-        const d3 = (a: Vec3, b: Vec3) => Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2);
-        const hRgb = (h: string) => ({
-          r: parseInt(h.slice(1, 3), 16),
-          g: parseInt(h.slice(3, 5), 16),
-          b: parseInt(h.slice(5, 7), 16),
-        });
-        const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-        const eOut = (t: number) => 1 - (1 - t) ** 3;
-
-        const proj = (p: Vec3) => {
-          const z = p.z + FOV;
-          const s = FOV / Math.max(z, 1);
-          return { x: CX + p.x * s, y: CY + p.y * s, z: p.z };
-        };
-
-        const resize = () => {
-          const wasMobile = isMobile;
-          dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 1.35);
-          W = canvas.offsetWidth;
-          H = canvas.offsetHeight;
-          isMobile = W < 640;
-          canvas.width = W * dpr;
-          canvas.height = H * dpr;
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          CX = W / 2;
-          CY = H * (isMobile ? 0.47 : 0.42);
-          RADIUS = Math.min(W, H) * (isMobile ? 0.4 : 0.5) * (isMobile ? 0.88 : 1);
-          if (wasMobile !== isMobile) buildScene();
-        };
-
-        const buildScene = () => {
-          const pos = fibSphere(LABELS.length, RADIUS);
-          nodes = LABELS.map((label, i) => ({
-            base: { ...pos[i] },
-            label,
-            opacity: 0,
-            scale: 0,
-            active: false,
-            pulsePhase: Math.random() * Math.PI * 2,
-            hubDone: false,
-          }));
-          hubEdges = nodes.map((_, i) => ({ to: i, progress: 0, done: false }));
-          const used = new Set<string>();
-          meshEdges = [];
-          for (let i = 0; i < nodes.length; i++) {
-            nodes
-              .map((n, j) => ({ j, d: d3(nodes[i].base, n.base) }))
-              .filter((x) => x.j !== i)
-              .sort((a, b) => a.d - b.d)
-              .slice(0, 3)
-              .forEach(({ j }) => {
-                const k = [Math.min(i, j), Math.max(i, j)].join("-");
-                if (!used.has(k)) {
-                  used.add(k);
-                  meshEdges.push({ from: i, to: j, progress: 0, done: false });
-                }
-              });
-          }
-          particles = [];
-        };
-
-        const getRot = (n: Node) => rx3(ry3(n.base, rotY), rotX);
-
-        const dLine = (
-          x1: number,
-          y1: number,
-          x2: number,
-          y2: number,
-          pg: number,
-          al: number,
-          thin: boolean,
-        ) => {
-          if (pg <= 0 || al < 0.01) return;
-          const ac = hRgb(ACC);
-          const tx = x1 + (x2 - x1) * pg;
-          const ty = y1 + (y2 - y1) * pg;
-          ctx.save();
-          if (!thin) {
-            ctx.globalAlpha = al * 0.18;
-            ctx.strokeStyle = `rgb(${ac.r},${ac.g},${ac.b})`;
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(x1, y1);
-            ctx.lineTo(tx, ty);
-            ctx.stroke();
-          } else {
-            ctx.globalAlpha = al * 0.14;
-            ctx.strokeStyle = `rgb(${ac.r},${ac.g},${ac.b})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(x1, y1);
-            ctx.lineTo(tx, ty);
-            ctx.stroke();
-          }
-          ctx.globalAlpha = al * (thin ? 0.22 : 0.4);
-          ctx.strokeStyle = `rgb(${ac.r},${ac.g},${ac.b})`;
-          ctx.lineWidth = thin ? 0.6 : 0.9;
-          ctx.beginPath();
-          ctx.moveTo(x1, y1);
-          ctx.lineTo(tx, ty);
-          ctx.stroke();
-          ctx.restore();
-        };
-
-        const dPt = (x: number, y: number, a: number, sz: number) => {
-          const ac = hRgb(ACC);
-          ctx.save();
-          const g = ctx.createRadialGradient(x, y, 0, x, y, sz * 3.5);
-          g.addColorStop(0, `rgba(${ac.r},${ac.g},${ac.b},${a * 0.65})`);
-          g.addColorStop(1, `rgba(${ac.r},${ac.g},${ac.b},0)`);
-          ctx.fillStyle = g;
-          ctx.beginPath();
-          ctx.arc(x, y, sz * 3.5, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.globalAlpha = a;
-          ctx.fillStyle = `rgb(${Math.min(255, ac.r + 80)},${Math.min(255, ac.g + 80)},${Math.min(255, ac.b + 80)})`;
-          ctx.beginPath();
-          ctx.arc(x, y, sz, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        };
-
-        const rrect = (x: number, y: number, w: number, h: number, r: number) => {
-          ctx.beginPath();
-          ctx.moveTo(x + r, y);
-          ctx.lineTo(x + w - r, y);
-          ctx.arcTo(x + w, y, x + w, y + r, r);
-          ctx.lineTo(x + w, y + h - r);
-          ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
-          ctx.lineTo(x + r, y + h);
-          ctx.arcTo(x, y + h, x, y + h - r, r);
-          ctx.lineTo(x, y + r);
-          ctx.arcTo(x, y, x + r, y, r);
-          ctx.closePath();
-        };
-
-        const dLabel = (x: number, y: number, text: string, alpha: number, scale: number, active: boolean) => {
-          if (alpha < 0.02) return;
-          const ac = hRgb(ACC);
-          const fs = Math.max(isMobile ? 7 : 9, (isMobile ? 10 : 12) * scale);
-          const px = 10 * scale;
-          const py = 4.5 * scale;
-          const br = 6 * scale;
-          ctx.font = `400 ${fs}px Inter,sans-serif`;
-          const disp = text.toUpperCase();
-          const tw = ctx.measureText(disp).width;
-          const w = tw + px * 2;
-          const h = fs + py * 2;
-          const bx = x - w / 2;
-          const by = y - h / 2;
-          ctx.save();
-          ctx.globalAlpha = alpha;
-          ctx.fillStyle = "rgba(13,15,20,0.88)";
-          rrect(bx, by, w, h, br);
-          ctx.fill();
-          if (active) {
-            ctx.shadowColor = `rgba(${ac.r},${ac.g},${ac.b},0.45)`;
-            ctx.shadowBlur = 8;
-          }
-          ctx.strokeStyle = active ? `rgba(${ac.r},${ac.g},${ac.b},0.9)` : `rgba(${ac.r},${ac.g},${ac.b},0.3)`;
-          ctx.lineWidth = active ? 1.2 : 0.8;
-          rrect(bx, by, w, h, br);
-          ctx.stroke();
-          ctx.shadowBlur = 0;
-          ctx.fillStyle = active ? "#FFFFFF" : "rgba(244,243,238,0.85)";
-          ctx.font = `400 ${fs}px Inter,sans-serif`;
-          ctx.textBaseline = "middle";
-          ctx.textAlign = "center";
-          ctx.fillText(disp, x, y);
-          ctx.restore();
-        };
-
-        const dCenter = (alpha: number, t: number) => {
-          if (alpha < 0.01) return;
-          const ac = hRgb(ACC);
-          const pulse = 0.92 + 0.08 * Math.sin(t * 0.0014);
-          ctx.save();
-          const hR = (isMobile ? 58 : 92) * pulse;
-          const halo = ctx.createRadialGradient(CX, CY, 8, CX, CY, hR);
-          halo.addColorStop(0, `rgba(${ac.r},${ac.g},${ac.b},${0.12 * alpha})`);
-          halo.addColorStop(1, `rgba(${ac.r},${ac.g},${ac.b},0)`);
-          ctx.fillStyle = halo;
-          ctx.beginPath();
-          ctx.arc(CX, CY, hR, 0, Math.PI * 2);
-          ctx.fill();
-          const dR = 4.2 * pulse;
-          const dG = ctx.createRadialGradient(CX, CY, 0, CX, CY, dR * 5);
-          dG.addColorStop(0, `rgba(${ac.r},${ac.g},${ac.b},${0.55 * alpha})`);
-          dG.addColorStop(1, `rgba(${ac.r},${ac.g},${ac.b},0)`);
-          ctx.fillStyle = dG;
-          ctx.beginPath();
-          ctx.arc(CX, CY, dR * 5, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.globalAlpha = alpha;
-          ctx.fillStyle = "#FFFFFF";
-          ctx.beginPath();
-          ctx.arc(CX, CY, dR, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        };
-
-        const spawnHub = (i: number) => {
-          for (let k = 0; k < 2; k++) particles.push({ type: "hub", idx: i, t: k / 2, speed: 0.00032 + Math.random() * 0.00022 });
-        };
-
-        const spawnMesh = (i: number) => {
-          particles.push({ type: "mesh", idx: i, t: Math.random(), speed: (0.00015 + Math.random() * 0.0001) * (Math.random() > 0.5 ? 1 : -1) });
-        };
-
-        const updPart = (dt: number) => {
-          for (const p of particles) p.t = ((p.t + p.speed * dt) % 1 + 1) % 1;
-        };
-
-        const draw = (now: number) => {
-          raf = requestAnimationFrame(draw);
-          if (!heroVisible || !pageVisible) return;
-          if (!startTime) startTime = now;
-          if (lastRenderTime && now - lastRenderTime < frameInterval) return;
-          lastRenderTime = now;
-          const el = now - startTime;
-          const dt = Math.min(now - lastTime, 50);
-          lastTime = now;
-          rotY += (2 * Math.PI / (20 * 1000)) * dt;
-          rotX = 0.18 + 0.08 * Math.sin(el * 0.0002);
-          ctx.clearRect(0, 0, W, H);
-
-          if (el >= T0) cOp = eOut(Math.min(1, (el - T0) / (T1 - T0)));
-          dCenter(cOp, el);
-
-          hubEdges.forEach((edge, i) => {
-            const st = T1 + i * TS;
-            if (el < st) return;
-            const pg = eOut(Math.min(1, (el - st) / TD));
-            edge.progress = pg;
-            if (pg >= 1 && !edge.done) {
-              edge.done = true;
-              nodes[i].hubDone = true;
-              spawnHub(i);
-            }
-            nodes[i].opacity = Math.min(1, pg * 1.6);
-            nodes[i].scale = nodes[i].hubDone ? 1 : pg;
-            nodes[i].active = nodes[i].hubDone && el - (st + TD) < 700;
-            const rp = getRot(nodes[i]);
-            const pr = proj(rp);
-            const dep = Math.max(0.38, Math.min(1.16, (rp.z + RADIUS) / (RADIUS * 2)));
-            dLine(CX, CY, pr.x, pr.y, pg, 0.55 * dep, false);
-          });
-
-          meshEdges.forEach((edge, i) => {
-            const st = TM + i * TMS;
-            if (el < st) return;
-            edge.progress = eOut(Math.min(1, (el - st) / TMD));
-            if (edge.progress >= 1 && !edge.done) {
-              edge.done = true;
-              spawnMesh(i);
-            }
-            const pA = proj(getRot(nodes[edge.from]));
-            const pB = proj(getRot(nodes[edge.to]));
-            const rA = getRot(nodes[edge.from]);
-            const rB = getRot(nodes[edge.to]);
-            const dep = Math.max(0.3, Math.min(1, ((rA.z + rB.z) * 0.5 + RADIUS) / (RADIUS * 2)));
-            dLine(pA.x, pA.y, pB.x, pB.y, edge.progress, 0.55 * dep, true);
-          });
-
-          updPart(dt);
-
-          for (const p of particles) {
-            if (p.type === "hub") {
-              if (!hubEdges[p.idx]?.done) continue;
-              const rp = getRot(nodes[p.idx]);
-              const pr = proj(rp);
-              const dep = Math.max(0.38, Math.min(1.16, (rp.z + RADIUS) / (RADIUS * 2)));
-              dPt(lerp(CX, pr.x, p.t), lerp(CY, pr.y, p.t), dep * 0.9, 2.4 * dep);
-            } else {
-              const edge = meshEdges[p.idx];
-              if (!edge?.done) continue;
-              const pA = proj(getRot(nodes[edge.from]));
-              const pB = proj(getRot(nodes[edge.to]));
-              const rA = getRot(nodes[edge.from]);
-              const rB = getRot(nodes[edge.to]);
-              const dep = Math.max(0.24, Math.min(0.84, (rA.z + rB.z) * 0.5 / RADIUS + 0.6));
-              dPt(lerp(pA.x, pB.x, p.t), lerp(pA.y, pB.y, p.t), dep * 0.45, 1.4 * dep);
-            }
-          }
-
-          nodes
-            .map((n) => {
-              const rp = getRot(n);
-              const pr = proj(rp);
-              return { n, rp, pr };
-            })
-            .sort((a, b) => a.rp.z - b.rp.z)
-            .forEach(({ n, rp, pr }) => {
-              if (n.opacity < 0.01) return;
-              const dep = Math.max(0.42, Math.min(1.08, (rp.z + RADIUS) / (RADIUS * 2)));
-              const pulse = 1 + 0.024 * Math.sin(el * 0.0014 + n.pulsePhase);
-              dLabel(pr.x, pr.y, n.label, n.opacity * Math.max(0.42, dep), n.scale * dep * pulse, n.active);
-            });
-        };
-
-        const visibilityObserver = new IntersectionObserver(
-          (entries) => {
-            const entry = entries[0];
-            heroVisible = Boolean(entry?.isIntersecting);
-          },
-          { threshold: 0.05 },
-        );
-
-        const onVisibilityChange = () => {
-          pageVisible = !document.hidden;
-        };
-
-        const resizeObserver = new ResizeObserver(() => { resize(); });
-        resizeObserver.observe(canvas.parentElement || canvas);
-        document.addEventListener("visibilitychange", onVisibilityChange);
-        if (hero) visibilityObserver.observe(hero);
-
-        const onMouseMove = (e: MouseEvent) => {
-          const rect = canvas.getBoundingClientRect();
-          rotY += ((e.clientX - rect.left) / rect.width - 0.5) * 0.004;
-        };
-        const onTouchMove = (e: TouchEvent) => {
-          e.preventDefault();
-          const touch = e.touches[0];
-          const rect = canvas.getBoundingClientRect();
-          rotY += ((touch.clientX - rect.left) / rect.width - 0.5) * 0.004;
-        };
-        canvas.addEventListener("mousemove", onMouseMove);
-        canvas.addEventListener("touchmove", onTouchMove, { passive: false });
-
-        const initCanvas = () => {
-          if (canvas.offsetWidth === 0) {
-            requestAnimationFrame(initCanvas);
-            return;
-          }
-          resize();
-          buildScene();
-          raf = requestAnimationFrame(draw);
-        };
-        requestAnimationFrame(initCanvas);
-
-        cleanupCanvas = () => {
-          cancelAnimationFrame(raf);
-          resizeObserver.disconnect();
-          document.removeEventListener("visibilitychange", onVisibilityChange);
-          visibilityObserver.disconnect();
-          canvas.removeEventListener("mousemove", onMouseMove);
-          canvas.removeEventListener("touchmove", onTouchMove);
-        };
-      }
+    let canvasEl = document.getElementById("hero-canvas") as HTMLCanvasElement | null;
+    if (!canvasEl) {
+      let attempts = 0;
+      const iv = setInterval(() => {
+        canvasEl = document.getElementById("hero-canvas") as HTMLCanvasElement | null;
+        attempts++;
+        if (canvasEl || attempts > 20) {
+          clearInterval(iv);
+          if (canvasEl) cleanupCanvas = initializeCanvas(canvasEl, hero, prefersReducedMotion);
+        }
+      }, 100);
+      pendingIntervals.push(iv);
+    } else {
+      cleanupCanvas = initializeCanvas(canvasEl, hero, prefersReducedMotion);
     }
 
     return () => {
@@ -939,6 +941,7 @@ export default function ImportedHomepage() {
       statsObserver.disconnect();
       stepObserver.disconnect();
       clearTimeout(animFallbackTimer);
+      pendingIntervals.forEach(clearInterval);
       cleanupCanvas?.();
     };
   }, [instanceKey]);
