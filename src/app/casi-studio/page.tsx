@@ -95,6 +95,74 @@ function rev(delay = 0): React.CSSProperties {
   };
 }
 
+/* ─── section shell (shared with agente-ai style) ─── */
+function Section({
+  id, tag, headline, sub, body, alt, children, bodyAfter,
+}: {
+  id: string; tag: string; headline: React.ReactNode;
+  sub?: string; body?: string; alt?: boolean;
+  children?: React.ReactNode; bodyAfter?: string;
+}) {
+  return (
+    <section id={id} className={alt ? 's-to-alt' : 's-to-main'} style={{ padding: '100px 8vw', background: alt ? C.bg2 : C.bg }}>
+      <p data-reveal style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0s, transform 0.7s ease 0s', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc, fontWeight: 500, marginBottom: 18 }}>{tag}</p>
+      <h2 data-reveal style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s', fontSize: 'clamp(24px,3vw,44px)', fontWeight: 600, lineHeight: 1.12, letterSpacing: '-0.02em', maxWidth: 780, fontFamily: 'Syne, sans-serif', color: C.txt }}>{headline}</h2>
+      {sub && <p data-reveal style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s', fontSize: 'clamp(14px,1.2vw,17px)', color: C.muted, lineHeight: 1.7, maxWidth: 620, marginTop: 16, fontWeight: 300 }}>{sub}</p>}
+      {body && <p data-reveal style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s', fontSize: 'clamp(14px,1.1vw,16px)', color: C.muted, lineHeight: 1.75, maxWidth: 680, marginTop: 22, fontWeight: 300 }}>{body}</p>}
+      {children}
+      {bodyAfter && <p data-reveal style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s', fontSize: 'clamp(14px,1.1vw,16px)', color: C.muted, lineHeight: 1.75, maxWidth: 680, marginTop: 40, fontWeight: 300 }}>{bodyAfter}</p>}
+    </section>
+  );
+}
+
+/* ─── Esempi per settore ─── */
+const CATEGORIES = [
+  { id: 'hotel', label: 'Albergatori', problem: 'Tra richieste, disponibilità, informazioni per gli ospiti e organizzazione interna, la gestione quotidiana può diventare frammentata.', today: 'Una parte del tempo si perde a rincorrere informazioni, risposte ricorrenti e passaggi operativi che si ripetono.', does: "Supporta la gestione delle richieste, organizza dati utili, semplifica flussi e aiuta a leggere l'andamento operativo.", result: "Più ordine, meno dispersione, più capacità di concentrarsi sull'esperienza del cliente." },
+  { id: 'ristoranti', label: 'Ristoratori', problem: "Prenotazioni, richieste, cambi, conferme e comunicazioni continue rischiano di pesare sull'operatività.", today: 'Il lavoro si distribuisce tra telefonate, messaggi e gestione manuale, con rischio di rallentamenti ed errori.', does: 'Organizza il flusso delle richieste, supporta la gestione e alleggerisce attività ripetitive.', result: 'Più fluidità, meno caos nei momenti intensi, maggiore controllo.' },
+  { id: 'parrucchieri', label: 'Parrucchieri', problem: 'Appuntamenti, conferme, modifiche e richieste informative assorbono tempo ogni giorno.', today: 'Molte attività ricadono sulle stesse persone e interrompono il lavoro principale.', does: 'Supporta la gestione delle richieste, dà ordine alle informazioni e rende più lineare il flusso appuntamenti.', result: 'Meno interruzioni, più organizzazione, migliore continuità nel lavoro.' },
+  { id: 'estetisti', label: 'Estetisti', problem: 'La gestione del cliente richiede attenzione e continuità, ma si somma a una parte operativa già intensa.', today: 'Le informazioni si disperdono, i tempi si comprimono, alcune attività gestionali rubano energia al servizio.', does: 'Alleggerisce il flusso organizzativo, supporta richieste e aiuta a mantenere ordine.', result: 'Più tempo per il cliente, meno dispersione gestionale, più controllo.' },
+  { id: 'negozi', label: 'Negozi', problem: 'Tra clienti, richieste, informazioni sui prodotti e operatività interna, il lavoro si frammenta facilmente.', today: "Si passa da una necessità all'altra senza una struttura abbastanza solida per tenere tutto insieme.", does: 'Supporta gestione informazioni, richieste frequenti e organizzazione di alcuni flussi interni.', result: 'Maggior ordine operativo e meno carico su attività ripetitive.' },
+  { id: 'professionisti', label: 'Liberi professionisti', problem: 'Ogni richiesta, appuntamento, aggiornamento e attività organizzativa ricade sulla stessa persona.', today: 'Si perde tempo tra gestione operativa e lavoro di valore, restando sempre in rincorsa.', does: 'Supporta organizzazione, richieste e passaggi ricorrenti, rendendo il lavoro più sostenibile.', result: 'Più tempo utile, più ordine mentale, più concentrazione su ciò che conta.' },
+  { id: 'prenotazioni', label: 'Attività con prenotazioni', problem: 'Prenotare dovrebbe essere semplice. Ma per chi gestisce il flusso, spesso non lo è.', today: 'Tra richieste, conferme, modifiche e informazioni sparse, il carico cresce rapidamente.', does: 'Aiuta a ordinare il flusso, supporta la gestione delle richieste e riduce la dispersione.', result: 'Più continuità, meno errori, migliore esperienza gestionale.' },
+  { id: 'delivery', label: 'Delivery', problem: 'Rapidità, coordinamento e precisione sono fondamentali, ma i passaggi operativi possono diventare pesanti.', today: 'Le informazioni si muovono velocemente, ma non sempre con abbastanza ordine.', does: 'Supporta flussi, organizzazione delle informazioni e alleggerimento di attività ripetitive.', result: 'Più efficienza operativa e più controllo in un contesto ad alta intensità.' },
+  { id: 'pizzerie', label: 'Pizzerie', problem: 'Richieste, ordini, prenotazioni e operatività si sovrappongono soprattutto nei momenti di punta.', today: 'Il lavoro si concentra su poche persone e diventa più difficile mantenere ordine e continuità.', does: 'Supporta il flusso delle richieste e rende più gestibile una parte del lavoro quotidiano.', result: 'Meno pressione organizzativa, più fluidità, migliore capacità di reggere il ritmo.' },
+];
+
+function SectionCategorie() {
+  return (
+    <Section id="categorie" tag="Esempi per settore"
+      headline={<>{"Come può aiutare"}<br />{"nei diversi settori"}</>}
+      sub="Ogni attività ha una sua organizzazione. Ma i collaboratori AI possono adattarsi a problemi reali molto concreti."
+    >
+      <div data-reveal style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s', marginTop: 48, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,340px),1fr))', gap: 14 }}>
+        {CATEGORIES.map((cat) => (
+          <div key={cat.id}
+            style={{ padding: 24, borderRadius: 12, border: `1px solid ${C.border}`, background: 'rgba(13,15,20,0.6)', display: 'flex', flexDirection: 'column', gap: 14, transition: 'border-color 0.25s' }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(75,107,251,0.3)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 14, borderBottom: `1px solid ${C.border}` }}>
+              <h3 style={{ fontSize: 17, fontWeight: 600, color: C.txt, fontFamily: 'Syne, sans-serif', letterSpacing: '-0.01em' }}>{cat.label}</h3>
+              <span style={{ fontSize: 10, color: C.acc2, padding: '3px 10px', borderRadius: 999, background: 'rgba(75,107,251,0.08)', border: '1px solid rgba(75,107,251,0.25)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Caso d&apos;uso</span>
+            </div>
+            {[
+              { label: 'Problema reale', text: cat.problem },
+              { label: 'Cosa succede oggi', text: cat.today },
+              { label: "Cosa fa l'agente AI", text: cat.does, accent: true },
+              { label: 'Risultato', text: cat.result },
+            ].map((r) => (
+              <div key={r.label}>
+                <div style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: r.accent ? C.acc2 : 'rgba(244,243,238,0.35)', fontWeight: 500, marginBottom: 5 }}>{r.label}</div>
+                <p style={{ fontSize: 13, color: r.accent ? 'rgba(244,243,238,0.85)' : C.muted, lineHeight: 1.6 }}>{r.text}</p>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
 /* ═══════════════════════════════════════════════════════════════
    HERO — compatto, con griglia animata di casi
    ═══════════════════════════════════════════════════════════════ */
@@ -1375,6 +1443,7 @@ export default function CasiStudioPage() {
       }}
     >
       <Hero />
+      <SectionCategorie />
       {CASES.map((c) => (
         <CaseStudy key={c.id} data={c} />
       ))}
