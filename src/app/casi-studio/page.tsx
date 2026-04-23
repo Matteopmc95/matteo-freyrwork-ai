@@ -13,12 +13,59 @@ const C = {
   border: 'rgba(255,255,255,0.07)',
 };
 
+const CASE_FILTERS = [
+  { label: 'Hotel', href: '#caso-hotel' },
+  { label: 'Ristorazione', href: '#caso-ristorazione' },
+  { label: 'Beauty & wellness', href: '#caso-beautywellness' },
+];
+
 const HOTEL_REQUESTS = [
-  { ch: 'Email', color: '#FB923C', text: 'Richiesta check-in anticipato', cat: 'Info ospite', reply: 'Info inviata' },
-  { ch: 'WhatsApp', color: '#25D366', text: 'Disponibilità 12-14 giugno?', cat: 'Prenotazione', reply: 'Verificata + proposta' },
-  { ch: 'Form', color: C.acc, text: 'Colazione senza glutine', cat: 'Preferenze', reply: 'Nota salvata' },
-  { ch: 'Booking', color: '#003580', text: 'Ritardo arrivo — ore 23:00', cat: 'Operativo', reply: 'Reception notificata' },
-  { ch: 'Instagram', color: '#E1306C', text: 'Che servizi spa offrite?', cat: 'Info servizi', reply: 'Risposta inviata' },
+  { id: 'early-checkin', ch: 'Email', color: '#FB923C', text: 'Richiesta check-in anticipato', cat: 'Info ospite', reply: 'Info inviata' },
+  { id: 'june-availability', ch: 'WhatsApp', color: '#25D366', text: 'Disponibilità 12-14 giugno?', cat: 'Prenotazione', reply: 'Verificata + proposta' },
+  { id: 'gluten-free-breakfast', ch: 'Form', color: C.acc, text: 'Colazione senza glutine', cat: 'Preferenze', reply: 'Nota salvata' },
+  { id: 'late-arrival', ch: 'Booking', color: '#003580', text: 'Ritardo arrivo — ore 23:00', cat: 'Operativo', reply: 'Reception notificata' },
+  { id: 'spa-services', ch: 'Instagram', color: '#E1306C', text: 'Che servizi spa offrite?', cat: 'Info servizi', reply: 'Risposta inviata' },
+];
+
+const RESERVATION_PHASES = [
+  { id: 'before', label: 'Prima' },
+  { id: 'after', label: 'Dopo l\'agente' },
+] as const;
+
+const RESTAURANT_RESERVATIONS = [
+  { id: 'rossi-1930', time: '19:30', people: 2, name: 'Rossi', source: 'WhatsApp' },
+  { id: 'bianchi-2000', time: '20:00', people: 4, name: 'Bianchi', source: 'Chiamata' },
+  { id: 'verdi-2030', time: '20:30', people: 3, name: 'Verdi', source: 'Form web' },
+  { id: 'neri-2100', time: '21:00', people: 6, name: 'Neri', source: 'WhatsApp' },
+  { id: 'gialli-2130', time: '21:30', people: 2, name: 'Gialli', source: 'Email' },
+];
+
+const RESTAURANT_CARD_POSITIONS = [
+  { top: '8%', left: '12%', r: -8, dx: 4, dy: -6 },
+  { top: '18%', left: '58%', r: 6, dx: -5, dy: 3 },
+  { top: '42%', left: '26%', r: -4, dx: 3, dy: 5 },
+  { top: '55%', left: '68%', r: 9, dx: -4, dy: -3 },
+  { top: '72%', left: '36%', r: -6, dx: 5, dy: -4 },
+];
+
+const SALON_SLOTS = [
+  { id: 'slot-taglio-0900', time: '09:00', service: 'Taglio', client: 'M. Rossi', color: C.acc },
+  { id: 'slot-colore-0945', time: '09:45', service: 'Colore', client: 'S. Bianchi', color: '#E1306C' },
+  { id: 'slot-barba-1030', time: '10:30', service: 'Taglio + barba', client: 'A. Verdi', color: '#FB923C' },
+  { id: 'slot-piega-1130', time: '11:30', service: 'Messa in piega', client: 'L. Neri', color: C.acc2 },
+  { id: 'slot-trattamento-1400', time: '14:00', service: 'Trattamento', client: 'G. Gialli', color: '#4ade80' },
+  { id: 'slot-colore-1515', time: '15:15', service: 'Colore', client: 'F. Blu', color: '#E1306C' },
+];
+
+const SALON_AGENT_ACTIONS = [
+  { id: 'move-request', text: 'WhatsApp: "Posso spostare a domani?"' },
+  { id: 'availability-check', text: 'Agente: Verifica disponibilità…' },
+  { id: 'slot-proposed', text: 'Agente: Slot proposto 10:30' },
+  { id: 'client-confirmed', text: 'Agente: Conferma cliente ricevuta' },
+  { id: 'reminder-sent', text: 'Agente: Reminder 24h inviato' },
+  { id: 'free-slot-alert', text: 'Agente: Slot libero segnalato' },
+  { id: 'lunch-optimized', text: 'Agente: Ottimizzata pausa pranzo' },
+  { id: 'all-updated', text: 'Tutto aggiornato' },
 ];
 
 /* ─── reveal hook ─── */
@@ -122,10 +169,10 @@ function Hero() {
           flexWrap: 'wrap',
         }}
       >
-        {['Hotel', 'Ristorazione', 'Beauty & wellness'].map((t) => (
+        {CASE_FILTERS.map((item) => (
           <a
-            key={t}
-            href={`#caso-${t.toLowerCase().replace(/[^a-z]/g, '')}`}
+            key={item.href}
+            href={item.href}
             style={{
               fontSize: 12,
               color: C.txt,
@@ -146,7 +193,7 @@ function Hero() {
               e.currentTarget.style.borderColor = 'rgba(75,107,251,0.28)';
             }}
           >
-            {t}
+            {item.label}
           </a>
         ))}
       </div>
@@ -221,7 +268,7 @@ function HotelAutomation() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           {HOTEL_REQUESTS.slice(0, step).map((r, i) => (
             <div
-              key={i}
+              key={r.id}
               style={{
                 background: 'rgba(13,15,20,0.7)',
                 border: `1px solid ${C.border}`,
@@ -344,7 +391,7 @@ function HotelAutomation() {
             const r = HOTEL_REQUESTS[i];
             return (
               <div
-                key={i}
+                key={r.id}
                 style={{
                   background: 'rgba(74,222,128,0.05)',
                   border: '1px solid rgba(74,222,128,0.22)',
@@ -392,14 +439,6 @@ function RistoranteAutomation() {
     return () => clearInterval(id);
   }, []);
 
-  const prenotazioni = [
-    { time: '19:30', people: 2, name: 'Rossi', source: 'WhatsApp' },
-    { time: '20:00', people: 4, name: 'Bianchi', source: 'Chiamata' },
-    { time: '20:30', people: 3, name: 'Verdi', source: 'Form web' },
-    { time: '21:00', people: 6, name: 'Neri', source: 'WhatsApp' },
-    { time: '21:30', people: 2, name: 'Gialli', source: 'Email' },
-  ];
-
   return (
     <div
       style={{
@@ -421,10 +460,11 @@ function RistoranteAutomation() {
 
       {/* Toggle */}
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 22, gap: 6 }}>
-        {['before', 'after'].map((p) => (
+        {RESERVATION_PHASES.map((item) => (
           <button
-            key={p}
-            onClick={() => setPhase(p as 'before' | 'after')}
+            key={item.id}
+            type="button"
+            onClick={() => setPhase(item.id)}
             style={{
               fontSize: 11,
               padding: '7px 16px',
@@ -432,14 +472,14 @@ function RistoranteAutomation() {
               fontWeight: 500,
               letterSpacing: '0.05em',
               textTransform: 'uppercase',
-              border: '1px solid ' + (phase === p ? 'rgba(75,107,251,0.5)' : C.border),
-              background: phase === p ? 'rgba(75,107,251,0.14)' : 'transparent',
-              color: phase === p ? C.acc2 : C.muted,
+              border: '1px solid ' + (phase === item.id ? 'rgba(75,107,251,0.5)' : C.border),
+              background: phase === item.id ? 'rgba(75,107,251,0.14)' : 'transparent',
+              color: phase === item.id ? C.acc2 : C.muted,
               cursor: 'pointer',
               transition: 'all 0.25s',
             }}
           >
-            {p === 'before' ? 'Prima' : 'Dopo l\'agente'}
+            {item.label}
           </button>
         ))}
       </div>
@@ -455,18 +495,11 @@ function RistoranteAutomation() {
               animation: 'fadeInScale 0.5s ease both',
             }}
           >
-            {prenotazioni.map((p, i) => {
-              const positions = [
-                { top: '8%', left: '12%', r: -8, dx: 4, dy: -6 },
-                { top: '18%', left: '58%', r: 6, dx: -5, dy: 3 },
-                { top: '42%', left: '26%', r: -4, dx: 3, dy: 5 },
-                { top: '55%', left: '68%', r: 9, dx: -4, dy: -3 },
-                { top: '72%', left: '36%', r: -6, dx: 5, dy: -4 },
-              ];
-              const pos = positions[i];
+            {RESTAURANT_RESERVATIONS.map((p, i) => {
+              const pos = RESTAURANT_CARD_POSITIONS[i];
               return (
                 <div
-                  key={i}
+                  key={p.id}
                   style={
                     {
                       position: 'absolute',
@@ -546,9 +579,9 @@ function RistoranteAutomation() {
               Servizio di oggi — unificato dall&apos;agente
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {prenotazioni.map((p, i) => (
+              {RESTAURANT_RESERVATIONS.map((p, i) => (
                 <div
-                  key={i}
+                  key={p.id}
                   style={{
                     display: 'grid',
                     gridTemplateColumns: '60px 1fr auto auto',
@@ -621,27 +654,7 @@ function SaloneAutomation() {
     return () => clearInterval(id);
   }, []);
 
-  const slots = [
-    { time: '09:00', service: 'Taglio', client: 'M. Rossi', color: C.acc },
-    { time: '09:45', service: 'Colore', client: 'S. Bianchi', color: '#E1306C' },
-    { time: '10:30', service: 'Taglio + barba', client: 'A. Verdi', color: '#FB923C' },
-    { time: '11:30', service: 'Messa in piega', client: 'L. Neri', color: C.acc2 },
-    { time: '14:00', service: 'Trattamento', client: 'G. Gialli', color: '#4ade80' },
-    { time: '15:15', service: 'Colore', client: 'F. Blu', color: '#E1306C' },
-  ];
-
-  const incomingActions = [
-    'WhatsApp: "Posso spostare a domani?"',
-    'Agente: Verifica disponibilità…',
-    'Agente: Slot proposto 10:30',
-    'Agente: Conferma cliente ricevuta',
-    'Agente: Reminder 24h inviato',
-    'Agente: Slot libero segnalato',
-    'Agente: Ottimizzata pausa pranzo',
-    'Tutto aggiornato',
-  ];
-
-  const activeSlot = step % slots.length;
+  const activeSlot = step % SALON_SLOTS.length;
 
   return (
     <div
@@ -676,9 +689,9 @@ function SaloneAutomation() {
           Agenda — giovedì 21
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {slots.map((s, i) => (
+          {SALON_SLOTS.map((s, i) => (
             <div
-              key={i}
+              key={s.id}
               style={{
                 display: 'grid',
                 gridTemplateColumns: '56px 1fr auto',
@@ -777,9 +790,9 @@ function SaloneAutomation() {
             position: 'relative',
           }}
         >
-          {incomingActions.slice(0, step + 1).reverse().map((a, i) => (
+          {SALON_AGENT_ACTIONS.slice(0, step + 1).reverse().map((a, i) => (
             <div
-              key={`${step}-${i}`}
+              key={`${step}-${a.id}`}
               style={{
                 color: i === 0 ? C.acc2 : 'rgba(244,243,238,0.45)',
                 lineHeight: 1.5,
@@ -792,7 +805,7 @@ function SaloneAutomation() {
                 {String(14 + Math.floor(step / 2)).padStart(2, '0')}:
                 {String((step * 7 + i * 3) % 60).padStart(2, '0')}
               </span>
-              {a}
+              {a.text}
             </div>
           ))}
         </div>
