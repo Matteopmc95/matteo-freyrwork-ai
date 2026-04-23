@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /* ─── design tokens ─── */
 const C = {
@@ -181,98 +181,118 @@ function TaskVisual() {
   );
 }
 
-/* ─── Chart visual ─── */
+/* ─── Dashboard visual (ex ChartVisual) ─── */
+type TabKey = 'prenotazioni' | 'richieste' | 'fatturato' | 'canali';
+const TAB_DATA: Record<TabKey, { values: number[]; label: string; total: string; sub: string; breakdown: { label: string; value: string | number; color: string }[] }> = {
+  prenotazioni: {
+    values: [18, 24, 21, 28, 35, 42, 38],
+    label: 'Prenotazioni settimanali', total: '206', sub: '+18% vs settimana scorsa',
+    breakdown: [
+      { label: 'Confermate', value: 178, color: '#4B6BFB' },
+      { label: 'In attesa', value: 22, color: '#FB923C' },
+      { label: 'Cancellate', value: 6, color: 'rgba(13,15,20,0.25)' },
+    ],
+  },
+  richieste: {
+    values: [42, 38, 51, 48, 63, 58, 45],
+    label: 'Richieste gestite', total: '345', sub: '+24% vs settimana scorsa',
+    breakdown: [
+      { label: 'WhatsApp', value: 168, color: '#25D366' },
+      { label: 'Instagram', value: 92, color: '#E1306C' },
+      { label: 'Email', value: 85, color: '#4B6BFB' },
+    ],
+  },
+  fatturato: {
+    values: [1240, 1580, 1420, 1890, 2340, 2890, 2410],
+    label: 'Fatturato settimanale', total: '€13.770', sub: '+31% vs settimana scorsa',
+    breakdown: [
+      { label: 'Media giornaliera', value: '€1.967', color: '#4B6BFB' },
+      { label: 'Picco settimanale', value: 'Sab €2.890', color: '#7B94FC' },
+    ],
+  },
+  canali: {
+    values: [48, 38, 18, 12, 8, 4, 2],
+    label: 'Contatti per canale', total: '128 oggi', sub: 'Distribuzione canali attivi',
+    breakdown: [
+      { label: 'WhatsApp', value: '48%', color: '#25D366' },
+      { label: 'Instagram', value: '30%', color: '#E1306C' },
+      { label: 'Telefono', value: '14%', color: '#FB923C' },
+      { label: 'Email/Altro', value: '8%', color: '#4B6BFB' },
+    ],
+  },
+};
+const DAYS = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+
 function ChartVisual() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const dpr = window.devicePixelRatio || 1;
-    const data = [42, 38, 55, 48, 61, 58, 72];
-    const days = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-
-    function drawChart(progress: number) {
-      const W = canvas!.offsetWidth, H = canvas!.offsetHeight;
-      canvas!.width = W * dpr; canvas!.height = H * dpr;
-      const ctx = canvas!.getContext('2d')!;
-      ctx.scale(dpr, dpr);
-      const pad = { l: 8, r: 8, t: 12, b: 24 };
-      const gW = W - pad.l - pad.r, gH = H - pad.t - pad.b;
-      const max = 80, min = 30;
-      const xStep = gW / (data.length - 1);
-      const yScale = (v: number) => pad.t + gH - ((v - min) / (max - min)) * gH;
-
-      ctx.strokeStyle = 'rgba(0,0,0,0.08)'; ctx.lineWidth = 1;
-      [40, 50, 60, 70].forEach((v) => {
-        const y = yScale(v);
-        ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke();
-      });
-
-      ctx.strokeStyle = 'rgba(75,107,251,0.2)'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
-      ctx.beginPath();
-      data.forEach((_, i) => { const x = pad.l + i * xStep; i === 0 ? ctx.moveTo(x, yScale(45)) : ctx.lineTo(x, yScale(45)); });
-      ctx.stroke(); ctx.setLineDash([]);
-
-      const visible = Math.max(2, Math.round(data.length * progress));
-      const grad = ctx.createLinearGradient(0, pad.t, 0, H);
-      grad.addColorStop(0, 'rgba(75,107,251,0.18)'); grad.addColorStop(1, 'rgba(75,107,251,0)');
-      ctx.fillStyle = grad;
-      ctx.beginPath(); ctx.moveTo(pad.l, yScale(data[0]));
-      for (let i = 1; i < visible; i++) ctx.lineTo(pad.l + i * xStep, yScale(data[i]));
-      ctx.lineTo(pad.l + (visible - 1) * xStep, H - pad.b); ctx.lineTo(pad.l, H - pad.b);
-      ctx.closePath(); ctx.fill();
-
-      ctx.strokeStyle = '#4B6BFB'; ctx.lineWidth = 2; ctx.beginPath();
-      for (let i = 0; i < visible; i++) { const x = pad.l + i * xStep, y = yScale(data[i]); i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
-      ctx.stroke();
-
-      for (let i = 0; i < visible; i++) {
-        const x = pad.l + i * xStep, y = yScale(data[i]);
-        ctx.fillStyle = '#4B6BFB'; ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#F4F3EE'; ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI * 2); ctx.fill();
-      }
-
-      ctx.fillStyle = 'rgba(13,15,20,0.5)'; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-      days.forEach((d, i) => ctx.fillText(d, pad.l + i * xStep, H - pad.b + 6));
-    }
-
-    let prog = 0, animating = false;
-    function animChart() {
-      if (prog >= 1) { drawChart(1); return; }
-      prog = Math.min(1, prog + 0.06);
-      drawChart(prog);
-      requestAnimationFrame(animChart);
-    }
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !animating) { animating = true; animChart(); io.disconnect(); }
-      },
-      { threshold: 0.3 }
-    );
-    io.observe(canvas);
-    setTimeout(() => drawChart(0), 100);
-    return () => io.disconnect();
-  }, []);
+  const [activeTab, setActiveTab] = useState<TabKey>('prenotazioni');
+  const tab = TAB_DATA[activeTab];
+  const maxVal = Math.max(...tab.values);
 
   return (
-    <div className="chart-inverted" style={{ padding: 24, display: 'flex', flexDirection: 'column', flex: 1 }}>
-      <div style={{ fontSize: 12, fontWeight: 500, color: '#0D0F14', marginBottom: 6, display: 'flex', justifyContent: 'space-between' }}>
-        Andamento settimanale
-        <span style={{ fontSize: 11, color: C.acc, fontWeight: 400 }}>↑ +18% vs settimana scorsa</span>
+    <div className="dashboard-card chart-inverted" style={{ flex: 1 }}>
+      {/* Tab switcher */}
+      <div className="tab-switcher">
+        {(['prenotazioni', 'richieste', 'fatturato', 'canali'] as TabKey[]).map((t) => (
+          <button key={t} className={`tab-btn${activeTab === t ? ' active' : ''}`} onClick={() => setActiveTab(t)}>
+            {t.charAt(0).toUpperCase() + t.slice(1)}
+          </button>
+        ))}
       </div>
-      <p style={{ fontSize: 11, color: 'rgba(13,15,20,0.65)', marginBottom: 20 }}>Richieste gestite — ultimi 7 giorni</p>
-      <div style={{ position: 'relative', height: 140 }}>
-        <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }} />
+
+      {/* Metric header */}
+      <div className="metric-header">
+        <div>
+          <div className="metric-title">{tab.label}</div>
+          <div className="metric-value">{tab.total}</div>
+        </div>
+        <div className="metric-sub">{tab.sub}</div>
       </div>
-      <div style={{ display: 'flex', gap: 16, marginTop: 16 }}>
-        {[{ color: C.acc, label: 'Richieste gestite' }, { color: 'rgba(75,107,251,0.4)', label: 'Media storica' }].map(({ color, label }) => (
-          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'rgba(13,15,20,0.65)' }}>
-            <div style={{ width: 8, height: 8, borderRadius: 2, background: color }} />
-            {label}
+
+      {/* Bar chart */}
+      <div className="chart-bars">
+        {tab.values.map((val, i) => (
+          <div key={i} className="bar-wrap" title={`${DAYS[i]}: ${val}`}>
+            <div className="bar-tooltip">{val}</div>
+            <div className="bar" style={{ height: `${(val / maxVal) * 100}%` }} />
+            <span className="bar-label">{DAYS[i]}</span>
           </div>
         ))}
+      </div>
+
+      {/* KPI breakdown */}
+      <div className="kpi-breakdown">
+        {tab.breakdown.map((item, i) => (
+          <div key={i} className="kpi-item">
+            <span className="kpi-dot" style={{ background: item.color }} />
+            <span className="kpi-label">{item.label}</span>
+            <span className="kpi-value">{item.value}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Mini CRM */}
+      <div className="crm-section">
+        <div className="crm-header">
+          <h4>Clienti recenti</h4>
+          <span className="crm-live">● Live</span>
+        </div>
+        <div className="crm-list">
+          {[
+            { initials: 'MB', color: '#25D366', name: 'Marco Bianchi', ch: 'WhatsApp · 2 min fa', status: 'confirmed', label: 'Confermato' },
+            { initials: 'LR', color: '#E1306C', name: 'Laura Rossi', ch: 'Instagram · 8 min fa', status: 'pending', label: 'In attesa' },
+            { initials: 'AS', color: '#4B6BFB', name: 'Andrea Serra', ch: 'Email · 14 min fa', status: 'replied', label: 'Risposta inviata' },
+            { initials: 'GF', color: '#FB923C', name: 'Giulia Ferri', ch: 'Telefono · 22 min fa', status: 'confirmed', label: 'Confermato' },
+          ].map((r) => (
+            <div key={r.initials} className="crm-row">
+              <div className="crm-avatar" style={{ background: r.color }}>{r.initials}</div>
+              <div className="crm-info">
+                <strong>{r.name}</strong>
+                <span>{r.ch}</span>
+              </div>
+              <span className={`crm-status ${r.status}`}>{r.label}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -472,6 +492,49 @@ export default function ServiziPage() {
         }
         .chart-inverted{background:#F4F3EE !important;color:#0D0F14}
         .svc-visual:has(.chart-inverted){background:#F4F3EE !important;border-color:rgba(0,0,0,0.08) !important}
+        .dashboard-card{background:#F4F3EE;border:1px solid rgba(0,0,0,0.08);border-radius:16px;padding:28px;color:#0D0F14}
+        .tab-switcher{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap}
+        .tab-btn{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:500;background:transparent;border:1px solid rgba(0,0,0,0.1);color:rgba(13,15,20,0.65);cursor:pointer;transition:all .2s}
+        .tab-btn:hover{background:rgba(13,15,20,0.04)}
+        .tab-btn.active{background:#4B6BFB;border-color:#4B6BFB;color:#fff}
+        .metric-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(0,0,0,0.06)}
+        .metric-title{font-size:13px;color:rgba(13,15,20,0.55);font-weight:500}
+        .metric-value{font-size:28px;font-weight:600;letter-spacing:-0.02em}
+        .metric-sub{font-size:11px;color:#4B6BFB;font-weight:500;margin-top:4px;text-align:right;max-width:140px}
+        .chart-bars{display:flex;align-items:flex-end;justify-content:space-between;height:140px;gap:6px;padding:0 4px}
+        .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;cursor:pointer}
+        .bar{width:100%;background:linear-gradient(180deg,#4B6BFB,#7B94FC);border-radius:4px 4px 0 0;transition:all .3s;min-height:4px}
+        .bar-wrap:hover .bar{background:linear-gradient(180deg,#3A57E8,#4B6BFB);transform:scaleY(1.02)}
+        .bar-label{font-size:10px;color:rgba(13,15,20,0.45);font-weight:500}
+        .bar-tooltip{position:absolute;top:-26px;left:50%;transform:translateX(-50%);background:#0D0F14;color:#fff;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:500;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap;z-index:2}
+        .bar-wrap:hover .bar-tooltip{opacity:1}
+        .kpi-breakdown{display:flex;flex-direction:column;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid rgba(0,0,0,0.06)}
+        .kpi-item{display:flex;align-items:center;gap:10px;font-size:13px}
+        .kpi-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+        .kpi-label{flex:1;color:rgba(13,15,20,0.7)}
+        .kpi-value{font-weight:600;color:#0D0F14}
+        .crm-section{margin-top:24px;padding-top:20px;border-top:1px solid rgba(0,0,0,0.06)}
+        .crm-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+        .crm-header h4{font-size:13px;font-weight:600;color:#0D0F14;margin:0}
+        .crm-live{font-size:10px;color:#22c55e;font-weight:500;letter-spacing:0.04em;text-transform:uppercase}
+        .crm-list{display:flex;flex-direction:column;gap:8px}
+        .crm-row{display:flex;align-items:center;gap:12px;padding:10px;background:rgba(13,15,20,0.03);border-radius:8px;transition:background .2s;cursor:pointer}
+        .crm-row:hover{background:rgba(13,15,20,0.06)}
+        .crm-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600;flex-shrink:0}
+        .crm-info{flex:1;display:flex;flex-direction:column;gap:2px}
+        .crm-info strong{font-size:13px;color:#0D0F14;font-weight:500}
+        .crm-info span{font-size:11px;color:rgba(13,15,20,0.5)}
+        .crm-status{font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;letter-spacing:0.02em}
+        .crm-status.confirmed{background:rgba(34,197,94,0.12);color:#16a34a}
+        .crm-status.pending{background:rgba(251,146,60,0.12);color:#ea580c}
+        .crm-status.replied{background:rgba(75,107,251,0.12);color:#4B6BFB}
+        @media(max-width:640px){
+          .dashboard-card{padding:20px}
+          .tab-btn{padding:7px 10px;font-size:11px;flex:1 1 calc(50% - 3px);text-align:center}
+          .metric-value{font-size:22px}
+          .chart-bars{height:100px}
+          .bar-label{font-size:9px}
+        }
         .ops-animate{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
         .ops-animate.in-view{opacity:1;transform:none}
         .ops-animate .animated-row,.ops-animate .animated-bar,.ops-animate [class*="pulse"]{animation-play-state:paused}
