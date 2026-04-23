@@ -375,7 +375,8 @@ export default function ServiziPage() {
       <style>{`
         @media(max-width:768px){
           .svc-grid{display:flex!important;flex-direction:column;gap:40px!important}
-          :not(#s1) > .svc-grid > .svc-visual{order:-1;margin-bottom:0}
+          .svc-visual{order:-1;margin-bottom:0}
+          #s1 .svc-visual{order:2}
         }
         .ops-animate{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
         .ops-animate.in-view{opacity:1;transform:none}
