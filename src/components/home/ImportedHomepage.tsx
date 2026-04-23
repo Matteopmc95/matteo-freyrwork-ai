@@ -35,7 +35,7 @@ section:not(.alt) .pain-card{background:var(--bg2)}
 .pain-card strong{display:block;font-size:14px;font-weight:500;color:var(--txt);margin-bottom:8px}
 .pain-card p{font-size:13px;color:var(--muted);line-height:1.65}
 .chaos-visual{position:relative;height:320px;border:none;border-radius:0;background:transparent;overflow:visible;transform:translateZ(0)}
-.chaos-msg{position:absolute;background:rgba(13,15,20,.9);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--muted);white-space:normal;max-width:180px;word-wrap:break-word;animation:floatMsg 6s ease-in-out infinite}
+.chaos-msg{position:absolute;background:#F4F3EE;border:1px solid rgba(0,0,0,0.08);border-radius:8px;padding:10px 14px;font-size:12px;color:#0D0F14;white-space:normal;max-width:180px;animation:floatMsg 6s ease-in-out infinite;will-change:transform,opacity;word-wrap:break-word;font-weight:500}
 .chaos-msg .ch{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:8px;vertical-align:middle}
 .chaos-msg.active{border-color:rgba(75,107,251,.4);color:rgba(244,243,238,.8)}
 @keyframes floatMsg{0%{opacity:0;transform:translateY(8px)}15%{opacity:1;transform:translateY(0)}85%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-8px)}}
@@ -67,9 +67,9 @@ section:not(.alt) .pain-card{background:var(--bg2)}
 .vis-badge{font-size:10px;font-weight:500;padding:3px 9px;border-radius:4px;letter-spacing:.04em}
 .vis-badge.active{background:rgba(75,107,251,.2);color:var(--acc2)}
 .vis-badge.idle{background:rgba(255,255,255,.05);color:var(--muted)}
-.vis-ticker{font-size:10px;color:var(--acc);font-weight:500;margin-top:4px;height:14px;overflow:hidden}
+.vis-ticker{font-size:11px;color:#7B94FC;font-weight:500;margin-top:6px;margin-bottom:4px;height:16px;overflow:hidden;padding-left:4px}
 .vis-ticker > span{display:block;animation:tickerUp 12s linear infinite;will-change:transform}
-@keyframes tickerUp{0%{transform:translateY(0)}12%{transform:translateY(-14px)}25%{transform:translateY(-14px)}37%{transform:translateY(-28px)}50%{transform:translateY(-28px)}62%{transform:translateY(-42px)}75%{transform:translateY(-42px)}87%{transform:translateY(-56px)}100%{transform:translateY(-56px)}}
+@keyframes tickerUp{0%{transform:translateY(0)}12%{transform:translateY(-16px)}25%{transform:translateY(-16px)}37%{transform:translateY(-32px)}50%{transform:translateY(-32px)}62%{transform:translateY(-48px)}75%{transform:translateY(-48px)}87%{transform:translateY(-64px)}100%{transform:translateY(-64px)}}
 @media(max-width:768px){#soluzione .two-col{grid-template-columns:1fr}}
 #differenza .compare-table{margin-top:56px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .compare-header{display:grid;grid-template-columns:1fr 1fr 1fr;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)}
@@ -224,6 +224,15 @@ const markup = `
       <div class="vis-row on">
         <span class="vis-label on">Reportistica operativa</span>
         <span class="vis-badge active">Attivo</span>
+      </div>
+      <div class="vis-ticker">
+        <span>
+          <span>↳ Report settimanale generato</span>
+          <span>↳ 14 ordini processati oggi</span>
+          <span>↳ Dashboard aggiornata alle 10:30</span>
+          <span>↳ Analisi trend completata</span>
+          <span>↳ Report settimanale generato</span>
+        </span>
       </div>
       <div class="vis-row">
         <span class="vis-label">Automazione flussi interni</span>
