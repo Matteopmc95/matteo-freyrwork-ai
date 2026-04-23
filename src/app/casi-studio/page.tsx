@@ -134,7 +134,34 @@ function SectionCategorie() {
       headline={<>{"Come può aiutare"}<br />{"nei diversi settori"}</>}
       sub="Ogni attività ha una sua organizzazione. Ma i collaboratori AI possono adattarsi a problemi reali molto concreti."
     >
-      <div data-reveal style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s', marginTop: 48, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,340px),1fr))', gap: 14 }}>
+      <style>{`
+        @media(max-width:768px){
+          .cat-wrapper{position:relative;margin:0 -8vw}
+          .cat-grid{
+            display:grid!important;
+            grid-template-rows:repeat(2,auto);
+            grid-auto-flow:column;
+            grid-auto-columns:82%;
+            gap:12px;
+            overflow-x:auto;
+            overflow-y:hidden;
+            padding:4px 8vw 20px;
+            scroll-snap-type:x mandatory;
+            scrollbar-width:none;
+            -ms-overflow-style:none;
+            -webkit-overflow-scrolling:touch;
+          }
+          .cat-grid::-webkit-scrollbar{display:none}
+          .cat-grid>*{scroll-snap-align:start}
+          .cat-hint{display:flex!important}
+          @keyframes catHintPulse{0%,100%{opacity:.35}50%{opacity:.75}}
+        }
+      `}</style>
+      <div className="cat-hint" style={{ display: 'none', justifyContent: 'center', fontSize: 11, color: 'rgba(244,243,238,0.4)', letterSpacing: '0.06em', marginTop: 32, marginBottom: 4, animation: 'catHintPulse 2.8s ease-in-out infinite' }}>
+        scorri per esplorare →
+      </div>
+      <div className="cat-wrapper">
+      <div data-reveal className="cat-grid" style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s', marginTop: 16, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,340px),1fr))', gap: 14 }}>
         {CATEGORIES.map((cat, i) => {
           const light = i % 2 === 1;
           const cardBg = light ? '#F4F3EE' : 'rgba(13,15,20,0.6)';
@@ -170,6 +197,7 @@ function SectionCategorie() {
             </div>
           );
         })}
+      </div>
       </div>
     </Section>
   );
