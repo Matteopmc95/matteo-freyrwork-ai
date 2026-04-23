@@ -9,7 +9,7 @@ html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--txt);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{text-decoration:none;color:inherit}
 #hero{position:relative;width:100%;min-height:min(100svh,900px);overflow:hidden;background:radial-gradient(ellipse 58% 42% at 50% 43%, rgba(75,107,251,.10), transparent 72%),linear-gradient(180deg, rgba(8,10,16,.96) 0%, rgba(13,15,20,.92) 58%, var(--bg) 100%)}
-#hero canvas{display:block;position:absolute;inset:-4% 0 0 0;width:100%;height:108%;transform:scale(1.04);transform-origin:center 40%}
+#hero canvas{display:block;position:absolute;inset:-4% 0 0 0;width:100%;height:108%;transform:scale(1.04);transform-origin:center 40%;z-index:0}
 .hero-center{position:absolute;left:50%;top:43%;transform:translate(-50%,-50%);z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none;width:min(100%,980px);padding:0 24px}
 .hero-title{font-size:clamp(72px,8.2vw,132px);font-weight:600;line-height:.96;letter-spacing:-.055em;color:#fff;text-shadow:0 0 24px rgba(123,148,252,.28),0 0 52px rgba(123,148,252,.12)}
 .hero-kicker{margin-top:10px;font-size:clamp(30px,3vw,54px);font-weight:300;line-height:1.02;letter-spacing:-.035em;color:#5972ff;text-shadow:0 0 18px rgba(75,107,251,.28)}
@@ -422,7 +422,7 @@ function initializeCanvas(
   let startTime: number | null = null, lastTime = 0, lastRenderTime = 0;
   let cOp = 0, raf = 0;
   let heroVisible = true, pageVisible = !document.hidden;
-  let frameInterval = slowMode ? 1000 / 8 : 1000 / 36;
+  let frameInterval = slowMode ? 1000 / 24 : 1000 / 36;
 
   const T0 = 300, T1 = 1400, TS = 160, TD = 720;
   const TM = 3200, TMD = 500, TMS = 90, FOV = 850;
@@ -504,17 +504,17 @@ function initializeCanvas(
 
   const resize = () => {
     const wasMobile = isMobile;
-    dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = canvas.offsetWidth;
     H = canvas.offsetHeight;
     isMobile = W < 640;
-    frameInterval = slowMode ? 1000 / 8 : (isMobile ? 1000 / 24 : 1000 / 36);
+    frameInterval = slowMode ? 1000 / 24 : (isMobile ? 1000 / 24 : 1000 / 36);
     canvas.width = W * dpr;
     canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     CX = W / 2;
     CY = H * (isMobile ? 0.47 : 0.42);
-    RADIUS = Math.min(W, H) * (isMobile ? 0.32 : 0.5);
+    RADIUS = Math.min(W, H) * (isMobile ? 0.26 : 0.5);
     if (wasMobile !== isMobile) buildScene();
   };
 
@@ -576,7 +576,7 @@ function initializeCanvas(
   ) => {
     if (alpha < 0.02) return;
     const ac = hRgb(ACC);
-    const fs = Math.max(isMobile ? 11 : 9, (isMobile ? 11 : 12) * scale);
+    const fs = Math.max(isMobile ? 9 : 11, (isMobile ? 9 : 11) * scale);
     const px = 10 * scale, py = 4.5 * scale, br = 6 * scale;
     ctx.font = `400 ${fs}px Inter,sans-serif`;
     const disp = text.toUpperCase();
