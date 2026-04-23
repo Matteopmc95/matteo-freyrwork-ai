@@ -201,13 +201,6 @@ const FLOW: Record<Sector, Step[]> = {
   ],
 };
 
-function formatTime(s: number) {
-  if (s < 60) return `${s.toFixed(1)}s`;
-  const m = Math.floor(s / 60);
-  const r = Math.round(s - m * 60);
-  return `${m}m ${r.toString().padStart(2, '0')}s`;
-}
-
 export default function ServiziDemoHero() {
   const [sector, setSector] = useState<Sector>('hotel');
   const [activeStep, setActiveStep] = useState(0);
@@ -216,7 +209,6 @@ export default function ServiziDemoHero() {
   const [thoughtText, setThoughtText] = useState('');
   const [classifyText, setClassifyText] = useState('');
   const [actionsVisible, setActionsVisible] = useState(0);
-  const [metrics, setMetrics] = useState({ handled: 1247, saved: 183, avg: 3.6, rate: 96.2 });
   const rootRef = useRef<HTMLDivElement>(null);
   const visible = useRef(true);
 
@@ -264,12 +256,6 @@ export default function ServiziDemoHero() {
               const ai = setInterval(() => {
                 a++;
                 setActionsVisible(a);
-                setMetrics((m) => ({
-                  handled: m.handled + 1,
-                  saved: +(m.saved + (step.manual - step.agent) / 3600).toFixed(1),
-                  avg: +((m.avg * 9 + step.agent) / 10).toFixed(1),
-                  rate: Math.min(99.4, +(m.rate + 0.02).toFixed(1)),
-                }));
                 if (a >= step.actions.length) {
                   clearInterval(ai);
                   timers.push(setTimeout(() => {
@@ -324,14 +310,6 @@ export default function ServiziDemoHero() {
         </div>
       </div>
 
-      {/* Metrics */}
-      <div className="sd-metrics">
-        <SdMetric label="Richieste gestite" value={metrics.handled.toLocaleString('it-IT')} unit="totali" glow />
-        <SdMetric label="Ore restituite al team" value={metrics.saved.toFixed(1)} unit="h" />
-        <SdMetric label="Tempo medio per richiesta" value={metrics.avg.toFixed(1)} unit="sec" />
-        <SdMetric label="Tasso di risoluzione" value={metrics.rate.toFixed(1)} unit="%" ok />
-      </div>
-
       {/* 3-pane cinema */}
       <div className="sd-cinema">
         <SdPane title="Inbox multicanale" subtitle="Richieste in entrata" icon={<IconInbox />} state={phase === 'receiving' ? 'active' : 'idle'}>
@@ -380,37 +358,7 @@ export default function ServiziDemoHero() {
         </SdPane>
       </div>
 
-      {/* Compare strip */}
-      <div className="sd-compare">
-        <div className="sd-compare-left">
-          <span className="sd-compare-label">Stesso compito, due modi</span>
-          <h3 className="sd-compare-title">Manualmente vs con agente</h3>
-        </div>
-        <div className="sd-compare-bars">
-          <CompareBar label="Operatore umano" seconds={step.manual} max={900} warn />
-          <CompareBar label="Agente Freyrwork" seconds={step.agent} max={900} />
-        </div>
-        <div className="sd-compare-right">
-          <div className="sd-compare-save-label">Tempo risparmiato</div>
-          <div className="sd-compare-save">
-            {formatTime(step.manual - step.agent)}
-            <span className="sd-compare-x">· {Math.round(step.manual / step.agent)}x più veloce</span>
-          </div>
-        </div>
-      </div>
     </section>
-  );
-}
-
-function SdMetric({ label, value, unit, glow, ok }: { label: string; value: string; unit: string; glow?: boolean; ok?: boolean }) {
-  return (
-    <div className={'sd-metric ' + (glow ? 'glow' : '')}>
-      <span className="sd-metric-label">{label}</span>
-      <span className="sd-metric-value">
-        <span className={'sd-metric-num' + (ok ? ' ok' : '')}>{value}</span>
-        <span className="sd-metric-unit">{unit}</span>
-      </span>
-    </div>
   );
 }
 
@@ -477,21 +425,6 @@ function FlowArrow({ active, label }: { active: boolean; label: string }) {
         <div className="sd-arrow-dot d3" />
       </div>
       <span className="sd-arrow-label">{label}</span>
-    </div>
-  );
-}
-
-function CompareBar({ label, seconds, max, warn }: { label: string; seconds: number; max: number; warn?: boolean }) {
-  const pct = Math.min(100, (seconds / max) * 100);
-  return (
-    <div className="sd-cmp">
-      <div className="sd-cmp-row">
-        <span className="sd-cmp-label">{label}</span>
-        <span className={'sd-cmp-time' + (warn ? '' : ' fast')}>{formatTime(seconds)}</span>
-      </div>
-      <div className="sd-cmp-track">
-        <div className={'sd-cmp-fill ' + (warn ? 'warn' : 'acc')} style={{ width: pct + '%' }} />
-      </div>
     </div>
   );
 }
