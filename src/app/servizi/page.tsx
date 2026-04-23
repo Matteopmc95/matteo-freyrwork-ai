@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import DashboardDemo from '@/components/servizi/DashboardDemo';
+import ServiziDemoHero from '@/components/servizi/ServiziDemoHero';
 
 /* ─── design tokens ─── */
 const C = {
@@ -392,6 +393,9 @@ export default function ServiziPage() {
           Non soluzioni costruite per sembrare innovative. Soluzioni costruite per alleggerire, organizzare e migliorare il lavoro reale.
         </p>
       </div>
+
+      {/* Cinema demo */}
+      <ServiziDemoHero />
 
       {/* 01 Prenotazioni */}
       <ServiceSection
