@@ -1,26 +1,653 @@
-@import "tailwindcss";
+/* ============================================================
+   FREYRWORK — globals.css
+   Design System Foundation
+   ============================================================ */
 
+/* ─── GOOGLE FONTS ──────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;1,14..32,400&family=Syne:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS VARIABLES ─────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Backgrounds */
+  --fw-bg:      #0D0F14;
+  --fw-bg-2:    #13161C;
+  --fw-bg-3:    #1A1E27;
+  --fw-bg-4:    #222733;
+
+  /* Accent */
+  --fw-accent:       #4B6BFB;
+  --fw-accent-light: #7B94FC;
+  --fw-accent-dark:  #2D4AD8;
+  --fw-accent-glow:  rgba(75, 107, 251, 0.15);
+
+  /* Text */
+  --fw-white:    #F4F3EE;
+  --fw-white-70: rgba(244, 243, 238, 0.70);
+  --fw-white-40: rgba(244, 243, 238, 0.40);
+  --fw-white-15: rgba(244, 243, 238, 0.15);
+  --fw-white-08: rgba(244, 243, 238, 0.08);
+
+  /* Borders */
+  --fw-border:        rgba(244, 243, 238, 0.10);
+  --fw-border-md:     rgba(244, 243, 238, 0.18);
+  --fw-border-accent: rgba(75, 107, 251, 0.35);
+
+  /* Radius */
+  --radius-sm:  6px;
+  --radius-md:  12px;
+  --radius-lg:  20px;
+  --radius-xl:  32px;
+  --radius-pill: 9999px;
+
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Section spacing */
+  --section-padding: 80px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ─── BASE RESET ────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--fw-bg);
+  color: var(--fw-white);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── TYPOGRAPHY BASE ───────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+  color: var(--fw-white);
+  line-height: 1.15;
+}
+
+h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 800; letter-spacing: -0.03em; }
+h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 700; letter-spacing: -0.025em; }
+h3 { font-size: clamp(22px, 3vw, 36px); font-weight: 700; letter-spacing: -0.02em; }
+h4 { font-size: clamp(18px, 2.5vw, 28px); font-weight: 600; letter-spacing: -0.015em; }
+h5 { font-size: 20px; font-weight: 600; }
+h6 { font-size: 16px; font-weight: 600; }
+
+p {
+  color: var(--fw-white-70);
+  line-height: 1.75;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, video {
+  max-width: 100%;
+  display: block;
+}
+
+main {
+  min-height: 100vh;
+}
+
+/* ─── SECTION UTILITY ───────────────────────────────────────── */
+.section {
+  padding: var(--section-padding) 0;
+}
+
+.section-sm {
+  padding: 48px 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 48px;
+  }
+  .container {
+    padding: 0 16px;
+  }
+}
+
+/* ─── SECTION LABEL (eyebrow text) ─────────────────────────── */
+.eyebrow {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fw-accent-light);
+  margin-bottom: 16px;
+}
+
+/* ─── BUTTONS ───────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out-expo);
+  white-space: nowrap;
+  border: none;
+  outline: none;
+  text-decoration: none;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--fw-accent);
+  color: #ffffff;
+  padding: 14px 28px;
+}
+
+.btn-primary:hover {
+  background: var(--fw-accent-light);
+  box-shadow: 0 0 32px rgba(75, 107, 251, 0.40);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--fw-white);
+  padding: 13px 28px;
+  border: 1px solid var(--fw-border-md);
+}
+
+.btn-secondary:hover {
+  background: var(--fw-white-08);
+  border-color: var(--fw-border-md);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--fw-accent-light);
+  padding: 12px 16px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.btn-ghost:hover {
+  color: var(--fw-white);
+}
+
+.btn-sm {
+  font-size: 13px;
+  padding: 9px 20px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-lg {
+  font-size: 16px;
+  padding: 18px 36px;
+}
+
+/* ─── CARDS ─────────────────────────────────────────────────── */
+.card {
+  background: var(--fw-bg-2);
+  border: 1px solid var(--fw-border);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  transition: border-color 0.25s ease, transform 0.25s var(--ease-out-expo);
+}
+
+.card:hover {
+  border-color: var(--fw-border-md);
+  transform: translateY(-2px);
+}
+
+.card-accent {
+  border-color: var(--fw-border-accent);
+  background: linear-gradient(135deg, var(--fw-bg-2) 0%, rgba(75, 107, 251, 0.06) 100%);
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--fw-accent-glow);
+  border: 1px solid var(--fw-border-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+
+/* ─── BADGE / PILL ──────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.03em;
+}
+
+.badge-accent {
+  background: var(--fw-accent-glow);
+  color: var(--fw-accent-light);
+  border: 1px solid var(--fw-border-accent);
+}
+
+/* ─── IPHONE MOCKUP ────────────────────────────────────────── */
+.iphone-showcase {
+  position: relative;
+  min-height: calc(100vh - 72px);
+  display: grid;
+  grid-template-columns: minmax(280px, 440px) minmax(320px, 440px);
+  justify-content: center;
+  align-items: center;
+  gap: 64px;
+  padding: 96px 24px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(100, 132, 255, 0.18), transparent 34%),
+    radial-gradient(circle at 85% 20%, rgba(18, 196, 166, 0.12), transparent 24%),
+    linear-gradient(160deg, #090b10 0%, #11141c 42%, #181d28 100%);
+}
+
+.iphone-showcase__aurora {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 999px;
+  filter: blur(36px);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.iphone-showcase__aurora--one {
+  top: 12%;
+  left: -80px;
+  background: rgba(64, 110, 255, 0.2);
+}
+
+.iphone-showcase__aurora--two {
+  right: -90px;
+  bottom: 8%;
+  background: rgba(40, 205, 181, 0.14);
+}
+
+.iphone-showcase__copy {
+  position: relative;
+  z-index: 1;
+}
+
+.iphone-showcase__copy h1 {
+  max-width: 10ch;
+  margin-bottom: 20px;
+}
+
+.iphone-showcase__copy p {
+  max-width: 48ch;
+  font-size: 17px;
+}
+
+.iphone-device {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.iphone-device__shadow {
+  position: absolute;
+  width: 300px;
+  height: 640px;
+  border-radius: 72px;
+  background: radial-gradient(circle at 50% 30%, rgba(95, 133, 255, 0.18), rgba(0, 0, 0, 0));
+  filter: blur(26px);
+  transform: translateY(24px) scale(1.02);
+}
+
+.iphone-device__frame {
+  position: relative;
+  width: min(360px, 88vw);
+  aspect-ratio: 0.486;
+  border-radius: 58px;
+  padding: 12px;
+  background:
+    linear-gradient(155deg, rgba(95, 104, 122, 0.95), rgba(24, 28, 37, 0.95) 22%, rgba(93, 101, 117, 0.92) 48%, rgba(15, 18, 26, 0.98) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+    0 36px 80px rgba(0, 0, 0, 0.5);
+}
+
+.iphone-device__screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 46px;
+  background: #05070b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.iphone-device__camera {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  width: 126px;
+  height: 34px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: rgba(5, 7, 11, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.iphone-device__camera span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #162132, #04070e 70%);
+  box-shadow: 0 0 0 3px rgba(35, 47, 69, 0.25);
+}
+
+.iphone-device__buttons {
+  position: absolute;
+  inset: 110px auto auto -4px;
+  display: grid;
+  gap: 10px;
+}
+
+.iphone-device__buttons span {
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #6d7381, #292f3a);
+}
+
+.iphone-device__buttons span:nth-child(1) {
+  height: 36px;
+}
+
+.iphone-device__buttons span:nth-child(2),
+.iphone-device__buttons span:nth-child(3) {
+  height: 62px;
+}
+
+.iphone-ui {
+  position: relative;
+  height: 100%;
+  padding: 20px 18px 28px;
+  background:
+    radial-gradient(circle at top, rgba(90, 135, 255, 0.2), transparent 30%),
+    linear-gradient(180deg, #0d1220 0%, #0a0e16 40%, #07090d 100%);
+}
+
+.iphone-ui::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 16%),
+    radial-gradient(circle at 20% 20%, rgba(47, 213, 186, 0.08), transparent 24%);
+  pointer-events: none;
+}
+
+.iphone-ui__statusbar,
+.iphone-ui__hero,
+.iphone-ui__card,
+.iphone-ui__metrics,
+.iphone-ui__panel,
+.iphone-ui__dock {
+  position: relative;
+  z-index: 1;
+}
+
+.iphone-ui__statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  margin-bottom: 28px;
+  padding: 0 6px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.iphone-ui__status-icons {
+  display: flex;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.iphone-ui__hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.iphone-ui__hero h2 {
+  font-size: clamp(28px, 2.4vw, 34px);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  max-width: 8ch;
+}
+
+.iphone-ui__eyebrow,
+.iphone-ui__card-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(182, 201, 255, 0.84);
+}
+
+.iphone-ui__badge,
+.iphone-ui__pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(116, 146, 255, 0.14);
+  border: 1px solid rgba(123, 148, 252, 0.26);
+  color: #dce5ff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.iphone-ui__card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border-radius: 28px;
+  background: rgba(14, 18, 28, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.iphone-ui__card strong,
+.iphone-ui__metric strong,
+.iphone-ui__panel strong,
+.iphone-ui__timeline-item strong {
+  color: #f8fbff;
+}
+
+.iphone-ui__card span,
+.iphone-ui__metric span,
+.iphone-ui__timeline-item p {
+  color: rgba(233, 239, 255, 0.68);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.iphone-ui__card--gradient {
+  background:
+    linear-gradient(160deg, rgba(105, 135, 255, 0.22), rgba(35, 40, 54, 0.72) 46%, rgba(14, 16, 24, 0.86) 100%);
+}
+
+.iphone-ui__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.iphone-ui__metric {
+  display: grid;
+  gap: 6px;
+  padding: 14px 12px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.iphone-ui__metric p {
+  color: rgba(225, 234, 255, 0.62);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.iphone-ui__metric strong {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.iphone-ui__panel {
+  margin-top: 8px;
+  padding: 18px;
+  border-radius: 28px;
+  background: rgba(7, 10, 16, 0.74);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.iphone-ui__panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.iphone-ui__timeline {
+  display: grid;
+  gap: 16px;
+}
+
+.iphone-ui__timeline-item {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 12px;
+}
+
+.iphone-ui__timeline-item > span {
+  color: rgba(149, 173, 255, 0.92);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.iphone-ui__dock {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  left: 18px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 10px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.iphone-ui__dock-item {
+  height: 52px;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04)),
+    rgba(10, 14, 22, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.iphone-ui__dock-item--active {
+  background:
+    linear-gradient(180deg, rgba(118, 149, 255, 0.8), rgba(69, 106, 246, 0.45)),
+    rgba(10, 14, 22, 0.85);
+  box-shadow: 0 12px 30px rgba(60, 98, 238, 0.3);
+}
+
+@media (max-width: 980px) {
+  .iphone-showcase {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-top: 120px;
+  }
+
+  .iphone-showcase__copy {
+    text-align: center;
+    display: grid;
+    justify-items: center;
+  }
+
+  .iphone-showcase__copy h1 {
+    max-width: 12ch;
+  }
+}
+
+@media (max-width: 640px) {
+  .iphone-showcase {
+    min-height: auto;
+    padding: 104px 16px 48px;
+  }
+
+  .iphone-device__frame {
+    width: min(360px, 100%);
+  }
+
+  .iphone-ui {
+    padding: 20px 14px 24px;
+  }
+
+  .iphone-ui__hero h2 {
+    font-size: 28px;
+  }
+
+  .iphone-ui__metrics {
+    grid-template-columns: 1fr;
+  }
 }
