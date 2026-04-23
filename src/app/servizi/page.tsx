@@ -203,7 +203,7 @@ function ChartVisual() {
       const xStep = gW / (data.length - 1);
       const yScale = (v: number) => pad.t + gH - ((v - min) / (max - min)) * gH;
 
-      ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(0,0,0,0.08)'; ctx.lineWidth = 1;
       [40, 50, 60, 70].forEach((v) => {
         const y = yScale(v);
         ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke();
@@ -230,10 +230,10 @@ function ChartVisual() {
       for (let i = 0; i < visible; i++) {
         const x = pad.l + i * xStep, y = yScale(data[i]);
         ctx.fillStyle = '#4B6BFB'; ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill();
-        ctx.fillStyle = '#0D0F14'; ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#F4F3EE'; ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI * 2); ctx.fill();
       }
 
-      ctx.fillStyle = 'rgba(244,243,238,0.3)'; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.fillStyle = 'rgba(13,15,20,0.5)'; ctx.font = '10px Inter,sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
       days.forEach((d, i) => ctx.fillText(d, pad.l + i * xStep, H - pad.b + 6));
     }
 
@@ -257,18 +257,18 @@ function ChartVisual() {
   }, []);
 
   return (
-    <div style={{ padding: 24, display: 'flex', flexDirection: 'column' }}>
-      <div style={{ fontSize: 12, fontWeight: 500, color: C.txt, marginBottom: 6, display: 'flex', justifyContent: 'space-between' }}>
+    <div className="chart-inverted" style={{ padding: 24, display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <div style={{ fontSize: 12, fontWeight: 500, color: '#0D0F14', marginBottom: 6, display: 'flex', justifyContent: 'space-between' }}>
         Andamento settimanale
         <span style={{ fontSize: 11, color: C.acc, fontWeight: 400 }}>↑ +18% vs settimana scorsa</span>
       </div>
-      <p style={{ fontSize: 11, color: C.muted, marginBottom: 20 }}>Richieste gestite — ultimi 7 giorni</p>
+      <p style={{ fontSize: 11, color: 'rgba(13,15,20,0.65)', marginBottom: 20 }}>Richieste gestite — ultimi 7 giorni</p>
       <div style={{ position: 'relative', height: 140 }}>
         <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }} />
       </div>
       <div style={{ display: 'flex', gap: 16, marginTop: 16 }}>
-        {[{ color: C.acc, label: 'Richieste gestite' }, { color: 'rgba(75,107,251,0.25)', label: 'Media storica' }].map(({ color, label }) => (
-          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: C.muted }}>
+        {[{ color: C.acc, label: 'Richieste gestite' }, { color: 'rgba(75,107,251,0.4)', label: 'Media storica' }].map(({ color, label }) => (
+          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'rgba(13,15,20,0.65)' }}>
             <div style={{ width: 8, height: 8, borderRadius: 2, background: color }} />
             {label}
           </div>
@@ -470,6 +470,8 @@ export default function ServiziPage() {
           .svc-grid{display:flex!important;flex-direction:column;gap:40px!important}
           .svc-visual{order:-1;margin-bottom:0}
         }
+        .chart-inverted{background:#F4F3EE !important;color:#0D0F14}
+        .svc-visual:has(.chart-inverted){background:#F4F3EE !important;border-color:rgba(0,0,0,0.08) !important}
         .ops-animate{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
         .ops-animate.in-view{opacity:1;transform:none}
         .ops-animate .animated-row,.ops-animate .animated-bar,.ops-animate [class*="pulse"]{animation-play-state:paused}
