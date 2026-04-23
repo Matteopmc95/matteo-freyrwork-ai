@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 const navItems = [
-  { href: "/", label: "Home" },
   { href: "/servizi", label: "Servizi" },
   { href: "/agente-ai", label: "Agente AI" },
   { href: "/casi-studio", label: "Casi Studio" },
