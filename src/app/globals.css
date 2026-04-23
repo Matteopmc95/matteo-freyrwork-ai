@@ -244,6 +244,27 @@ main {
   font-size: 20px;
 }
 
+/* ─── SMOOTH SECTION TRANSITIONS ────────────────────────────── */
+.fw-page section {
+  position: relative;
+}
+.fw-page section.s-to-alt::before {
+  content: "";
+  position: absolute;
+  top: -48px; left: 0; right: 0; height: 48px;
+  background: linear-gradient(to bottom, #0D0F14, #0f1117);
+  pointer-events: none;
+  z-index: 1;
+}
+.fw-page section.s-to-main::before {
+  content: "";
+  position: absolute;
+  top: -48px; left: 0; right: 0; height: 48px;
+  background: linear-gradient(to bottom, #0f1117, #0D0F14);
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* ─── BADGE / PILL ──────────────────────────────────────────── */
 .badge {
   display: inline-flex;

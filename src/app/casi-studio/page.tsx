@@ -106,7 +106,6 @@ function Hero() {
         padding: '180px 8vw 100px',
         overflow: 'hidden',
         background: 'radial-gradient(ellipse 70% 50% at 50% 40%, rgba(75,107,251,0.09), transparent 70%), ' + C.bg,
-        borderBottom: `1px solid ${C.border}`,
         textAlign: 'center',
       }}
     >
@@ -840,10 +839,10 @@ function CaseStudy({ data }: { data: Case }) {
   return (
     <section
       id={data.id}
+      className={data.alt ? 's-to-alt' : 's-to-main'}
       style={{
         padding: '100px 8vw',
         background: data.alt ? C.bg2 : C.bg,
-        borderBottom: `1px solid ${C.border}`,
         position: 'relative',
       }}
     >
@@ -1048,10 +1047,10 @@ function CaseStudy({ data }: { data: Case }) {
 function FlowBeforeAfter() {
   return (
     <section
+      className="s-to-alt"
       style={{
         padding: '100px 8vw',
         background: C.bg2,
-        borderBottom: `1px solid ${C.border}`,
       }}
     >
       <p
@@ -1171,11 +1170,11 @@ function FlowBeforeAfter() {
 function CTAFinal() {
   return (
     <section
+      className="s-to-main"
       style={{
         padding: '120px 8vw',
         textAlign: 'center',
         background: 'radial-gradient(ellipse 80% 60% at 50% 100%,rgba(75,107,251,0.12) 0%,transparent 70%)',
-        borderTop: `1px solid ${C.border}`,
       }}
     >
       <p
@@ -1270,7 +1269,6 @@ function Footer() {
     <footer
       style={{
         padding: '40px 8vw',
-        borderTop: `1px solid ${C.border}`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -1368,6 +1366,7 @@ export default function CasiStudioPage() {
 
   return (
     <div
+      className="fw-page"
       style={{
         background: C.bg,
         color: C.txt,

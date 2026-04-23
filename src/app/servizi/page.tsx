@@ -379,7 +379,7 @@ function ServiceSection({
   flip?: boolean; alt?: boolean; visual: React.ReactNode;
 }) {
   return (
-    <section id={id} style={{ padding: '96px 8vw', borderBottom: `1px solid ${C.border}`, background: alt ? C.bg2 : C.bg }}>
+    <section id={id} className={alt ? 's-to-alt' : 's-to-main'} style={{ padding: '96px 8vw', background: alt ? C.bg2 : C.bg }}>
       <div className="svc-grid" style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,420px),1fr))',
@@ -464,7 +464,7 @@ export default function ServiziPage() {
   }, []);
 
   return (
-    <div style={{ background: C.bg, color: C.txt, fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
+    <div className="fw-page" style={{ background: C.bg, color: C.txt, fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
       <style>{`
         @media(max-width:768px){
           .svc-grid{display:flex!important;flex-direction:column;gap:40px!important}
@@ -477,7 +477,7 @@ export default function ServiziPage() {
       `}</style>
 
       {/* page hero */}
-      <div style={{ padding: '140px 8vw 80px', borderBottom: `1px solid ${C.border}` }}>
+      <div style={{ padding: '140px 8vw 80px' }}>
         <p data-reveal style={{ ...rev(0), fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc, fontWeight: 500, marginBottom: 20 }}>Servizi</p>
         <h1 data-reveal style={{ ...rev(0.1), fontSize: 'clamp(32px,4.5vw,64px)', fontWeight: 600, lineHeight: 1.08, letterSpacing: '-0.03em', maxWidth: 800 }}>
           Servizi AI pensati<br />per il lavoro di tutti i giorni
@@ -584,7 +584,7 @@ export default function ServiziPage() {
       />
 
       {/* CTA */}
-      <section id="cta-finale" style={{ padding: '100px 8vw', textAlign: 'center', background: `radial-gradient(ellipse 80% 60% at 50% 100%,rgba(75,107,251,0.12) 0%,transparent 70%)`, borderTop: `1px solid ${C.border}` }}>
+      <section id="cta-finale" style={{ padding: '100px 8vw', textAlign: 'center', background: `radial-gradient(ellipse 80% 60% at 50% 100%,rgba(75,107,251,0.12) 0%,transparent 70%)` }}>
         <p data-reveal style={{ ...rev(0), fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc, fontWeight: 500, marginBottom: 20 }}>Inizia da qui</p>
         <h2 data-reveal style={{ ...rev(0.1), fontSize: 'clamp(26px,3.5vw,52px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.1, maxWidth: 680, margin: '0 auto 18px' }}>
           Capire qual è il servizio giusto<br />per la tua attività è il primo passo
@@ -604,7 +604,7 @@ export default function ServiziPage() {
       </section>
 
       {/* footer */}
-      <footer style={{ padding: '40px 8vw', borderTop: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+      <footer style={{ padding: '40px 8vw', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
         <span style={{ fontSize: 14, fontWeight: 600, color: 'rgba(244,243,238,0.3)' }}>
           Freyr<span style={{ color: C.acc, opacity: 0.6 }}>work</span>
         </span>

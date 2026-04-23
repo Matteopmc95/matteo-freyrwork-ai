@@ -49,7 +49,6 @@ function Hero() {
         background:
           'radial-gradient(ellipse 70% 50% at 50% 40%, rgba(75,107,251,0.09), transparent 70%), ' +
           C.bg,
-        borderBottom: `1px solid ${C.border}`,
       }}
     >
       <div style={{ maxWidth: 980, margin: '0 auto', textAlign: 'center' }}>
@@ -129,7 +128,7 @@ const APPROACH_STEPS = [
 
 function Approccio() {
   return (
-    <section style={{ padding: '100px 8vw', background: C.bg2, borderBottom: `1px solid ${C.border}` }}>
+    <section className="s-to-alt" style={{ padding: '100px 8vw', background: C.bg2 }}>
       <p
         data-reveal
         style={{
@@ -259,7 +258,7 @@ const TEAM: Member[] = [
 
 function Team() {
   return (
-    <section style={{ padding: '100px 8vw', background: C.bg, borderBottom: `1px solid ${C.border}` }}>
+    <section className="s-to-main" style={{ padding: '100px 8vw', background: C.bg }}>
       <p
         data-reveal
         style={{
@@ -431,10 +430,10 @@ function Team() {
 function Mission() {
   return (
     <section
+      className="s-to-alt"
       style={{
         padding: '120px 8vw',
         background: C.bg2,
-        borderBottom: `1px solid ${C.border}`,
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -576,7 +575,7 @@ const PILLARS = [
 
 function WhyUs() {
   return (
-    <section style={{ padding: '100px 8vw', background: C.bg, borderBottom: `1px solid ${C.border}` }}>
+    <section className="s-to-main" style={{ padding: '100px 8vw', background: C.bg }}>
       <p
         data-reveal
         style={{
@@ -677,7 +676,6 @@ function CTAFinal() {
         padding: '120px 8vw',
         textAlign: 'center',
         background: 'radial-gradient(ellipse 80% 60% at 50% 100%,rgba(75,107,251,0.12) 0%,transparent 70%)',
-        borderTop: `1px solid ${C.border}`,
       }}
     >
       <p
@@ -769,7 +767,6 @@ function Footer() {
     <footer
       style={{
         padding: '40px 8vw',
-        borderTop: `1px solid ${C.border}`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -791,7 +788,7 @@ export default function ChiSiamoPage() {
   useReveal();
 
   return (
-    <div style={{ background: C.bg, color: C.txt, fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
+    <div className="fw-page" style={{ background: C.bg, color: C.txt, fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
       <Hero />
       <Approccio />
       <Team />

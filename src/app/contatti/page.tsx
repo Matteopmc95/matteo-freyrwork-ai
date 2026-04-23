@@ -49,7 +49,6 @@ function Hero() {
         background:
           'radial-gradient(ellipse 70% 50% at 50% 40%, rgba(75,107,251,0.09), transparent 70%), ' +
           C.bg,
-        borderBottom: `1px solid ${C.border}`,
         textAlign: 'center',
       }}
     >
@@ -344,11 +343,10 @@ function FormAndMap() {
 
   return (
     <section
+      className="s-to-alt"
       style={{
         padding: '80px 8vw',
         background: C.bg2,
-        borderBottom: `1px solid ${C.border}`,
-        borderTop: `1px solid ${C.border}`,
       }}
     >
       <div
@@ -664,7 +662,7 @@ function FAQ() {
   const [open, setOpen] = useState<string | null>(FAQ_ITEMS[0].id);
 
   return (
-    <section style={{ padding: '100px 8vw', background: C.bg, borderBottom: `1px solid ${C.border}` }}>
+    <section className="s-to-main" style={{ padding: '100px 8vw', background: C.bg }}>
       <p
         data-reveal
         style={{
@@ -765,7 +763,6 @@ function Footer() {
     <footer
       style={{
         padding: '40px 8vw',
-        borderTop: `1px solid ${C.border}`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -787,7 +784,7 @@ export default function ContattiPage() {
   useReveal();
 
   return (
-    <div style={{ background: C.bg, color: C.txt, fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
+    <div className="fw-page" style={{ background: C.bg, color: C.txt, fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
       <Hero />
       <InfoGrid />
       <FormAndMap />

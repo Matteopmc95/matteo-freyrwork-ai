@@ -52,7 +52,7 @@ function Section({
   children?: React.ReactNode; bodyAfter?: string;
 }) {
   return (
-    <section id={id} style={{ padding: '100px 8vw', background: alt ? C.bg2 : C.bg, borderBottom: `1px solid ${C.border}` }}>
+    <section id={id} className={alt ? 's-to-alt' : 's-to-main'} style={{ padding: '100px 8vw', background: alt ? C.bg2 : C.bg }}>
       <p data-reveal style={{ ...rev(0), fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc, fontWeight: 500, marginBottom: 18 }}>{tag}</p>
       <h2 data-reveal style={{ ...rev(0.1), fontSize: 'clamp(24px,3vw,44px)', fontWeight: 600, lineHeight: 1.12, letterSpacing: '-0.02em', maxWidth: 780, fontFamily: 'Syne, sans-serif', color: C.txt }}>{headline}</h2>
       {sub && <p data-reveal style={{ ...rev(0.2), fontSize: 'clamp(14px,1.2vw,17px)', color: C.muted, lineHeight: 1.7, maxWidth: 620, marginTop: 16, fontWeight: 300 }}>{sub}</p>}
@@ -182,7 +182,7 @@ function SectionComeLavora() {
 /* ─── Prova il chatbot ─── */
 function SectionProva() {
   return (
-    <section id="prova" style={{ position: 'relative', padding: '120px 8vw', background: `radial-gradient(ellipse 70% 55% at 50% 0%, rgba(75,107,251,0.14) 0%, transparent 70%), ${C.bg}`, borderBottom: `1px solid ${C.border}`, overflow: 'hidden' }}>
+    <section id="prova" style={{ position: 'relative', padding: '120px 8vw', background: `radial-gradient(ellipse 70% 55% at 50% 0%, rgba(75,107,251,0.14) 0%, transparent 70%), ${C.bg}` }}>
       <div style={{ textAlign: 'center', maxWidth: 820, margin: '0 auto 56px' }}>
         <p data-reveal style={{ ...rev(0), fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc2, fontWeight: 500, marginBottom: 20 }}>Provalo ora — demo live</p>
         <h2 data-reveal style={{ ...rev(0.1), fontSize: 'clamp(32px,4.2vw,60px)', fontWeight: 600, lineHeight: 1.06, letterSpacing: '-0.03em', fontFamily: 'Syne, sans-serif', color: C.txt, marginBottom: 20 }}>
@@ -321,7 +321,7 @@ function SectionCategorie() {
 /* ─── CTA finale ─── */
 function CTAFinal() {
   return (
-    <section id="cta-finale" style={{ padding: '120px 8vw', textAlign: 'center', background: 'radial-gradient(ellipse 80% 60% at 50% 100%,rgba(75,107,251,0.12) 0%,transparent 70%)', borderTop: `1px solid ${C.border}` }}>
+    <section id="cta-finale" style={{ padding: '120px 8vw', textAlign: 'center', background: 'radial-gradient(ellipse 80% 60% at 50% 100%,rgba(75,107,251,0.12) 0%,transparent 70%)' }}>
       <p data-reveal style={{ ...rev(0), fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc, fontWeight: 500, marginBottom: 20 }}>Prossimo passo</p>
       <h2 data-reveal style={{ ...rev(0.1), fontSize: 'clamp(28px,4vw,58px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.08, maxWidth: 760, margin: '0 auto 20px', fontFamily: 'Syne, sans-serif', color: C.txt }}>
         Ora che sai cos&apos;è,<br />la domanda giusta è una sola
@@ -345,7 +345,7 @@ function CTAFinal() {
 /* ─── Footer ─── */
 function Footer() {
   return (
-    <footer style={{ padding: '40px 8vw', borderTop: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+    <footer style={{ padding: '40px 8vw', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
       <span style={{ fontSize: 14, fontWeight: 600, color: 'rgba(244,243,238,0.3)' }}>Freyr<span style={{ color: C.acc, opacity: 0.6 }}>work</span></span>
       <span style={{ fontSize: 12, color: 'rgba(244,243,238,0.18)' }}>© 2025 Freyrwork. Agenti AI per PMI e imprese locali.</span>
     </footer>
@@ -356,7 +356,7 @@ function Footer() {
 export default function AgenteAIPage() {
   useReveal();
   return (
-    <div style={{ background: C.bg, color: C.txt, fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
+    <div className="fw-page" style={{ background: C.bg, color: C.txt, fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
       <AgenteAIHero />
       <SectionProva />
       <SectionChe />
