@@ -219,7 +219,7 @@ function HotelAutomation() {
           return 0;
         }
         if (n >= 1 && n <= HOTEL_REQUESTS.length) {
-          setProcessed((p) => [...p, n - 1]);
+          setProcessed((p) => (p.includes(n - 1) ? p : [...p, n - 1]));
         }
         return n;
       });
@@ -387,7 +387,7 @@ function HotelAutomation() {
           Gestite dall&apos;agente
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {processed.map((i) => {
+          {[...new Set(processed)].map((i) => {
             const r = HOTEL_REQUESTS[i];
             return (
               <div
