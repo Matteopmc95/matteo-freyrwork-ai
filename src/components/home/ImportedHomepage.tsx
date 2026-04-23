@@ -424,8 +424,8 @@ function initializeCanvas(
   let heroVisible = true, pageVisible = !document.hidden;
   let frameInterval = slowMode ? 1000 / 24 : 1000 / 36;
 
-  const T0 = 300, T1 = 1400, TS = 160, TD = 720;
-  const TM = 3200, TMD = 500, TMS = 90, FOV = 850;
+  const T0 = 0, T1 = 600, TS = 80, TD = 400;
+  const TM = 1200, TMD = 200, TMS = 60, FOV = 850;
 
   let nodes: CanvasNode[] = [];
   let hubEdges: CanvasEdge[] = [];
