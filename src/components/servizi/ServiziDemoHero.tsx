@@ -558,9 +558,11 @@ const sdStyles = `
   .sd-compare-save{font-size:18px}
   .sd-thought{font-size:12px}
   .sd-section-wrap{overflow:visible !important;min-height:0 !important;height:auto !important}
-  .sd-pane{overflow:visible}
-  .sd-pane-body{overflow:visible;flex:none}
-  .sd-inbox{overflow:visible}
-  .sd-actions{overflow:visible}
+  .sd-cinema{flex:none !important;height:auto !important;overflow:visible !important}
+  .sd-pane{overflow:visible !important;height:auto !important}
+  .sd-pane-body{overflow:visible !important;flex:none !important;height:auto !important}
+  .sd-inbox{overflow:visible !important;height:auto !important}
+  .sd-actions{overflow:visible !important;height:auto !important}
+  .sd-thought{overflow:visible !important;height:auto !important;flex:none !important}
 }
 `;
