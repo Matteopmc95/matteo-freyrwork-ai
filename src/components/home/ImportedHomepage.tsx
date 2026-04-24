@@ -71,8 +71,7 @@ section:not(.alt) .pain-card{background:var(--bg2)}
 .vis-badge.active{background:rgba(75,107,251,.2);color:var(--acc2)}
 .vis-badge.idle{background:rgba(255,255,255,.05);color:var(--muted)}
 .vis-ticker{font-size:11px;color:#7B94FC;font-weight:500;margin-top:6px;margin-bottom:4px;height:16px;overflow:hidden;padding-left:4px}
-.vis-ticker > span{display:block;animation:tickerUp 12s linear infinite;will-change:transform}
-@keyframes tickerUp{0%{transform:translateY(0)}12%{transform:translateY(-16px)}25%{transform:translateY(-16px)}37%{transform:translateY(-32px)}50%{transform:translateY(-32px)}62%{transform:translateY(-48px)}75%{transform:translateY(-48px)}87%{transform:translateY(-64px)}100%{transform:translateY(-64px)}}
+.vis-ticker > span{display:block;transition:opacity .3s cubic-bezier(.4,0,.2,1),transform .3s cubic-bezier(.4,0,.2,1);will-change:opacity,transform}
 @media(max-width:768px){#soluzione .two-col{grid-template-columns:1fr}}
 #differenza .compare-table{margin-top:56px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .compare-header{display:grid;grid-template-columns:1fr 1fr 1fr;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)}
@@ -853,6 +852,30 @@ export default function ImportedHomepage() {
     } else {
       setupChaosVis(chaosVisEl);
     }
+
+    // vis-ticker: smooth fade rotation
+    document.querySelectorAll<HTMLElement>('.vis-ticker').forEach((ticker) => {
+      const outer = ticker.querySelector<HTMLElement>(':scope > span');
+      if (!outer) return;
+      const msgs = Array.from(outer.querySelectorAll<HTMLElement>(':scope > span'))
+        .map(s => s.textContent ?? '').filter(Boolean);
+      if (!msgs.length) return;
+      outer.textContent = msgs[0];
+      outer.style.opacity = '1';
+      outer.style.transform = 'translateY(0)';
+      let idx = 0;
+      const iv = setInterval(() => {
+        outer.style.opacity = '0';
+        outer.style.transform = 'translateY(-5px)';
+        setTimeout(() => {
+          idx = (idx + 1) % msgs.length;
+          outer.textContent = msgs[idx];
+          outer.style.opacity = '1';
+          outer.style.transform = 'translateY(0)';
+        }, 320);
+      }, 2800);
+      pendingIntervals.push(iv);
+    });
 
     // reveal observer
     const revealObserver = new IntersectionObserver(
