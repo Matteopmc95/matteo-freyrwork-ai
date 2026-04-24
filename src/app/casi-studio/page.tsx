@@ -143,7 +143,7 @@ function SectionCategorie() {
             overflow-x:auto !important;
             overflow-y:hidden !important;
             gap:14px !important;
-            padding:4px 8vw 8px calc(8vw + 16px) !important;
+            padding:4px 8vw 8px calc(8vw + 32px) !important;
             margin:0 !important;
             scroll-snap-type:x mandatory !important;
             scrollbar-width:none !important;
