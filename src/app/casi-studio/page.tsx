@@ -1461,6 +1461,42 @@ const CASES: Case[] = [
 export default function CasiStudioPage() {
   useReveal();
 
+  useEffect(() => {
+    const ids = ['caso-hotel', 'caso-ristorazione', 'caso-beautywellness'];
+    const observers: IntersectionObserver[] = [];
+
+    ids.forEach((id) => {
+      const container = document.getElementById(id);
+      if (!container) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => {
+                const finalH = container.offsetHeight;
+                container.style.minHeight = finalH + 'px';
+                container.querySelectorAll<HTMLElement>('*').forEach((el) => {
+                  const anim = window.getComputedStyle(el).animationName;
+                  if (anim && anim !== 'none') {
+                    el.style.animationPlayState = 'paused';
+                  }
+                });
+              }, 8000);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
+      );
+
+      observer.observe(container);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
   return (
     <div
       className="fw-page"

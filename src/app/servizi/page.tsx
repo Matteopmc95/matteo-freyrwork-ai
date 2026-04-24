@@ -113,7 +113,7 @@ function InboxVisual() {
         <span style={{ fontSize: 12, fontWeight: 500, color: C.txt }}>Richieste in entrata</span>
         <span ref={countRef} style={{ fontSize: 10, background: 'rgba(75,107,251,0.25)', color: C.acc2, padding: '2px 8px', borderRadius: 4, fontWeight: 500 }}>0 gestite oggi</span>
       </div>
-      <div ref={streamRef} style={{ display: 'flex', flexDirection: 'column', minHeight: 222 }} />
+      <div ref={streamRef} style={{ display: 'flex', flexDirection: 'column' }} />
       <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px solid ${C.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: 11, color: C.muted }}>Agente attivo</span>
         <strong ref={statusRef} style={{ fontSize: 12, color: '#4ade80', fontWeight: 500 }}>↳ In elaborazione…</strong>
