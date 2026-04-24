@@ -281,7 +281,7 @@ export default function ServiziDemoHero() {
       ref={rootRef}
       className="s-to-main sd-section-wrap"
       style={{
-        position: 'relative', minHeight: '100svh', width: '100%',
+        position: 'relative', width: '100%',
         background: C.bg,
         display: 'flex', flexDirection: 'column',
       }}
@@ -531,7 +531,7 @@ const sdStyles = `
 .sd-compare-save-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:${C.dim};font-weight:500;margin-bottom:6px}
 .sd-compare-save{font-size:22px;font-weight:600;color:${C.ok};letter-spacing:-.02em;line-height:1.15}
 .sd-compare-x{display:block;font-size:11px;font-weight:400;color:${C.muted};margin-top:3px}
-.sd-section-wrap{overflow:hidden}
+.sd-section-wrap{overflow:hidden;min-height:100svh}
 .sd-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 70% 40% at 20% 30%,rgba(75,107,251,.1),transparent 70%),radial-gradient(ellipse 50% 40% at 85% 75%,rgba(123,148,252,.08),transparent 70%)}
 .sd-grid{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 30%,transparent 80%)}
 @keyframes sdLive{0%,100%{opacity:1}50%{opacity:.35}}
@@ -540,7 +540,6 @@ const sdStyles = `
 @keyframes sdInboxBadge{0%,100%{opacity:.85}50%{opacity:.5}}
 @keyframes sdDotFlow{0%{transform:translateY(0);opacity:.25}50%{transform:translateY(-2px);opacity:1}100%{transform:translateY(0);opacity:.25}}
 @media(max-width:1100px){
-  .sd-cinema{grid-template-columns:1fr;grid-template-rows:auto 34px auto 34px auto;gap:10px;padding:20px}
   .sd-arrow{flex-direction:row;padding-top:0;min-height:34px}
   .sd-metrics{grid-template-columns:repeat(2,1fr);gap:12px 0;padding:20px}
   .sd-metric{padding:4px 16px}
@@ -549,7 +548,7 @@ const sdStyles = `
   .sd-compare{grid-template-columns:1fr;gap:16px;padding:20px}
   .sd-compare-right{text-align:left}
 }
-@media(max-width:640px){
+@media(max-width:768px){
   .sd-topbar{flex-direction:column;align-items:flex-start;gap:16px}
   .sd-metrics{padding:16px 20px}
   .sd-metric{padding:6px 0;border-left:none !important}
@@ -557,13 +556,12 @@ const sdStyles = `
   .sd-pill{font-size:11px;padding:6px 10px}
   .sd-compare-title{font-size:16px}
   .sd-compare-save{font-size:18px}
-  .sd-thought{font-size:12px}
-  .sd-section-wrap{overflow:visible;min-height:0 !important;height:auto !important}
-  .sd-cinema{flex:none !important;height:auto !important;overflow:visible}
-  .sd-pane{overflow:visible;height:auto}
-  .sd-pane-body{overflow:visible;flex:none;height:auto}
-  .sd-inbox{overflow:visible;height:auto}
-  .sd-actions{overflow:visible;height:auto}
-  .sd-thought{overflow:visible;height:auto;flex:none}
+  .sd-section-wrap{overflow:visible !important;min-height:auto !important;height:auto !important}
+  .sd-cinema{grid-template-columns:1fr !important;grid-template-rows:auto 34px auto 34px auto !important;gap:10px !important;padding:20px !important;flex:none !important;height:auto !important;overflow:visible !important}
+  .sd-pane{overflow:visible !important;height:auto !important}
+  .sd-pane-body{overflow:visible !important;flex:none !important;height:auto !important}
+  .sd-inbox{overflow:visible !important;height:auto !important}
+  .sd-actions{overflow:visible !important;height:auto !important}
+  .sd-thought{font-size:12px;overflow:visible !important;height:auto !important;flex:none !important}
 }
 `;
