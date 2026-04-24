@@ -270,22 +270,23 @@ function Hero() {
             href={item.href}
             style={{
               fontSize: 12,
-              color: C.txt,
+              color: '#0D0F14',
               padding: '10px 18px',
               borderRadius: 999,
-              border: '1px solid rgba(75,107,251,0.28)',
-              background: 'rgba(75,107,251,0.06)',
+              border: '1px solid rgba(0,0,0,0.08)',
+              background: '#F4F3EE',
               textDecoration: 'none',
               letterSpacing: '0.02em',
+              fontWeight: 500,
               transition: 'background 0.2s, border-color 0.2s',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(75,107,251,0.14)';
-              e.currentTarget.style.borderColor = 'rgba(75,107,251,0.5)';
+              e.currentTarget.style.background = '#fff';
+              e.currentTarget.style.borderColor = 'rgba(75,107,251,0.4)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(75,107,251,0.06)';
-              e.currentTarget.style.borderColor = 'rgba(75,107,251,0.28)';
+              e.currentTarget.style.background = '#F4F3EE';
+              e.currentTarget.style.borderColor = 'rgba(0,0,0,0.08)';
             }}
           >
             {item.label}
@@ -1470,6 +1471,13 @@ export default function CasiStudioPage() {
         overflowX: 'hidden',
       }}
     >
+      <style>{`
+        @media(max-width:768px){
+          [data-reveal]{will-change:opacity,transform;backface-visibility:hidden}
+          .fw-page section{contain:layout}
+          @keyframes scatterFloat{0%,100%{transform:rotate(var(--r))}50%{transform:rotate(var(--r))}}
+        }
+      `}</style>
       <Hero />
       <SectionCategorie />
       {CASES.map((c) => (
