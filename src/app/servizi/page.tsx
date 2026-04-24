@@ -423,7 +423,7 @@ export default function ServiziPage() {
           { title: 'Beneficio finale', text: 'Meno interruzioni, meno energia dispersa, più tempo per le attività che contano davvero.' },
         ]}
         cta="Parliamone" ctaHref="#cta-finale" ctaVariant="ghost"
-        visual={<TaskVisual />}
+        visual={<TaskVisual />} visualLast
       />
 
       {/* 03 Analisi dati */}
