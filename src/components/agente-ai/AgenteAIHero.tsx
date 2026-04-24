@@ -67,9 +67,6 @@ export default function AgenteAIHero() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) return;
-
     const ACC = { r: 75, g: 107, b: 251 };
     const ACC2 = { r: 123, g: 148, b: 252 };
     let W = 0, H = 0, CX = 0, CY = 0, CORE_R = 0, LANE_W = 0;
@@ -448,15 +445,26 @@ export default function AgenteAIHero() {
     const onResize = () => { resize(); };
     const io = new IntersectionObserver(([e]) => { heroVisible = !!e?.isIntersecting; }, { threshold: 0.05 });
     const onVis = () => { pageVisible = !document.hidden; };
+    const ro = new ResizeObserver(() => { resize(); });
 
-    resize();
+    function tryStart() {
+      if (!canvas || canvas.offsetWidth === 0 || canvas.offsetHeight === 0) {
+        requestAnimationFrame(tryStart);
+        return;
+      }
+      resize();
+      raf = requestAnimationFrame(draw);
+    }
+
+    requestAnimationFrame(tryStart);
+    ro.observe(canvas);
     window.addEventListener("resize", onResize);
     document.addEventListener("visibilitychange", onVis);
     io.observe(hero);
-    raf = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(raf);
+      ro.disconnect();
       window.removeEventListener("resize", onResize);
       document.removeEventListener("visibilitychange", onVis);
       io.disconnect();
