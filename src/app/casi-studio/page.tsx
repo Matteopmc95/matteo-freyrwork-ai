@@ -136,10 +136,14 @@ function SectionCategorie() {
     >
       <style>{`
         @media(min-width:901px){
-          .cat-carousel{display:grid !important;grid-template-columns:repeat(3, 1fr) !important;gap:14px !important}
+          .cat-wrapper{display:grid !important;grid-template-columns:repeat(3, 1fr) !important;gap:14px !important}
+          .cat-carousel{display:contents !important;grid-template-columns:none !important}
+          .cat-row1{margin-bottom:0 !important}
         }
         @media(min-width:640px) and (max-width:900px){
-          .cat-carousel{display:grid !important;grid-template-columns:repeat(2, 1fr) !important;gap:14px !important}
+          .cat-wrapper{display:grid !important;grid-template-columns:repeat(2, 1fr) !important;gap:14px !important}
+          .cat-carousel{display:contents !important;grid-template-columns:none !important}
+          .cat-row1{margin-bottom:0 !important}
         }
         @media(max-width:768px){
           .cat-wrapper{overflow:hidden;position:relative}
