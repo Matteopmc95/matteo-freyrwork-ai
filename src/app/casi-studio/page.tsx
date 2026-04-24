@@ -135,6 +135,12 @@ function SectionCategorie() {
       sub="Ogni attività ha una sua organizzazione. Ma i collaboratori AI possono adattarsi a problemi reali molto concreti."
     >
       <style>{`
+        @media(min-width:901px){
+          .cat-carousel{display:grid !important;grid-template-columns:repeat(3, 1fr) !important;gap:14px !important}
+        }
+        @media(min-width:640px) and (max-width:900px){
+          .cat-carousel{display:grid !important;grid-template-columns:repeat(2, 1fr) !important;gap:14px !important}
+        }
         @media(max-width:768px){
           .cat-wrapper{overflow:hidden;position:relative}
           .cat-carousel{
