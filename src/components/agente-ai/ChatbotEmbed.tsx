@@ -181,6 +181,9 @@ export default function ChatbotEmbed() {
           display: 'flex',
           flexDirection: 'column',
           gap: 12,
+          background: '#F4F3EE',
+          borderTop: '1px solid rgba(0,0,0,0.08)',
+          borderBottom: '1px solid rgba(0,0,0,0.08)',
         }}
       >
         {messages.map((m, i) => (
@@ -192,11 +195,11 @@ export default function ChatbotEmbed() {
               maxWidth: '82%',
               padding: '11px 14px',
               borderRadius: m.role === 'user' ? '12px 12px 4px 12px' : '12px 12px 12px 4px',
-              background: m.role === 'user' ? 'rgba(75,107,251,0.14)' : 'rgba(13,15,20,0.7)',
-              border: `1px solid ${m.role === 'user' ? 'rgba(75,107,251,0.3)' : C.border}`,
+              background: m.role === 'user' ? 'rgba(75,107,251,0.12)' : '#fff',
+              border: `1px solid ${m.role === 'user' ? 'rgba(75,107,251,0.3)' : 'rgba(0,0,0,0.06)'}`,
               fontSize: 13,
               lineHeight: 1.65,
-              color: m.role === 'user' ? '#E4EBFF' : 'rgba(244,243,238,0.88)',
+              color: '#0D0F14',
               whiteSpace: 'pre-wrap',
               wordBreak: 'break-word',
             }}
@@ -212,8 +215,8 @@ export default function ChatbotEmbed() {
               alignSelf: 'flex-start',
               padding: '12px 14px',
               borderRadius: '12px 12px 12px 4px',
-              background: 'rgba(13,15,20,0.7)',
-              border: `1px solid ${C.border}`,
+              background: '#fff',
+              border: '1px solid rgba(0,0,0,0.06)',
             }}
           >
             <span className="typing-dot" />
@@ -230,22 +233,22 @@ export default function ChatbotEmbed() {
                 onClick={() => send(s)}
                 style={{
                   fontSize: 12,
-                  color: C.acc2,
+                  color: '#0D0F14',
                   padding: '8px 14px',
                   borderRadius: 999,
-                  background: 'rgba(75,107,251,0.07)',
-                  border: '1px solid rgba(75,107,251,0.25)',
+                  background: '#fff',
+                  border: '1px solid rgba(75,107,251,0.3)',
                   cursor: 'pointer',
                   fontFamily: 'Inter, sans-serif',
                   transition: 'background 0.2s, border-color 0.2s',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(75,107,251,0.14)';
-                  e.currentTarget.style.borderColor = 'rgba(75,107,251,0.5)';
+                  e.currentTarget.style.background = 'rgba(75,107,251,0.08)';
+                  e.currentTarget.style.borderColor = '#4B6BFB';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(75,107,251,0.07)';
-                  e.currentTarget.style.borderColor = 'rgba(75,107,251,0.25)';
+                  e.currentTarget.style.background = '#fff';
+                  e.currentTarget.style.borderColor = 'rgba(75,107,251,0.3)';
                 }}
               >
                 {s}
