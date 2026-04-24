@@ -537,6 +537,7 @@ const sdStyles = `
 @keyframes sdLive{0%,100%{opacity:1}50%{opacity:.35}}
 @keyframes sdCaret{0%,100%{opacity:0}50%{opacity:1}}
 @keyframes sdInboxIn{from{opacity:0;transform:translateY(-6px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes sdInboxInMobile{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 @keyframes sdInboxBadge{0%,100%{opacity:.85}50%{opacity:.5}}
 @keyframes sdDotFlow{0%{transform:translateY(0);opacity:.25}50%{transform:translateY(-2px);opacity:1}100%{transform:translateY(0);opacity:.25}}
 @media(max-width:1100px){
@@ -565,5 +566,6 @@ const sdStyles = `
   .sd-actions{overflow:visible !important;height:auto !important;padding-bottom:4px !important}
   .sd-action{overflow:visible !important}
   .sd-thought{font-size:12px;overflow:visible !important;height:auto !important;flex:none !important}
+  .sd-inbox-card.enter{animation:sdInboxInMobile .4s ease both !important}
 }
 `;
