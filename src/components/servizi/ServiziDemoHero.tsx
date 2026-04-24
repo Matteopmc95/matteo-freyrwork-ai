@@ -279,7 +279,7 @@ export default function ServiziDemoHero() {
   return (
     <section
       ref={rootRef}
-      className="s-to-main"
+      className="s-to-main sd-section-wrap"
       style={{
         position: 'relative', minHeight: '100svh', width: '100%',
         background: C.bg, overflow: 'hidden',
@@ -557,5 +557,8 @@ const sdStyles = `
   .sd-compare-title{font-size:16px}
   .sd-compare-save{font-size:18px}
   .sd-thought{font-size:12px}
+  .sd-section-wrap{overflow:visible !important;min-height:0 !important;height:auto !important}
+  .sd-pane-body{overflow:visible}
+  .sd-inbox{overflow:visible}
 }
 `;
