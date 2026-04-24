@@ -196,17 +196,6 @@ function SectionProva() {
         <div aria-hidden style={{ position: 'absolute', inset: -40, background: 'radial-gradient(ellipse 60% 70% at 50% 50%, rgba(75,107,251,0.18) 0%, transparent 70%)', filter: 'blur(20px)', pointerEvents: 'none', zIndex: 0 }} />
         <div style={{ position: 'relative', zIndex: 1 }}><ChatbotEmbed /></div>
       </div>
-      <div data-reveal style={{ ...rev(0.3), display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginTop: 36 }}>
-        {['Risposte generate in tempo reale', 'Nessuna registrazione richiesta', 'Demo libera'].map((label) => (
-          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 14px', borderRadius: 999, border: `1px solid ${C.border}`, background: 'rgba(13,15,20,0.6)', fontSize: 12, color: C.muted }}>
-            <span style={{ color: '#4ade80', fontSize: 8 }}>●</span>
-            <span>{label}</span>
-          </div>
-        ))}
-      </div>
-      <p data-reveal style={{ ...rev(0.35), fontSize: 12, color: 'rgba(244,243,238,0.3)', textAlign: 'center', maxWidth: 560, margin: '28px auto 0', lineHeight: 1.6 }}>
-        Questa è una demo generica. L&apos;agente che costruiamo per la tua attività viene addestrato sui tuoi processi, dati e obiettivi specifici.
-      </p>
     </section>
   );
 }
