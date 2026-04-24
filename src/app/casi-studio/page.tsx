@@ -141,11 +141,11 @@ function SectionCategorie() {
             display:grid!important;
             grid-template-rows:repeat(2,auto);
             grid-auto-flow:column;
-            grid-auto-columns:82%;
-            gap:12px;
+            grid-auto-columns:88%;
+            gap:28px 14px;
             overflow-x:auto;
             overflow-y:hidden;
-            padding:4px 8vw 20px;
+            padding:4px 8vw 24px calc(8vw + 16px);
             scroll-snap-type:x mandatory;
             scrollbar-width:none;
             -ms-overflow-style:none;
@@ -155,6 +155,13 @@ function SectionCategorie() {
           .cat-grid>*{scroll-snap-align:start}
           .cat-hint{display:flex!important}
           @keyframes catHintPulse{0%,100%{opacity:.35}50%{opacity:.75}}
+          .cat-card-light{background:#F4F3EE !important;border-color:rgba(0,0,0,0.1) !important}
+          .cat-card-light>div:first-child{border-bottom:1px solid rgba(0,0,0,0.1) !important}
+          .cat-card-light h3{color:#0D0F14 !important}
+          .cat-card-light p{color:rgba(13,15,20,0.7) !important}
+          .cat-card-light .cat-row-label{color:rgba(13,15,20,0.45) !important}
+          .cat-card-light .cat-row-label-accent{color:#4B6BFB !important}
+          .cat-card-light .cat-row-text-accent{color:rgba(13,15,20,0.85) !important}
         }
       `}</style>
       <div className="cat-hint" style={{ display: 'none', justifyContent: 'center', fontSize: 11, color: 'rgba(244,243,238,0.4)', letterSpacing: '0.06em', marginTop: 32, marginBottom: 4, animation: 'catHintPulse 2.8s ease-in-out infinite' }}>
@@ -162,8 +169,9 @@ function SectionCategorie() {
       </div>
       <div className="cat-wrapper">
       <div data-reveal className="cat-grid" style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s', marginTop: 16, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,340px),1fr))', gap: 14 }}>
-        {CATEGORIES.map((cat) => (
+        {CATEGORIES.map((cat, i) => (
           <div key={cat.id}
+            className={i % 2 === 0 ? 'cat-card-light' : ''}
             style={{ padding: 24, borderRadius: 12, border: `1px solid ${C.border}`, background: 'rgba(13,15,20,0.6)', display: 'flex', flexDirection: 'column', gap: 14, transition: 'border-color 0.25s, transform 0.2s' }}
             onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(75,107,251,0.3)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = ''; }}
@@ -179,8 +187,8 @@ function SectionCategorie() {
               { label: 'Risultato', text: cat.result },
             ].map((r) => (
               <div key={r.label}>
-                <div style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: r.accent ? C.acc2 : 'rgba(244,243,238,0.35)', fontWeight: 500, marginBottom: 5 }}>{r.label}</div>
-                <p style={{ fontSize: 13, color: r.accent ? 'rgba(244,243,238,0.85)' : C.muted, lineHeight: 1.6 }}>{r.text}</p>
+                <div className={r.accent ? 'cat-row-label-accent' : 'cat-row-label'} style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: r.accent ? C.acc2 : 'rgba(244,243,238,0.35)', fontWeight: 500, marginBottom: 5 }}>{r.label}</div>
+                <p className={r.accent ? 'cat-row-text-accent' : ''} style={{ fontSize: 13, color: r.accent ? 'rgba(244,243,238,0.85)' : C.muted, lineHeight: 1.6 }}>{r.text}</p>
               </div>
             ))}
           </div>
