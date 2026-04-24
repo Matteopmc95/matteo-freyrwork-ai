@@ -136,9 +136,30 @@ function SectionCategorie() {
     >
       <style>{`
         @media(min-width:901px){
-          .cat-wrapper{display:grid !important;grid-template-columns:repeat(3, 1fr) !important;gap:14px !important}
+          .cat-wrapper{display:grid !important;grid-template-columns:repeat(3, 1fr) !important;gap:14px !important;margin-top:48px !important}
           .cat-carousel{display:contents !important;grid-template-columns:none !important}
           .cat-row1{margin-bottom:0 !important}
+          .cat-carousel:nth-child(1) .cat-card-pos-1,
+          .cat-carousel:nth-child(1) .cat-card-pos-4,
+          .cat-carousel:nth-child(2) .cat-card-pos-2{background:#F4F3EE !important;border-color:rgba(0,0,0,0.08) !important}
+          .cat-carousel:nth-child(1) .cat-card-pos-1>div:first-child,
+          .cat-carousel:nth-child(1) .cat-card-pos-4>div:first-child,
+          .cat-carousel:nth-child(2) .cat-card-pos-2>div:first-child{border-bottom:1px solid rgba(0,0,0,0.1) !important}
+          .cat-carousel:nth-child(1) .cat-card-pos-1 h3,
+          .cat-carousel:nth-child(1) .cat-card-pos-4 h3,
+          .cat-carousel:nth-child(2) .cat-card-pos-2 h3{color:#0D0F14 !important}
+          .cat-carousel:nth-child(1) .cat-card-pos-1 p,
+          .cat-carousel:nth-child(1) .cat-card-pos-4 p,
+          .cat-carousel:nth-child(2) .cat-card-pos-2 p{color:rgba(13,15,20,0.7) !important}
+          .cat-carousel:nth-child(1) .cat-card-pos-1 .cat-row-label,
+          .cat-carousel:nth-child(1) .cat-card-pos-4 .cat-row-label,
+          .cat-carousel:nth-child(2) .cat-card-pos-2 .cat-row-label{color:rgba(13,15,20,0.45) !important}
+          .cat-carousel:nth-child(1) .cat-card-pos-1 .cat-row-label-accent,
+          .cat-carousel:nth-child(1) .cat-card-pos-4 .cat-row-label-accent,
+          .cat-carousel:nth-child(2) .cat-card-pos-2 .cat-row-label-accent{color:#4B6BFB !important}
+          .cat-carousel:nth-child(1) .cat-card-pos-1 .cat-row-text-accent,
+          .cat-carousel:nth-child(1) .cat-card-pos-4 .cat-row-text-accent,
+          .cat-carousel:nth-child(2) .cat-card-pos-2 .cat-row-text-accent{color:rgba(13,15,20,0.85) !important}
         }
         @media(min-width:640px) and (max-width:900px){
           .cat-wrapper{display:grid !important;grid-template-columns:repeat(2, 1fr) !important;gap:14px !important}
@@ -182,9 +203,9 @@ function SectionCategorie() {
       <div className="cat-wrapper">
         {/* Row 1 — light cards (even indices) */}
         <div data-reveal className="cat-carousel cat-row1" style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s', marginTop: 16, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,340px),1fr))', gap: 14 }}>
-          {CATEGORIES.filter((_, i) => i % 2 === 0).map((cat) => (
+          {CATEGORIES.filter((_, i) => i % 2 === 0).map((cat, idx) => (
             <div key={cat.id}
-              className="cat-card-light"
+              className={`cat-card-light cat-card-pos-${idx}`}
               style={{ padding: 24, borderRadius: 12, border: `1px solid ${C.border}`, background: 'rgba(13,15,20,0.6)', display: 'flex', flexDirection: 'column', gap: 14, transition: 'border-color 0.25s, transform 0.2s' }}
               onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(75,107,251,0.3)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = ''; }}
@@ -209,8 +230,9 @@ function SectionCategorie() {
         </div>
         {/* Row 2 — dark cards (odd indices) */}
         <div data-reveal className="cat-carousel" style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.5s, transform 0.7s ease 0.5s', marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,340px),1fr))', gap: 14 }}>
-          {CATEGORIES.filter((_, i) => i % 2 !== 0).map((cat) => (
+          {CATEGORIES.filter((_, i) => i % 2 !== 0).map((cat, idx) => (
             <div key={cat.id}
+              className={`cat-card-pos-${idx}`}
               style={{ padding: 24, borderRadius: 12, border: `1px solid ${C.border}`, background: 'rgba(13,15,20,0.6)', display: 'flex', flexDirection: 'column', gap: 14, transition: 'border-color 0.25s, transform 0.2s' }}
               onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(75,107,251,0.3)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = ''; }}
