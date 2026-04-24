@@ -563,7 +563,7 @@ const sdStyles = `
   .sd-pane-body{overflow:visible !important;flex:none !important;height:auto !important;padding:16px 16px 20px !important}
   .sd-inbox{overflow:visible !important;height:auto !important}
   .sd-actions{overflow:visible !important;height:auto !important;padding-bottom:4px !important}
-  .sd-action{overflow:visible !important}
-  .sd-thought{font-size:12px;overflow:visible !important;height:auto !important;flex:none !important}
+  .sd-action{overflow:visible !important;opacity:1 !important;transform:none !important;border-color:rgba(74,222,128,0.22) !important;background:rgba(74,222,128,0.04) !important}
+  .sd-thought{font-size:12px;overflow:visible !important;height:auto !important;flex:none !important;min-height:80px;max-height:200px}
 }
 `;
