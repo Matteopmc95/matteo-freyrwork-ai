@@ -128,6 +128,11 @@ footer{padding:40px 8vw;display:flex;align-items:center;justify-content:space-be
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:none}
 .reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}
+@media(max-width:768px){
+  .reveal{transform:none!important;transition:opacity .5s ease!important}
+  .reveal.visible{transform:none!important}
+  .reveal-d1,.reveal-d2,.reveal-d3{transition-delay:0s!important}
+}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   .reveal{opacity:1!important;transform:none!important;transition:none!important}
@@ -745,7 +750,15 @@ function initializeCanvas(
 
   const onVisibilityChange = () => { pageVisible = !document.hidden; };
 
-  const resizeObserver = new ResizeObserver(() => { resize(); });
+  let lastRoWidth = 0;
+  const resizeObserver = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      const w = entry.contentRect.width;
+      if (Math.abs(w - lastRoWidth) < 10) return;
+      lastRoWidth = w;
+      resize();
+    }
+  });
   resizeObserver.observe(canvas.parentElement || canvas);
   document.addEventListener("visibilitychange", onVisibilityChange);
   if (hero) visibilityObserver.observe(hero);

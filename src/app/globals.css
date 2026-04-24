@@ -132,6 +132,24 @@ main {
   }
 }
 
+/* ─── MOBILE ANIMATION STABILITY ───────────────────────────── */
+@media (max-width: 768px) {
+  /* Reveal: solo opacity, niente translateY — elimina layout shift */
+  [data-reveal] {
+    transform: none !important;
+    transition: opacity 0.5s ease !important;
+  }
+  /* Canvas su layer GPU separato — evita reflow durante resize */
+  canvas {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  /* Sezioni isolate — reflow interno non propaga verso l'alto */
+  .fw-page section {
+    contain: layout;
+  }
+}
+
 /* ─── SECTION LABEL (eyebrow text) ─────────────────────────── */
 .eyebrow {
   display: inline-block;
