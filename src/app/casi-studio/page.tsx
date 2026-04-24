@@ -136,21 +136,21 @@ function SectionCategorie() {
     >
       <style>{`
         @media(max-width:768px){
-          .cat-wrapper{position:relative;margin:0 -8vw}
+          .cat-wrapper{overflow:hidden;position:relative}
           .cat-carousel{
             display:flex !important;
             flex-direction:row !important;
+            grid-template-columns:none !important;
+            grid-template-rows:none !important;
             overflow-x:auto !important;
             overflow-y:hidden !important;
             gap:14px !important;
-            padding:4px 8vw 8px calc(8vw + 32px) !important;
-            margin:0 !important;
+            padding:4px 16px 8px 32px !important;
+            margin:0 -20px 0 0 !important;
             scroll-snap-type:x mandatory !important;
             scrollbar-width:none !important;
             -ms-overflow-style:none !important;
             -webkit-overflow-scrolling:touch !important;
-            grid-template-columns:none !important;
-            grid-template-rows:none !important;
           }
           .cat-carousel::-webkit-scrollbar{display:none}
           .cat-carousel>*{flex:0 0 88% !important;min-width:88% !important;max-width:88% !important;scroll-snap-align:start !important}
