@@ -400,7 +400,7 @@ export default function ServiziPage() {
 
       {/* 01 Prenotazioni */}
       <ServiceSection
-        id="s1" num="01 — Prenotazioni e richieste"
+        id="s1" num="Prenotazioni e richieste"
         headline="Più ordine tra richieste,<br>prenotazioni e contatti"
         sub="Quando le richieste arrivano da più canali, il rischio non è solo la confusione. È perdere occasioni."
         body="Molte attività locali vivono una situazione comune: i clienti scrivono, chiamano, chiedono informazioni, vogliono prenotare. Tutto su canali diversi, in tempi diversi, con ritmi difficili da seguire. Un agente AI per prenotazioni e richieste centralizza le interazioni, organizza le informazioni e supporta le risposte frequenti."
@@ -414,7 +414,7 @@ export default function ServiziPage() {
 
       {/* 02 Supporto operativo */}
       <ServiceSection
-        id="s2" num="02 — Supporto operativo" alt flip
+        id="s2" num="Supporto operativo" alt flip
         headline="Un supporto concreto nelle attività<br>che si ripetono ogni giorno"
         sub="Non tutto ciò che occupa tempo crea valore. Spesso una parte del lavoro pesa solo perché si ripete troppo."
         body="Ci sono compiti che non fanno notizia ma consumano ore: ricontrollare informazioni, recuperare dati, rispondere a richieste simili, organizzare passaggi interni. Freyrwork sviluppa agenti AI che affiancano l'operatività proprio su questo piano — per togliere attrito alle attività più dispersive."
@@ -428,7 +428,7 @@ export default function ServiziPage() {
 
       {/* 03 Analisi dati */}
       <ServiceSection
-        id="s3" num="03 — Analisi dati e insight"
+        id="s3" num="Analisi dati e insight"
         headline="Capire meglio<br>ciò che succede nella tua attività"
         sub="Avere dei dati non basta. Il vero valore è riuscire a leggerli in modo utile."
         body="Molte imprese raccolgono informazioni ogni giorno senza riuscire a trasformarle in lettura operativa. Un agente AI dedicato all'analisi porta ordine, evidenzia trend, anomalie e segnali utili, restituendo informazioni più leggibili per chi deve decidere."
@@ -446,7 +446,7 @@ export default function ServiziPage() {
 
       {/* 04 Automazione flussi */}
       <ServiceSection
-        id="s4" num="04 — Automazione di flussi interni" alt flip
+        id="s4" num="Automazione di flussi interni" alt flip
         headline="Meno passaggi inutili,<br>più fluidità nei processi"
         sub="Quando un processo è lento o dipende troppo da gestione manuale, anche il lavoro migliore perde efficienza."
         body="Molte attività convivono con flussi interni costruiti nel tempo in modo spontaneo: fogli, note, messaggi, passaggi verbali. È normale, ma diventa un freno. Freyrwork interviene aiutando l'impresa a individuare dove l'AI può alleggerire processi interni, rendere i passaggi più chiari e portare maggiore coerenza operativa."
@@ -460,7 +460,7 @@ export default function ServiziPage() {
 
       {/* 05 Soluzioni adattabili */}
       <ServiceSection
-        id="s5" num="05 — Soluzioni adattabili"
+        id="s5" num="Soluzioni adattabili"
         headline="Nessuna attività è uguale<br>a un'altra. E nemmeno la soluzione."
         sub="Freyrwork non forza uno schema standard. Parte dal contesto reale dell'impresa."
         body="Il vero limite di molte soluzioni digitali è che chiedono all'azienda di adattarsi allo strumento. Freyrwork lavora al contrario: osserva il modo in cui l'attività funziona, capisce dove si crea attrito e costruisce un collaboratore AI coerente con quel contesto."
