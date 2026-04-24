@@ -137,22 +137,24 @@ function SectionCategorie() {
       <style>{`
         @media(max-width:768px){
           .cat-wrapper{position:relative;margin:0 -8vw}
-          .cat-grid{
-            display:grid!important;
-            grid-template-rows:repeat(2,auto);
-            grid-auto-flow:column;
-            grid-auto-columns:88%;
-            gap:28px 14px;
-            overflow-x:auto;
-            overflow-y:hidden;
-            padding:4px 8vw 24px calc(8vw + 16px);
-            scroll-snap-type:x mandatory;
-            scrollbar-width:none;
-            -ms-overflow-style:none;
-            -webkit-overflow-scrolling:touch;
+          .cat-carousel{
+            display:flex !important;
+            flex-direction:row !important;
+            overflow-x:auto !important;
+            overflow-y:hidden !important;
+            gap:14px !important;
+            padding:4px 8vw 8px calc(8vw + 16px) !important;
+            margin:0 !important;
+            scroll-snap-type:x mandatory !important;
+            scrollbar-width:none !important;
+            -ms-overflow-style:none !important;
+            -webkit-overflow-scrolling:touch !important;
+            grid-template-columns:none !important;
+            grid-template-rows:none !important;
           }
-          .cat-grid::-webkit-scrollbar{display:none}
-          .cat-grid>*{scroll-snap-align:start}
+          .cat-carousel::-webkit-scrollbar{display:none}
+          .cat-carousel>*{flex:0 0 88% !important;min-width:88% !important;max-width:88% !important;scroll-snap-align:start !important}
+          .cat-row1{margin-bottom:32px !important}
           .cat-hint{display:flex!important}
           @keyframes catHintPulse{0%,100%{opacity:.35}50%{opacity:.75}}
           .cat-card-light{background:#F4F3EE !important;border-color:rgba(0,0,0,0.1) !important}
@@ -168,32 +170,59 @@ function SectionCategorie() {
         scorri per esplorare →
       </div>
       <div className="cat-wrapper">
-      <div data-reveal className="cat-grid" style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s', marginTop: 16, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,340px),1fr))', gap: 14 }}>
-        {CATEGORIES.map((cat, i) => (
-          <div key={cat.id}
-            className={i % 2 === 0 ? 'cat-card-light' : ''}
-            style={{ padding: 24, borderRadius: 12, border: `1px solid ${C.border}`, background: 'rgba(13,15,20,0.6)', display: 'flex', flexDirection: 'column', gap: 14, transition: 'border-color 0.25s, transform 0.2s' }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(75,107,251,0.3)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = ''; }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 14, borderBottom: `1px solid ${C.border}` }}>
-              <h3 style={{ fontSize: 17, fontWeight: 600, color: C.txt, fontFamily: 'Syne, sans-serif', letterSpacing: '-0.01em' }}>{cat.label}</h3>
-              <span style={{ fontSize: 10, color: C.acc2, padding: '3px 10px', borderRadius: 999, background: 'rgba(75,107,251,0.08)', border: '1px solid rgba(75,107,251,0.25)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Caso d&apos;uso</span>
-            </div>
-            {[
-              { label: 'Problema reale', text: cat.problem },
-              { label: 'Cosa succede oggi', text: cat.today },
-              { label: "Cosa fa l'agente AI", text: cat.does, accent: true },
-              { label: 'Risultato', text: cat.result },
-            ].map((r) => (
-              <div key={r.label}>
-                <div className={r.accent ? 'cat-row-label-accent' : 'cat-row-label'} style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: r.accent ? C.acc2 : 'rgba(244,243,238,0.35)', fontWeight: 500, marginBottom: 5 }}>{r.label}</div>
-                <p className={r.accent ? 'cat-row-text-accent' : ''} style={{ fontSize: 13, color: r.accent ? 'rgba(244,243,238,0.85)' : C.muted, lineHeight: 1.6 }}>{r.text}</p>
+        {/* Row 1 — light cards (even indices) */}
+        <div data-reveal className="cat-carousel cat-row1" style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s', marginTop: 16, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,340px),1fr))', gap: 14 }}>
+          {CATEGORIES.filter((_, i) => i % 2 === 0).map((cat) => (
+            <div key={cat.id}
+              className="cat-card-light"
+              style={{ padding: 24, borderRadius: 12, border: `1px solid ${C.border}`, background: 'rgba(13,15,20,0.6)', display: 'flex', flexDirection: 'column', gap: 14, transition: 'border-color 0.25s, transform 0.2s' }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(75,107,251,0.3)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = ''; }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 14, borderBottom: `1px solid ${C.border}` }}>
+                <h3 style={{ fontSize: 17, fontWeight: 600, color: C.txt, fontFamily: 'Syne, sans-serif', letterSpacing: '-0.01em' }}>{cat.label}</h3>
+                <span style={{ fontSize: 10, color: C.acc2, padding: '3px 10px', borderRadius: 999, background: 'rgba(75,107,251,0.08)', border: '1px solid rgba(75,107,251,0.25)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Caso d&apos;uso</span>
               </div>
-            ))}
-          </div>
-        ))}
-      </div>
+              {[
+                { label: 'Problema reale', text: cat.problem },
+                { label: 'Cosa succede oggi', text: cat.today },
+                { label: "Cosa fa l'agente AI", text: cat.does, accent: true },
+                { label: 'Risultato', text: cat.result },
+              ].map((r) => (
+                <div key={r.label}>
+                  <div className={r.accent ? 'cat-row-label-accent' : 'cat-row-label'} style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: r.accent ? C.acc2 : 'rgba(244,243,238,0.35)', fontWeight: 500, marginBottom: 5 }}>{r.label}</div>
+                  <p className={r.accent ? 'cat-row-text-accent' : ''} style={{ fontSize: 13, color: r.accent ? 'rgba(244,243,238,0.85)' : C.muted, lineHeight: 1.6 }}>{r.text}</p>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        {/* Row 2 — dark cards (odd indices) */}
+        <div data-reveal className="cat-carousel" style={{ opacity: 0, transform: 'translateY(22px)', transition: 'opacity 0.7s ease 0.5s, transform 0.7s ease 0.5s', marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,340px),1fr))', gap: 14 }}>
+          {CATEGORIES.filter((_, i) => i % 2 !== 0).map((cat) => (
+            <div key={cat.id}
+              style={{ padding: 24, borderRadius: 12, border: `1px solid ${C.border}`, background: 'rgba(13,15,20,0.6)', display: 'flex', flexDirection: 'column', gap: 14, transition: 'border-color 0.25s, transform 0.2s' }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(75,107,251,0.3)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = ''; }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 14, borderBottom: `1px solid ${C.border}` }}>
+                <h3 style={{ fontSize: 17, fontWeight: 600, color: C.txt, fontFamily: 'Syne, sans-serif', letterSpacing: '-0.01em' }}>{cat.label}</h3>
+                <span style={{ fontSize: 10, color: C.acc2, padding: '3px 10px', borderRadius: 999, background: 'rgba(75,107,251,0.08)', border: '1px solid rgba(75,107,251,0.25)', fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Caso d&apos;uso</span>
+              </div>
+              {[
+                { label: 'Problema reale', text: cat.problem },
+                { label: 'Cosa succede oggi', text: cat.today },
+                { label: "Cosa fa l'agente AI", text: cat.does, accent: true },
+                { label: 'Risultato', text: cat.result },
+              ].map((r) => (
+                <div key={r.label}>
+                  <div className={r.accent ? 'cat-row-label-accent' : 'cat-row-label'} style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: r.accent ? C.acc2 : 'rgba(244,243,238,0.35)', fontWeight: 500, marginBottom: 5 }}>{r.label}</div>
+                  <p className={r.accent ? 'cat-row-text-accent' : ''} style={{ fontSize: 13, color: r.accent ? 'rgba(244,243,238,0.85)' : C.muted, lineHeight: 1.6 }}>{r.text}</p>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </Section>
   );
