@@ -307,12 +307,13 @@ function HotelAutomation() {
   const [processed, setProcessed] = useState<number[]>([]);
 
   useEffect(() => {
-    const id = setInterval(() => {
+    let intervalId: ReturnType<typeof setInterval>;
+    intervalId = setInterval(() => {
       setStep((s) => {
         const n = s + 1;
         if (n > HOTEL_REQUESTS.length + 2) {
-          setProcessed([]);
-          return 0;
+          clearInterval(intervalId);
+          return s;
         }
         if (n >= 1 && n <= HOTEL_REQUESTS.length) {
           setProcessed((p) => (p.includes(n - 1) ? p : [...p, n - 1]));
@@ -320,11 +321,12 @@ function HotelAutomation() {
         return n;
       });
     }, 1600);
-    return () => clearInterval(id);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
     <div
+      id="casi-richieste-anim"
       style={{
         background: 'rgba(75,107,251,0.03)',
         border: '1px solid rgba(75,107,251,0.14)',
@@ -1495,6 +1497,37 @@ export default function CasiStudioPage() {
     });
 
     return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  useEffect(() => {
+    const container = document.getElementById('casi-richieste-anim');
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              const finalHeight = container.offsetHeight;
+              container.style.minHeight = finalHeight + 'px';
+              container.querySelectorAll<HTMLElement>('*').forEach((el) => {
+                const computed = window.getComputedStyle(el);
+                if (computed.animationName && computed.animationName !== 'none') {
+                  el.style.animation = 'none';
+                  el.style.opacity = '1';
+                  el.style.transform = 'none';
+                }
+              });
+            }, 5000);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
   }, []);
 
   return (
