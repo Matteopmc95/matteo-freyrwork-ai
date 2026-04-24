@@ -558,7 +558,9 @@ const sdStyles = `
   .sd-compare-save{font-size:18px}
   .sd-thought{font-size:12px}
   .sd-section-wrap{overflow:visible !important;min-height:0 !important;height:auto !important}
-  .sd-pane-body{overflow:visible}
+  .sd-pane{overflow:visible}
+  .sd-pane-body{overflow:visible;flex:none}
   .sd-inbox{overflow:visible}
+  .sd-actions{overflow:visible}
 }
 `;
