@@ -557,12 +557,13 @@ const sdStyles = `
   .sd-compare-title{font-size:16px}
   .sd-compare-save{font-size:18px}
   .sd-section-wrap{overflow:visible !important;min-height:auto !important;height:auto !important}
-  .sd-cinema{display:flex !important;flex-direction:column !important;grid-template-columns:none !important;grid-template-rows:none !important;gap:16px !important;padding:20px !important;flex:none !important;height:auto !important;min-height:auto !important;overflow:visible !important}
+  .sd-cinema{display:flex !important;flex-direction:column !important;grid-template-columns:none !important;grid-template-rows:none !important;gap:16px !important;padding:20px 20px 32px !important;flex:none !important;height:auto !important;min-height:auto !important;overflow:visible !important}
   .sd-arrow{height:auto !important;min-height:30px !important;flex-direction:row !important;padding:0 !important}
-  .sd-pane{width:100% !important;min-width:0 !important;flex:none !important;height:auto !important;min-height:auto !important;overflow:visible !important}
-  .sd-pane-body{overflow:visible !important;flex:none !important;height:auto !important}
+  .sd-pane{width:100% !important;min-width:0 !important;flex:none !important;height:auto !important;min-height:auto !important;overflow:visible !important;margin-bottom:4px !important}
+  .sd-pane-body{overflow:visible !important;flex:none !important;height:auto !important;padding:16px 16px 20px !important}
   .sd-inbox{overflow:visible !important;height:auto !important}
-  .sd-actions{overflow:visible !important;height:auto !important}
+  .sd-actions{overflow:visible !important;height:auto !important;padding-bottom:4px !important}
+  .sd-action{overflow:visible !important}
   .sd-thought{font-size:12px;overflow:visible !important;height:auto !important;flex:none !important}
 }
 `;
