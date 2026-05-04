@@ -298,12 +298,19 @@ function Team() {
           display:flex;
           align-items:center;
           justify-content:center;
+          padding:0 !important;
+          margin:0 !important;
           position:relative;
         }
         .team-photo img{
-          width:100%;
-          height:100%;
-          object-fit:cover;
+          width:100% !important;
+          height:100% !important;
+          object-fit:cover !important;
+          object-position:center top !important;
+          display:block;
+          padding:0 !important;
+          margin:0 !important;
+          border-radius:12px;
         }
         .team-photo-placeholder{
           width:100%;
