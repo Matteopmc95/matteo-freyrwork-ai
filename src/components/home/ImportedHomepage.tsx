@@ -88,22 +88,6 @@ section:not(.alt) .pain-card{background:var(--bg2)}
 .biz-pill{padding:10px 18px;border-radius:8px;font-size:13px;border:1px solid rgba(0,0,0,0.08);color:#0D0F14;background:#F4F3EE;font-weight:500;transition:border-color .2s,color .2s,background .2s,transform .15s;cursor:default}
 .biz-pill:hover{border-color:rgba(75,107,251,.5);color:#0D0F14;background:#FFFFFF;transform:translateY(-1px)}
 #chi .section-cta{margin-top:40px}
-#benefici .ben-layout{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;margin-top:56px}
-#benefici .benefit-grid{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.benefit-card{background:var(--bg2);padding:28px 24px}
-.benefit-num{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);font-weight:500;margin-bottom:12px}
-.benefit-card h3{font-size:clamp(15px,1.3vw,19px);font-weight:600;line-height:1.2;margin-bottom:10px;letter-spacing:-.01em}
-.benefit-card p{font-size:13px;color:var(--muted);line-height:1.65}
-.stats-visual{display:flex;flex-direction:column;gap:20px}
-.stat-row{display:flex;flex-direction:column;gap:8px}
-.stat-label{display:flex;justify-content:space-between;align-items:center}
-.stat-label span{font-size:13px;color:var(--muted)}
-.stat-label strong{font-size:14px;font-weight:600;color:var(--txt)}
-.stat-bar{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
-.stat-bar-fill{height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:2px;width:0;transition:width 1.4s cubic-bezier(.4,0,.2,1)}
-.stat-bar-fill.loaded{width:var(--w)}
-.stat-note{font-size:11px;color:rgba(244,243,238,.25);margin-top:20px;line-height:1.6}
-@media(max-width:768px){#benefici .ben-layout{grid-template-columns:1fr}}
 #come .steps-wrap{position:relative;margin-top:56px}
 #come .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .step{background:var(--bg2);padding:32px 24px;position:relative}
@@ -303,49 +287,6 @@ const markup = `
   </div>
   <div class="section-cta reveal" style="margin-top:40px">
     <a href="/casi-studio" class="btn-ghost">Vedi un esempio concreto</a>
-  </div>
-</section>
-<section id="benefici">
-  <p class="section-tag reveal">Cosa cambia</p>
-  <h2 class="section-headline reveal reveal-d1">Cosa cambia, nella pratica</h2>
-  <p class="section-sub reveal reveal-d2">Non più tecnologia da osservare. Un aiuto reale per lavorare meglio ogni giorno.</p>
-  <div class="ben-layout">
-    <div class="benefit-grid reveal reveal-d1">
-      <div class="benefit-card">
-        <div class="benefit-num">01</div>
-        <h3>Più controllo, meno rincorsa</h3>
-        <p>Rispondi prima ai clienti. Tieni più ordine tra richieste e informazioni. Sai sempre dove stai.</p>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-num">02</div>
-        <h3>Più chiarezza sui dati</h3>
-        <p>Leggi con facilità l'andamento dell'attività. Accorgiti di trend e criticità prima che diventino problemi.</p>
-      </div>
-      <div class="benefit-card">
-        <div class="benefit-num">03</div>
-        <h3>Meno dispersione ogni giorno</h3>
-        <p>Meno passaggi inutili, meno dipendenza da urgenza. Il lavoro scorre con più continuità.</p>
-      </div>
-    </div>
-    <div class="stats-visual reveal reveal-d2" id="statsVis">
-      <div class="stat-row">
-        <div class="stat-label"><span>Tempo su attività ripetitive</span><strong id="s1">—</strong></div>
-        <div class="stat-bar"><div class="stat-bar-fill" style="--w:72%"></div></div>
-      </div>
-      <div class="stat-row">
-        <div class="stat-label"><span>Velocità di risposta ai clienti</span><strong id="s2">—</strong></div>
-        <div class="stat-bar"><div class="stat-bar-fill" style="--w:85%"></div></div>
-      </div>
-      <div class="stat-row">
-        <div class="stat-label"><span>Chiarezza sui dati operativi</span><strong id="s3">—</strong></div>
-        <div class="stat-bar"><div class="stat-bar-fill" style="--w:90%"></div></div>
-      </div>
-      <div class="stat-row">
-        <div class="stat-label"><span>Continuità nei flussi</span><strong id="s4">—</strong></div>
-        <div class="stat-bar"><div class="stat-bar-fill" style="--w:78%"></div></div>
-      </div>
-      <p class="stat-note">Miglioramenti medi rilevati nelle attività che hanno integrato un collaboratore AI sui propri flussi operativi.</p>
-    </div>
   </div>
 </section>
 <section id="come" class="alt">
@@ -895,43 +836,6 @@ export default function ImportedHomepage() {
       document.querySelectorAll(".reveal").forEach((el) => el.classList.add("visible"));
     }
 
-    // stats observer
-    const statsObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.querySelectorAll(".stat-bar-fill").forEach((bar) => bar.classList.add("loaded"));
-          const targets = [
-            { id: "s1", val: "-72%" },
-            { id: "s2", val: "+3x" },
-            { id: "s3", val: "+90%" },
-            { id: "s4", val: "+78%" },
-          ];
-          targets.forEach((target, index) => {
-            setTimeout(() => {
-              const el = document.getElementById(target.id);
-              if (el) el.textContent = target.val;
-            }, 400 + index * 150);
-          });
-          statsObserver.unobserve(entry.target);
-        });
-      },
-      { threshold: 0, rootMargin: "0px 0px -40px 0px" },
-    );
-
-    const statsVisEl = document.getElementById("statsVis");
-    if (!statsVisEl) {
-      let attempts = 0;
-      const iv = setInterval(() => {
-        const found = document.getElementById("statsVis");
-        attempts++;
-        if (found || attempts > 20) { clearInterval(iv); if (found) statsObserver.observe(found); }
-      }, 100);
-      pendingIntervals.push(iv);
-    } else {
-      statsObserver.observe(statsVisEl);
-    }
-
     // step progress observer
     const stepObserver = new IntersectionObserver(
       (entries) => {
@@ -966,8 +870,7 @@ export default function ImportedHomepage() {
 
     // Mobile Safari fallback: force all animations if observers haven't fired after 2.5s
     const animFallbackTimer = setTimeout(() => {
-      document.querySelectorAll(".stat-bar-fill:not(.loaded)").forEach((el) => el.classList.add("loaded"));
-      document.querySelectorAll(".reveal:not(.visible)").forEach((el) => el.classList.add("visible"));
+document.querySelectorAll(".reveal:not(.visible)").forEach((el) => el.classList.add("visible"));
       document.querySelectorAll(".step-progress-fill:not(.loaded)").forEach((el) => el.classList.add("loaded"));
     }, 2500);
 
@@ -993,7 +896,6 @@ export default function ImportedHomepage() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       revealObserver.disconnect();
-      statsObserver.disconnect();
       stepObserver.disconnect();
       clearTimeout(animFallbackTimer);
       pendingIntervals.forEach(clearInterval);
