@@ -53,10 +53,12 @@ export default function Navbar() {
         WebkitBackdropFilter: scrolled ? 'blur(18px) saturate(1.2)' : 'none',
         borderBottom: scrolled ? '1px solid rgba(255,255,255,0.07)' : '1px solid transparent',
       }}>
-        <Link href="/" style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '-0.01em', textDecoration: 'none', lineHeight: 1, zIndex: 101, position: 'relative' }}>
-          <span style={{ color: '#F4F3EE' }}>Freyr</span>
-          <span style={{ color: '#4B6BFB' }}>technology</span>
-          <span style={{ color: '#F4F3EE' }}>AI</span>
+        <Link href="/" className="navbar-logo" style={{ display: 'flex', alignItems: 'center', gap: 10, fontWeight: 600, fontSize: '13px', letterSpacing: '-0.01em', textDecoration: 'none', lineHeight: 1, zIndex: 101, position: 'relative' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo/logo.png" alt="FreyrtechnologyAI" style={{ width: 32, height: 32, objectFit: 'contain' }} />
+          <span style={{ color: '#F4F3EE' }}>
+            Freyr<span style={{ color: '#4B6BFB' }}>technology</span>AI
+          </span>
         </Link>
 
         {/* Desktop links */}
@@ -127,6 +129,8 @@ export default function Navbar() {
             </div>
 
             <div className="mobile-menu-brand">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo/logo.png" alt="FreyrtechnologyAI" style={{ width: 24, height: 24, objectFit: 'contain', marginRight: 8 }} />
               <span style={{ color: 'rgba(244,243,238,0.3)' }}>Freyr</span>
               <span style={{ color: '#4B6BFB', opacity: 0.6 }}>technology</span>
               <span style={{ color: 'rgba(244,243,238,0.3)' }}>AI</span>

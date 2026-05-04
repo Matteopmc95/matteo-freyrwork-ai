@@ -105,8 +105,9 @@ section:not(.alt) .pain-card{background:var(--bg2)}
 .cta-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
 .cta-micro{font-size:12px;color:var(--muted);margin-top:20px;letter-spacing:.02em}
 footer{padding:40px 8vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
-.footer-logo{font-size:14px;font-weight:600;color:rgba(244,243,238,.3)}
-.footer-logo span{color:var(--acc);opacity:.6}
+.footer-logo{font-size:14px;font-weight:600;color:rgba(244,243,238,.3);display:flex;align-items:center;gap:10px}
+.footer-logo .brand-accent{color:var(--acc);opacity:.6}
+.footer-logo img{width:28px;height:28px;object-fit:contain}
 .footer-copy{font-size:12px;color:rgba(244,243,238,.18)}
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:none}
@@ -330,7 +331,7 @@ const markup = `
   <p class="cta-micro reveal reveal-d3">Nessun tecnicismo inutile. Partiamo da come lavori oggi.</p>
 </section>
 <footer>
-  <span class="footer-logo">Freyr<span>technology</span>AI</span>
+  <span class="footer-logo"><img src="/logo/logo.png" alt="FreyrtechnologyAI"><span>Freyr<span class="brand-accent">technology</span>AI</span></span>
   <span class="footer-copy">© 2025 FreyrtechnologyAI. Agenti AI per PMI e imprese locali.</span>
 </footer>
 `;
