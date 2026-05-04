@@ -287,7 +287,7 @@ function Team() {
           marginBottom: 16,
         }}
       >
-        Le persone dietro Freyrwork
+        Le persone dietro FreyrtechnologyAI
       </h2>
       <p
         data-reveal
@@ -778,7 +778,7 @@ function Footer() {
         Freyr<span style={{ color: C.acc, opacity: 0.6 }}>work</span>
       </span>
       <span style={{ fontSize: 12, color: 'rgba(244,243,238,0.18)' }}>
-        © 2025 Freyrwork. Agenti AI per PMI e imprese locali.
+        © 2025 FreyrtechnologyAI. Agenti AI per PMI e imprese locali.
       </span>
     </footer>
   );

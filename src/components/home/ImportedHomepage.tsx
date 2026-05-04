@@ -170,7 +170,7 @@ const markup = `
   <h2 class="section-headline reveal reveal-d1">Un collaboratore AI non ti complica il lavoro.<br>Ti aiuta a governarlo meglio.</h2>
   <div class="two-col">
     <div>
-      <p class="section-sub reveal">Freyrwork sviluppa agenti AI capaci di supportare richieste, processi, dati e flussi quotidiani in modo concreto e adattabile.</p>
+      <p class="section-sub reveal">FreyrtechnologyAI sviluppa agenti AI capaci di supportare richieste, processi, dati e flussi quotidiani in modo concreto e adattabile.</p>
       <div class="feature-list">
         <div class="feature-item reveal reveal-d1">
           <div class="feat-dot"></div>
@@ -240,7 +240,7 @@ const markup = `
     <div class="compare-header">
       <div></div>
       <div>AI generica</div>
-      <div class="col-acc">Agente AI Freyrwork</div>
+      <div class="col-acc">Agente AI FreyrtechnologyAI</div>
     </div>
     <div class="compare-row">
       <div class="col-first">Punto di partenza</div>
@@ -272,7 +272,7 @@ const markup = `
 <section id="chi" class="alt">
   <p class="section-tag reveal">Per chi</p>
   <h2 class="section-headline reveal reveal-d1">Ogni attività ha flussi diversi.<br>Ma molte difficoltà sono sorprendentemente simili.</h2>
-  <p class="section-sub reveal reveal-d2">Freyrwork lavora con imprese locali e PMI che ogni giorno devono coordinare persone, clienti, richieste e informazioni.</p>
+  <p class="section-sub reveal reveal-d2">FreyrtechnologyAI lavora con imprese locali e PMI che ogni giorno devono coordinare persone, clienti, richieste e informazioni.</p>
   <div class="biz-grid reveal reveal-d2">
     <span class="biz-pill">Hotel e strutture ricettive</span>
     <span class="biz-pill">Ristoranti e locali</span>
@@ -292,7 +292,7 @@ const markup = `
 <section id="come" class="alt">
   <p class="section-tag reveal">Come lavoriamo</p>
   <h2 class="section-headline reveal reveal-d1">Non ti lasciamo da solo<br>davanti a uno strumento</h2>
-  <p class="section-sub reveal reveal-d2">Freyrwork accompagna l'azienda passo dopo passo, dalla comprensione del problema fino all'applicazione concreta.</p>
+  <p class="section-sub reveal reveal-d2">FreyrtechnologyAI accompagna l'azienda passo dopo passo, dalla comprensione del problema fino all'applicazione concreta.</p>
   <div class="steps-wrap">
     <div class="steps reveal reveal-d1">
       <div class="step">
@@ -331,7 +331,7 @@ const markup = `
 </section>
 <footer>
   <span class="footer-logo">Freyr<span>work</span></span>
-  <span class="footer-copy">© 2025 Freyrwork. Agenti AI per PMI e imprese locali.</span>
+  <span class="footer-copy">© 2025 FreyrtechnologyAI. Agenti AI per PMI e imprese locali.</span>
 </footer>
 `;
 

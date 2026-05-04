@@ -1139,7 +1139,7 @@ function CaseStudy({ data }: { data: Case }) {
               marginBottom: 10,
             }}
           >
-            Intervento Freyrwork
+            Intervento FreyrtechnologyAI
           </div>
           <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, fontWeight: 300, marginBottom: 16 }}>
             {data.intervention}
@@ -1442,10 +1442,10 @@ function Footer() {
       }}
     >
       <span style={{ fontSize: 14, fontWeight: 600, color: 'rgba(244,243,238,0.3)' }}>
-        Freyr<span style={{ color: C.acc, opacity: 0.6 }}>work</span>
+        Freyr<span style={{ color: C.acc, opacity: 0.6 }}>technology</span>AI
       </span>
       <span style={{ fontSize: 12, color: 'rgba(244,243,238,0.18)' }}>
-        © 2025 Freyrwork. Agenti AI per PMI e imprese locali.
+        © 2025 FreyrtechnologyAI. Agenti AI per PMI e imprese locali.
       </span>
     </footer>
   );
@@ -1465,7 +1465,7 @@ const CASES: Case[] = [
     before:
       'Il team si trovava a rincorrere messaggi, conferme, richieste ricorrenti e informazioni utili ai clienti, con un forte dispendio di tempo operativo e poca visibilità d\'insieme.',
     intervention:
-      'Freyrwork ha progettato un agente AI capace di supportare la gestione delle richieste, organizzare le informazioni e alleggerire una parte del flusso operativo quotidiano.',
+      'FreyrtechnologyAI ha progettato un agente AI capace di supportare la gestione delle richieste, organizzare le informazioni e alleggerire una parte del flusso operativo quotidiano.',
     application:
       'Il collaboratore AI è stato adattato al contesto della struttura per supportare i passaggi più ripetitivi e migliorare l\'ordine del lavoro.',
     result:
@@ -1487,7 +1487,7 @@ const CASES: Case[] = [
     before:
       'Molte informazioni restavano sparse tra telefonate, messaggi e appunti, rendendo il lavoro meno fluido e più esposto a dimenticanze o sovrapposizioni.',
     intervention:
-      'Freyrwork ha costruito un agente AI capace di supportare l\'organizzazione delle richieste e alleggerire il carico operativo nelle attività ripetitive.',
+      'FreyrtechnologyAI ha costruito un agente AI capace di supportare l\'organizzazione delle richieste e alleggerire il carico operativo nelle attività ripetitive.',
     application:
       'L\'agente è stato inserito nei punti del flusso dove il ristorante perdeva più tempo e dove la gestione manuale generava più attrito.',
     result:
@@ -1510,7 +1510,7 @@ const CASES: Case[] = [
     before:
       'Il lavoro si accumulava sulle stesse persone, riducendo il tempo per seguire al meglio il cliente e complicando l\'organizzazione.',
     intervention:
-      'Freyrwork ha sviluppato un collaboratore AI orientato al supporto operativo e alla semplificazione del flusso di gestione.',
+      'FreyrtechnologyAI ha sviluppato un collaboratore AI orientato al supporto operativo e alla semplificazione del flusso di gestione.',
     application:
       'L\'agente AI è stato adattato alle esigenze del salone per rendere più lineare la gestione delle richieste e migliorare l\'ordine delle informazioni.',
     result: 'Più fluidità, meno interruzioni e maggiore qualità organizzativa.',

@@ -178,7 +178,7 @@ export default function Hero() {
             }}
           >
             Non semplici chatbot. Non strumenti generici da adattare da soli.
-            Freyrwork crea agenti AI che lavorano sui processi reali della tua
+            FreyrtechnologyAI crea agenti AI che lavorano sui processi reali della tua
             attività e ti aiutano a risparmiare tempo, organizzare meglio il
             lavoro e capire più in fretta cosa sta succedendo.
           </motion.p>
@@ -199,7 +199,7 @@ export default function Hero() {
             Ogni impresa oggi si trova a gestire molto più di quello che si
             vede: clienti da seguire, informazioni sparse, richieste che
             arrivano da canali diversi, attività ripetitive, numeri da leggere,
-            decisioni da prendere in poco tempo. Freyrwork nasce per alleggerire
+            decisioni da prendere in poco tempo. FreyrtechnologyAI nasce per alleggerire
             il lavoro operativo e restituire più chiarezza a chi guida
             l&apos;impresa.
           </motion.p>

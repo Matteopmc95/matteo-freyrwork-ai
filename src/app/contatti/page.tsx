@@ -572,7 +572,7 @@ function FormAndMap() {
             }}
           >
             <iframe
-              title="Freyrwork - Via dei Filosofi 2, Spoleto"
+              title="FreyrtechnologyAI - Via dei Filosofi 2, Spoleto"
               src="https://www.google.com/maps?q=Via+dei+Filosofi+2+Spoleto+PG&hl=it&z=16&output=embed"
               width="100%"
               height="100%"
@@ -774,7 +774,7 @@ function Footer() {
         Freyr<span style={{ color: C.acc, opacity: 0.6 }}>work</span>
       </span>
       <span style={{ fontSize: 12, color: 'rgba(244,243,238,0.18)' }}>
-        © 2025 Freyrwork. Agenti AI per PMI e imprese locali.
+        © 2025 FreyrtechnologyAI. Agenti AI per PMI e imprese locali.
       </span>
     </footer>
   );

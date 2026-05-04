@@ -417,7 +417,7 @@ export default function ServiziPage() {
         id="s2" num="Supporto operativo" alt flip
         headline="Un supporto concreto nelle attività<br>che si ripetono ogni giorno"
         sub="Non tutto ciò che occupa tempo crea valore. Spesso una parte del lavoro pesa solo perché si ripete troppo."
-        body="Ci sono compiti che non fanno notizia ma consumano ore: ricontrollare informazioni, recuperare dati, rispondere a richieste simili, organizzare passaggi interni. Freyrwork sviluppa agenti AI che affiancano l'operatività proprio su questo piano — per togliere attrito alle attività più dispersive."
+        body="Ci sono compiti che non fanno notizia ma consumano ore: ricontrollare informazioni, recuperare dati, rispondere a richieste simili, organizzare passaggi interni. FreyrtechnologyAI sviluppa agenti AI che affiancano l'operatività proprio su questo piano — per togliere attrito alle attività più dispersive."
         meta={[
           { title: 'Problema che risolve', text: 'Sovraccarico operativo, troppe attività manuali, perdita di tempo su compiti a basso valore.' },
           { title: 'Beneficio finale', text: 'Meno interruzioni, meno energia dispersa, più tempo per le attività che contano davvero.' },
@@ -449,7 +449,7 @@ export default function ServiziPage() {
         id="s4" num="Automazione di flussi interni" alt flip
         headline="Meno passaggi inutili,<br>più fluidità nei processi"
         sub="Quando un processo è lento o dipende troppo da gestione manuale, anche il lavoro migliore perde efficienza."
-        body="Molte attività convivono con flussi interni costruiti nel tempo in modo spontaneo: fogli, note, messaggi, passaggi verbali. È normale, ma diventa un freno. Freyrwork interviene aiutando l'impresa a individuare dove l'AI può alleggerire processi interni, rendere i passaggi più chiari e portare maggiore coerenza operativa."
+        body="Molte attività convivono con flussi interni costruiti nel tempo in modo spontaneo: fogli, note, messaggi, passaggi verbali. È normale, ma diventa un freno. FreyrtechnologyAI interviene aiutando l'impresa a individuare dove l'AI può alleggerire processi interni, rendere i passaggi più chiari e portare maggiore coerenza operativa."
         meta={[
           { title: 'Problema che risolve', text: 'Processi lenti, flussi disordinati, dipendenza eccessiva da passaggi manuali.' },
           { title: 'Beneficio finale', text: 'Più ordine nei processi, meno frizioni, maggiore efficienza interna.' },
@@ -462,8 +462,8 @@ export default function ServiziPage() {
       <ServiceSection
         id="s5" num="Soluzioni adattabili"
         headline="Nessuna attività è uguale<br>a un'altra. E nemmeno la soluzione."
-        sub="Freyrwork non forza uno schema standard. Parte dal contesto reale dell'impresa."
-        body="Il vero limite di molte soluzioni digitali è che chiedono all'azienda di adattarsi allo strumento. Freyrwork lavora al contrario: osserva il modo in cui l'attività funziona, capisce dove si crea attrito e costruisce un collaboratore AI coerente con quel contesto."
+        sub="FreyrtechnologyAI non forza uno schema standard. Parte dal contesto reale dell'impresa."
+        body="Il vero limite di molte soluzioni digitali è che chiedono all'azienda di adattarsi allo strumento. FreyrtechnologyAI lavora al contrario: osserva il modo in cui l'attività funziona, capisce dove si crea attrito e costruisce un collaboratore AI coerente con quel contesto."
         meta={[
           { title: 'Approccio', text: "Ascolto prima, soluzione dopo. Mai uno strumento generico imposto dall'esterno." },
           { title: 'Beneficio finale', text: 'Una soluzione più credibile, più adottabile e più utile nel lavoro quotidiano.' },
@@ -523,7 +523,7 @@ export default function ServiziPage() {
         <span style={{ fontSize: 14, fontWeight: 600, color: 'rgba(244,243,238,0.3)' }}>
           Freyr<span style={{ color: C.acc, opacity: 0.6 }}>work</span>
         </span>
-        <span style={{ fontSize: 12, color: 'rgba(244,243,238,0.18)' }}>© 2025 Freyrwork. Agenti AI per PMI e imprese locali.</span>
+        <span style={{ fontSize: 12, color: 'rgba(244,243,238,0.18)' }}>© 2025 FreyrtechnologyAI. Agenti AI per PMI e imprese locali.</span>
       </footer>
     </div>
   );

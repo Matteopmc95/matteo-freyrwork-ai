@@ -53,9 +53,10 @@ export default function Navbar() {
         WebkitBackdropFilter: scrolled ? 'blur(18px) saturate(1.2)' : 'none',
         borderBottom: scrolled ? '1px solid rgba(255,255,255,0.07)' : '1px solid transparent',
       }}>
-        <Link href="/" style={{ fontWeight: 600, fontSize: '15px', letterSpacing: '-0.01em', textDecoration: 'none', lineHeight: 1, zIndex: 101, position: 'relative' }}>
+        <Link href="/" style={{ fontWeight: 600, fontSize: '13px', letterSpacing: '-0.01em', textDecoration: 'none', lineHeight: 1, zIndex: 101, position: 'relative' }}>
           <span style={{ color: '#F4F3EE' }}>Freyr</span>
-          <span style={{ color: '#4B6BFB' }}>work</span>
+          <span style={{ color: '#4B6BFB' }}>technology</span>
+          <span style={{ color: '#F4F3EE' }}>AI</span>
         </Link>
 
         {/* Desktop links */}
@@ -127,7 +128,8 @@ export default function Navbar() {
 
             <div className="mobile-menu-brand">
               <span style={{ color: 'rgba(244,243,238,0.3)' }}>Freyr</span>
-              <span style={{ color: '#4B6BFB', opacity: 0.6 }}>work</span>
+              <span style={{ color: '#4B6BFB', opacity: 0.6 }}>technology</span>
+              <span style={{ color: 'rgba(244,243,238,0.3)' }}>AI</span>
               <span style={{ color: 'rgba(244,243,238,0.2)', marginLeft: '8px', fontSize: '11px' }}>© 2025</span>
             </div>
           </div>

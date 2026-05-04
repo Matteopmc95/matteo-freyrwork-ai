@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
   ChatbotEmbed — chat UI integrata nella pagina per far provare al cliente
   direttamente l'agente AI. Usa la Claude helper (window.claude.complete) già
   disponibile nel progetto. Nessuna dipendenza esterna. Stile allineato ai
-  tokens Freyrwork (bg2, acc, muted, border).
+  tokens FreyrtechnologyAI (bg2, acc, muted, border).
 */
 
 const C = {
@@ -21,7 +21,7 @@ const C = {
 
 type Msg = { role: 'user' | 'assistant'; text: string };
 
-const SYSTEM = `Sei un agente AI dimostrativo di Freyrwork, una software house che progetta collaboratori AI per PMI e attività locali in Italia (hotel, ristoranti, parrucchieri, negozi, professionisti, pizzerie, delivery, centri estetici).
+const SYSTEM = `Sei un agente AI dimostrativo di FreyrtechnologyAI, una software house che progetta collaboratori AI per PMI e attività locali in Italia (hotel, ristoranti, parrucchieri, negozi, professionisti, pizzerie, delivery, centri estetici).
 
 Tono: chiaro, concreto, rassicurante. Professionale ma non freddo. Niente tecnicismi. Nessuna emoji. Frasi brevi, paragrafi respirati.
 
@@ -45,7 +45,7 @@ export default function ChatbotEmbed() {
   const [messages, setMessages] = useState<Msg[]>([
     {
       role: 'assistant',
-      text: "Ciao. Sono un agente AI dimostrativo di Freyrwork. Raccontami com'è fatta la tua attività o chiedimi qualcosa di concreto — provo a mostrarti come un collaboratore AI potrebbe lavorare nel tuo caso.",
+      text: "Ciao. Sono un agente AI dimostrativo di FreyrtechnologyAI. Raccontami com'è fatta la tua attività o chiedimi qualcosa di concreto — provo a mostrarti come un collaboratore AI potrebbe lavorare nel tuo caso.",
     },
   ]);
   const [input, setInput] = useState('');

@@ -95,7 +95,7 @@ export default function HowWeWork() {
               marginTop: "20px",
             }}
           >
-            Freyrwork accompagna l&apos;azienda passo dopo passo, dalla
+            FreyrtechnologyAI accompagna l&apos;azienda passo dopo passo, dalla
             comprensione del problema fino all&apos;applicazione concreta.
           </p>
           <p

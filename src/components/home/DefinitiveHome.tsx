@@ -258,7 +258,7 @@ export default function DefinitiveHome() {
               }}
             >
               Non semplici chatbot. Non strumenti generici da adattare da soli.
-              Freyrwork crea agenti AI che lavorano sui processi reali della tua
+              FreyrtechnologyAI crea agenti AI che lavorano sui processi reali della tua
               attività e ti aiutano a risparmiare tempo, organizzare meglio il
               lavoro e capire più in fretta cosa sta succedendo.
             </motion.p>
@@ -275,7 +275,7 @@ export default function DefinitiveHome() {
               Ogni impresa oggi si trova a gestire molto più di quello che si
               vede. Clienti da seguire, informazioni sparse, richieste da canali
               diversi, attività ripetitive, numeri da leggere e decisioni da
-              prendere in poco tempo. Freyrwork nasce per aiutare proprio qui.
+              prendere in poco tempo. FreyrtechnologyAI nasce per aiutare proprio qui.
             </motion.p>
 
             <motion.div
@@ -575,7 +575,7 @@ export default function DefinitiveHome() {
                 color: "rgba(244,243,238,0.68)",
               }}
             >
-              Freyrwork sviluppa agenti AI capaci di supportare richieste,
+              FreyrtechnologyAI sviluppa agenti AI capaci di supportare richieste,
               processi, dati e flussi quotidiani in modo concreto e adattabile.
               Non sostituiscono la tua esperienza: ti aiutano a lavorare con
               meno caos, più continuità e più lucidità.
@@ -609,7 +609,7 @@ export default function DefinitiveHome() {
                 accent: false,
               },
               {
-                title: "Agente AI Freyrwork",
+                title: "Agente AI FreyrtechnologyAI",
                 points: [
                   "Lavora sui flussi reali della tua attività",
                   "Organizza richieste, dati e passaggi ricorrenti",
@@ -713,7 +713,7 @@ export default function DefinitiveHome() {
                 color: "rgba(244,243,238,0.68)",
               }}
             >
-              Freyrwork lavora con imprese locali e PMI che ogni giorno devono
+              FreyrtechnologyAI lavora con imprese locali e PMI che ogni giorno devono
               coordinare persone, clienti, richieste e informazioni.
             </p>
           </motion.div>
@@ -983,7 +983,7 @@ export default function DefinitiveHome() {
                 color: "rgba(244,243,238,0.68)",
               }}
             >
-              Freyrwork accompagna l&apos;azienda passo dopo passo, dalla
+              FreyrtechnologyAI accompagna l&apos;azienda passo dopo passo, dalla
               comprensione del problema fino all&apos;applicazione concreta.
             </p>
           </motion.div>

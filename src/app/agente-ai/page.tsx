@@ -245,7 +245,7 @@ function SectionDifferenza() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${C.border}` }}>
           <div style={{ padding: '14px 24px', fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.muted }} />
           <div style={{ padding: '14px 24px', fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.muted }}>ChatGPT / Gemini</div>
-          <div style={{ padding: '14px 24px', fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.acc2, background: 'rgba(75,107,251,0.05)' }}>Agente AI Freyrwork</div>
+          <div style={{ padding: '14px 24px', fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.acc2, background: 'rgba(75,107,251,0.05)' }}>Agente AI FreyrtechnologyAI</div>
         </div>
         {rows.map((r, i) => (
           <div key={r.label} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderBottom: i === rows.length - 1 ? 'none' : `1px solid ${C.border}` }}>
@@ -288,7 +288,7 @@ function Footer() {
   return (
     <footer style={{ padding: '40px 8vw', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
       <span style={{ fontSize: 14, fontWeight: 600, color: 'rgba(244,243,238,0.3)' }}>Freyr<span style={{ color: C.acc, opacity: 0.6 }}>work</span></span>
-      <span style={{ fontSize: 12, color: 'rgba(244,243,238,0.18)' }}>© 2025 Freyrwork. Agenti AI per PMI e imprese locali.</span>
+      <span style={{ fontSize: 12, color: 'rgba(244,243,238,0.18)' }}>© 2025 FreyrtechnologyAI. Agenti AI per PMI e imprese locali.</span>
     </footer>
   );
 }

@@ -247,7 +247,7 @@ export default function SolutionSection() {
                 icon={Check}
                 iconColor="#7B94FC"
                 items={freyrworkPoints}
-                label="Agente AI Freyrwork"
+                label="Agente AI FreyrtechnologyAI"
                 listIcon={Check}
                 listIconColor="#7B94FC"
               />

@@ -114,7 +114,7 @@ export default function TargetSection() {
             sorprendentemente simili.
           </h2>
           <p style={{ ...bodyStyle, marginTop: "20px" }}>
-            Freyrwork lavora con imprese locali e PMI che ogni giorno devono
+            FreyrtechnologyAI lavora con imprese locali e PMI che ogni giorno devono
             coordinare persone, clienti, richieste e informazioni.
           </p>
         </motion.div>

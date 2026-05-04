@@ -294,7 +294,7 @@ export default function ServiziDemoHero() {
       <div className="sd-topbar">
         <div className="sd-topbar-left">
           <span className="sd-live-dot" />
-          <span className="sd-eyebrow">Freyrwork · Live demo</span>
+          <span className="sd-eyebrow">FreyrtechnologyAI · Live demo</span>
           <span className="sd-divider">/</span>
           <span className="sd-eyebrow-dim">Osserva un agente AI ricevere, ragionare e agire in tempo reale</span>
         </div>
