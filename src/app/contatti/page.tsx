@@ -139,9 +139,9 @@ const INFO_CARDS: InfoCard[] = [
   },
   {
     label: 'Email',
-    title: 'info@freyrwork.it',
+    title: 'info@freyrtechnology.ai',
     detail: 'Scrivici una mail. Ti rispondiamo entro 24h lavorative.',
-    href: 'mailto:info@freyrwork.it',
+    href: 'mailto:info@freyrtechnology.ai',
     cta: 'Invia email',
     icon: (
       <svg {...iconProps}>
@@ -381,9 +381,7 @@ function FormAndMap() {
               marginBottom: 14,
             }}
           >
-            Scrivici due righe,
-            <br />
-            leggiamo tutto.
+            Parliamo del tuo progetto
           </h2>
           <p
             style={{
@@ -642,19 +640,54 @@ function FormAndMap() {
 
 const FAQ_ITEMS = [
   {
-    id: 'response-time',
-    q: 'In quanto tempo ricevo una risposta?',
-    a: 'Rispondiamo entro 24 ore lavorative, spesso molto prima. Nessuna mail automatica: chi ti scrive è sempre una persona del team.',
+    id: 'data-storage',
+    q: 'Dove vengono conservati i dati che fornisco al mio agente AI?',
+    a: "I dati vengono trattati su infrastrutture cloud conformi al GDPR e localizzate nell'area economica europea quando possibile. Per ogni progetto definiamo insieme dove e come i dati vengono archiviati, in base al livello di sensibilità e ai requisiti normativi della tua attività.",
   },
   {
-    id: 'first-meeting',
-    q: 'Il primo incontro è gratuito?',
-    a: 'Sì. La prima chiamata conoscitiva serve a capire se quello che cerchi ha senso con quello che facciamo. Non c\'è impegno.',
+    id: 'model-training',
+    q: 'I dati della mia azienda vengono usati per addestrare modelli AI di terze parti?',
+    a: 'No. Quando integriamo modelli AI nei nostri agenti, configuriamo le chiamate in modo che i tuoi dati non vengano riutilizzati per il training di modelli pubblici. Lavoriamo con provider che offrono questa garanzia contrattuale e la verifichiamo prima di ogni implementazione.',
   },
   {
-    id: 'early-idea',
-    q: 'Posso scrivervi anche solo per un\'idea iniziale?',
-    a: 'Certo. Spesso le collaborazioni più interessanti partono proprio da un\'idea ancora grezza. Scrivici, ragioniamo insieme.',
+    id: 'wrong-answer',
+    q: 'Cosa succede se il mio agente AI sbaglia una risposta a un cliente?',
+    a: 'Ogni agente che costruiamo ha confini chiari su cosa può rispondere e quando deve invece passare la richiesta a una persona. Definiamo insieme questi confini in fase di progettazione, e nei primi tempi monitoriamo le conversazioni per affinare il comportamento.',
+  },
+  {
+    id: 'delivery-time',
+    q: 'Quanto tempo serve per avere un agente AI funzionante nella mia attività?',
+    a: 'Dipende dalla complessità del flusso. Per un caso semplice come la gestione di richieste ricorrenti, contiamo 4-6 settimane dalla raccolta requisiti al primo utilizzo reale. Casi più strutturati con integrazioni multiple richiedono 2-3 mesi.',
+  },
+  {
+    id: 'existing-systems',
+    q: 'Devo cambiare i sistemi che già utilizzo?',
+    a: "Quasi mai. Lavoriamo per integrare l'agente AI sopra ai sistemi esistenti (gestionale, CRM, calendario, posta, WhatsApp Business, ecc.), non per sostituirli. L'obiettivo è togliere attrito senza forzare un cambio infrastrutturale.",
+  },
+  {
+    id: 'sensitive-data',
+    q: "Come gestite l'accesso ai dati sensibili come anagrafiche clienti o dati di pagamento?",
+    a: "I dati di pagamento non vengono mai gestiti direttamente dall'agente AI. Per anagrafiche e altri dati sensibili applichiamo principi di accesso minimo: l'agente vede solo i dati che servono per quel compito specifico, con audit log di ogni accesso.",
+  },
+  {
+    id: 'service-end',
+    q: 'Cosa succede se decido di interrompere il servizio?',
+    a: 'I dati restano tuoi. Forniamo un export completo in formato standard (CSV, JSON o database dump a seconda dei casi) e procediamo alla cancellazione dai nostri sistemi entro i tempi concordati. Nessun lock-in tecnico o contrattuale.',
+  },
+  {
+    id: 'cost',
+    q: 'Quanto costa un agente AI per la mia attività?',
+    a: 'Il costo dipende dalla complessità del progetto e dai sistemi da integrare. Per un imprenditore di una PMI, parliamo di un investimento iniziale per lo sviluppo e di un canone mensile per gestione e infrastruttura. Definiamo tutto in modo chiaro prima di iniziare, senza sorprese.',
+  },
+  {
+    id: 'responsibility',
+    q: "Chi è responsabile se qualcosa va storto con l'agente AI?",
+    a: "Forniamo un contratto chiaro che definisce responsabilità, livelli di servizio e tempi di intervento. Restiamo coinvolti dopo il rilascio: monitoriamo l'agente, applichiamo correzioni e aggiorniamo le sue capacità in base a come evolve la tua attività.",
+  },
+  {
+    id: 'prototype',
+    q: 'Posso vedere come funziona prima di decidere?',
+    a: "Sì. Il primo passo è sempre una chiamata o un incontro per capire i tuoi flussi reali. Da lì costruiamo una proposta concreta con scenari d'uso specifici. In molti casi possiamo mostrarti un prototipo funzionante prima di chiederti un impegno contrattuale.",
   },
 ];
 
@@ -675,7 +708,7 @@ function FAQ() {
           marginBottom: 18,
         }}
       >
-        Prima di scrivere
+        Domande frequenti
       </p>
       <h2
         data-reveal
@@ -691,7 +724,7 @@ function FAQ() {
           marginBottom: 40,
         }}
       >
-        Qualche cosa da sapere
+        Quello che vorresti sapere prima di iniziare
       </h2>
 
       <div data-reveal style={{ ...rev(0.15), borderTop: `1px solid ${C.border}` }}>
@@ -741,7 +774,7 @@ function FAQ() {
             </div>
             <div
               style={{
-                maxHeight: open === item.id ? 200 : 0,
+                maxHeight: open === item.id ? 420 : 0,
                 overflow: 'hidden',
                 transition: 'max-height 0.35s ease, opacity 0.3s',
                 opacity: open === item.id ? 1 : 0,
