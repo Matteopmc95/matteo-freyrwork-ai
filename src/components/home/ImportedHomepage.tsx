@@ -330,7 +330,7 @@ const markup = `
   <p class="cta-micro reveal reveal-d3">Nessun tecnicismo inutile. Partiamo da come lavori oggi.</p>
 </section>
 <footer>
-  <span class="footer-logo">Freyr<span>work</span></span>
+  <span class="footer-logo">Freyr<span>technology</span>AI</span>
   <span class="footer-copy">© 2025 FreyrtechnologyAI. Agenti AI per PMI e imprese locali.</span>
 </footer>
 `;
