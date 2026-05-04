@@ -226,39 +226,6 @@ function SectionUtile() {
   );
 }
 
-/* ─── Differenza ChatGPT ─── */
-function SectionDifferenza() {
-  const rows = [
-    { label: 'Progettazione', generic: 'Strumento generico per tutti', freyr: 'Costruito sulla tua attività' },
-    { label: 'Contesto', generic: 'Nessuna memoria del tuo business', freyr: 'Impara flussi, dati e processi' },
-    { label: 'Utilità', generic: 'Compiti occasionali e isolati', freyr: 'Supporto operativo continuo' },
-    { label: 'Adattamento', generic: 'Ti adatti tu allo strumento', freyr: 'Si adatta al tuo modo di lavorare' },
-    { label: 'Risultato', generic: 'Risponde a domande', freyr: 'Lavora perché il business funzioni meglio' },
-  ];
-  return (
-    <Section id="differenza" tag="La differenza"
-      headline={<>{"Perché non è la stessa cosa"}<br />{"di usare uno strumento generico"}</>}
-      sub="Gli strumenti generici rispondono a richieste. Un agente AI aziendale lavora su flussi, dati e obiettivi specifici."
-      body="Strumenti come ChatGPT o Gemini possono essere utili per ottenere testi, idee, spiegazioni o supporto su compiti occasionali. Ma non nascono per conoscere la tua attività, né per lavorare dentro i tuoi processi. La differenza non è quindi solo tecnologica. È funzionale."
-    >
-      <div data-reveal style={{ ...rev(0.3), marginTop: 48, border: `1px solid ${C.border}`, borderRadius: 12, overflow: 'hidden' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: 'rgba(255,255,255,0.03)', borderBottom: `1px solid ${C.border}` }}>
-          <div style={{ padding: '14px 24px', fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.muted }} />
-          <div style={{ padding: '14px 24px', fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.muted }}>ChatGPT / Gemini</div>
-          <div style={{ padding: '14px 24px', fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.acc2, background: 'rgba(75,107,251,0.05)' }}>Agente AI FreyrtechnologyAI</div>
-        </div>
-        {rows.map((r, i) => (
-          <div key={r.label} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderBottom: i === rows.length - 1 ? 'none' : `1px solid ${C.border}` }}>
-            <div style={{ padding: '16px 24px', fontSize: 12, fontWeight: 500, color: 'rgba(244,243,238,0.5)', borderRight: `1px solid ${C.border}` }}>{r.label}</div>
-            <div style={{ padding: '16px 24px', fontSize: 13, color: C.muted, lineHeight: 1.5, borderRight: `1px solid ${C.border}` }}>{r.generic}</div>
-            <div style={{ padding: '16px 24px', fontSize: 13, color: 'rgba(244,243,238,0.8)', lineHeight: 1.5, background: 'rgba(75,107,251,0.03)' }}>{r.freyr}</div>
-          </div>
-        ))}
-      </div>
-    </Section>
-  );
-}
-
 /* ─── CTA finale ─── */
 function CTAFinal() {
   return (
@@ -305,7 +272,6 @@ export default function AgenteAIPage() {
       <SectionCosaFa />
       <SectionComeLavora />
       <SectionUtile />
-      <SectionDifferenza />
       <CTAFinal />
       <Footer />
     </div>
