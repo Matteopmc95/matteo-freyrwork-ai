@@ -240,7 +240,7 @@ const markup = `
     <div class="compare-header">
       <div></div>
       <div>AI generica</div>
-      <div class="col-acc">Agente AI FreyrtechnologyAI</div>
+      <div class="col-acc">Il tuo Agente AI</div>
     </div>
     <div class="compare-row">
       <div class="col-first">Punto di partenza</div>
