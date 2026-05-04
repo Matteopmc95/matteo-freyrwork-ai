@@ -626,6 +626,73 @@ const PILLARS = [
 function WhyUs() {
   return (
     <section className="s-to-main" style={{ padding: '100px 8vw', background: C.bg }}>
+      <style>{`
+        .reasons-scroll-hint{
+          display:none;
+          text-align:center;
+          font-size:11px;
+          color:rgba(244,243,238,0.4);
+          letter-spacing:0.04em;
+          margin-bottom:14px;
+        }
+        @media(min-width:1200px){
+          .reasons-grid{
+            display:grid !important;
+            grid-template-columns:repeat(5, 1fr) !important;
+            gap:14px !important;
+          }
+        }
+        @media(min-width:1024px) and (max-width:1199px){
+          .reasons-grid{
+            display:grid !important;
+            grid-template-columns:repeat(5, 1fr) !important;
+            gap:10px !important;
+          }
+          .reason-card{
+            padding:18px !important;
+          }
+        }
+        @media(min-width:769px) and (max-width:1023px){
+          .reasons-grid{
+            display:grid !important;
+            grid-template-columns:repeat(3, 1fr) !important;
+            gap:14px !important;
+          }
+          .reason-card:nth-child(4){
+            grid-column:1 / 2;
+          }
+          .reason-card:nth-child(5){
+            grid-column:2 / 4;
+          }
+        }
+        @media(max-width:768px){
+          .reasons-scroll-hint{
+            display:block !important;
+          }
+          .reasons-grid{
+            display:flex !important;
+            flex-direction:row !important;
+            grid-template-columns:none !important;
+            overflow-x:auto !important;
+            overflow-y:hidden !important;
+            gap:14px !important;
+            padding:4px 16px 8px 32px !important;
+            margin:32px -20px 0 0 !important;
+            scroll-snap-type:x mandatory !important;
+            scrollbar-width:none !important;
+            -webkit-overflow-scrolling:touch !important;
+          }
+          .reasons-grid::-webkit-scrollbar{
+            display:none !important;
+          }
+          .reason-card{
+            flex:0 0 82% !important;
+            min-width:82% !important;
+            max-width:82% !important;
+            scroll-snap-align:start !important;
+          }
+        }
+      `}</style>
       <p
         data-reveal
         style={{
@@ -657,10 +724,12 @@ function WhyUs() {
         Cinque ragioni, non una di più
       </h2>
 
+      <div className="reasons-scroll-hint">← scorri per vedere tutte le ragioni →</div>
+
       <div
+        className="reasons-grid"
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,260px),1fr))',
           gap: 1,
           background: C.border,
           border: `1px solid ${C.border}`,
@@ -671,6 +740,7 @@ function WhyUs() {
         {PILLARS.map((pillar, i) => (
           <div
             key={pillar.title}
+            className="reason-card"
             data-reveal
             style={{
               ...rev(0.15 + i * 0.05),
