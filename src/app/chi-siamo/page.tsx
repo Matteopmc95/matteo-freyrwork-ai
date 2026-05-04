@@ -278,11 +278,12 @@ function Team() {
         .team-card{
           display:flex;
           flex-direction:column;
-          gap:16px;
-          padding:24px;
+          gap:0;
+          padding:0;
           background:rgba(13,15,20,0.6);
           border:1px solid rgba(255,255,255,0.07);
           border-radius:14px;
+          overflow:hidden;
           transition:border-color .25s, transform .2s;
         }
         .team-card:hover{
@@ -292,7 +293,7 @@ function Team() {
         .team-photo{
           width:100%;
           aspect-ratio:1;
-          border-radius:12px;
+          border-radius:0 !important;
           overflow:hidden;
           background:rgba(255,255,255,0.03);
           display:flex;
@@ -310,7 +311,7 @@ function Team() {
           display:block;
           padding:0 !important;
           margin:0 !important;
-          border-radius:12px;
+          border-radius:0 !important;
         }
         .team-photo-placeholder{
           width:100%;
@@ -324,6 +325,12 @@ function Team() {
           font-weight:600;
           color:rgba(244,243,238,0.4);
           letter-spacing:-0.02em;
+        }
+        .team-content{
+          padding:24px;
+          display:flex;
+          flex-direction:column;
+          gap:14px;
         }
         .team-name{
           font-size:18px;
@@ -458,9 +465,11 @@ function Team() {
               )}
             </div>
 
-            <p className="team-role">{member.role}</p>
-            <h3 className="team-name">{member.name}</h3>
-            <p className="team-bio">{member.bio}</p>
+            <div className="team-content">
+              <p className="team-role">{member.role}</p>
+              <h3 className="team-name">{member.name}</h3>
+              <p className="team-bio">{member.bio}</p>
+            </div>
           </div>
         ))}
       </div>
