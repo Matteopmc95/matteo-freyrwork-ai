@@ -218,38 +218,47 @@ function Approccio() {
 }
 
 type Member = {
+  id: string;
   name: string;
   role: string;
   bio: string;
-  photo?: string;
+  image: string | null;
   initials: string;
 };
 
 const TEAM: Member[] = [
   {
-    name: 'Matteo Bartoli',
-    role: 'Marketing Automation Specialist AI',
-    bio:
-      'Marketing Automation Specialist AI di Freyr Technology, contribuisce allo sviluppo strategico e operativo delle soluzioni di marketing avanzato. Con oltre 10 anni di esperienza nel digital marketing, supporta la progettazione e l\'ottimizzazione di funnel, campagne e processi automatizzati orientati alla crescita. Negli ultimi 2 anni ha focalizzato il proprio lavoro sull\'integrazione dell\'intelligenza artificiale, sviluppando sistemi di personalizzazione, analisi dei dati e automazioni intelligenti.',
-    initials: 'MB',
-  },
-  {
+    id: 'alan',
     name: 'Alan Santi',
     role: 'CEO & Co-founder',
+    image: '/team/Alan.png',
     bio:
       'CEO e cofondatore di Freyr Technology. Con oltre 5 anni di esperienza nel settore tech e nello sviluppo software, guida la direzione strategica dell\'azienda, coordina i progetti e prende le principali decisioni operative e commerciali. Oltre al ruolo manageriale, contribuisce attivamente allo sviluppo front-end e alla progettazione di interfacce moderne e orientate all\'esperienza utente.',
     initials: 'AS',
   },
   {
+    id: 'fabiano',
     name: 'Fabiano Bertini',
     role: 'Socio Fondatore',
+    image: '/team/Fabiano.png',
     bio:
       'Socio fondatore di Freyr Technology e fondatore di PC Work di Bertini Fabiano. Con oltre 20 anni di esperienza nel settore IT e nella consulenza informatica, apporta una solida competenza maturata sul campo in infrastrutture, sicurezza informatica e gestione tecnologica. All\'interno dell\'azienda rappresenta una figura chiave per affidabilità, visione pratica e consolidamento operativo dei progetti.',
     initials: 'FB',
   },
   {
+    id: 'matteo',
+    name: 'Bartoli Matteo',
+    role: 'Marketing Automation Specialist AI',
+    image: null,
+    bio:
+      'Marketing Automation Specialist AI di Freyr Technology, contribuisce allo sviluppo strategico e operativo delle soluzioni di marketing avanzato. Con oltre 10 anni di esperienza nel digital marketing, supporta la progettazione e l\'ottimizzazione di funnel, campagne e processi automatizzati orientati alla crescita. Negli ultimi 2 anni ha focalizzato il proprio lavoro sull\'integrazione dell\'intelligenza artificiale, sviluppando sistemi di personalizzazione, analisi dei dati e automazioni intelligenti.',
+    initials: 'BM',
+  },
+  {
+    id: 'gaetano',
     name: 'Gaetano Santini',
     role: 'Sviluppatore',
+    image: null,
     bio:
       'Sviluppatore di Freyr Technology, contribuisce alla realizzazione tecnica dei progetti aziendali. Con oltre 10 anni di esperienza tra operatività, digitale e processi aziendali, si occupa dello sviluppo di automazioni, integrazioni software e nuove soluzioni basate su intelligenza artificiale. È una risorsa centrale nell\'esecuzione tecnica e nell\'evoluzione dei prodotti dell\'azienda.',
     initials: 'GS',
@@ -259,6 +268,122 @@ const TEAM: Member[] = [
 function Team() {
   return (
     <section className="s-to-main" style={{ padding: '100px 8vw', background: C.bg }}>
+      <style>{`
+        .team-grid{
+          display:grid;
+          grid-template-columns:repeat(4, 1fr);
+          gap:24px;
+          margin-top:48px;
+        }
+        .team-card{
+          display:flex;
+          flex-direction:column;
+          gap:16px;
+          padding:24px;
+          background:rgba(13,15,20,0.6);
+          border:1px solid rgba(255,255,255,0.07);
+          border-radius:14px;
+          transition:border-color .25s, transform .2s;
+        }
+        .team-card:hover{
+          border-color:rgba(75,107,251,0.3);
+          transform:translateY(-2px);
+        }
+        .team-photo{
+          width:100%;
+          aspect-ratio:1;
+          border-radius:12px;
+          overflow:hidden;
+          background:rgba(255,255,255,0.03);
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          position:relative;
+        }
+        .team-photo img{
+          width:100%;
+          height:100%;
+          object-fit:cover;
+        }
+        .team-photo-placeholder{
+          width:100%;
+          height:100%;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          background:radial-gradient(ellipse 60% 80% at 50% 40%, rgba(75,107,251,0.18), rgba(13,15,20,0.6) 70%), linear-gradient(160deg, rgba(123,148,252,0.08), rgba(13,15,20,0.8));
+          font-family:Syne, sans-serif;
+          font-size:42px;
+          font-weight:600;
+          color:rgba(244,243,238,0.4);
+          letter-spacing:-0.02em;
+        }
+        .team-name{
+          font-size:18px;
+          font-weight:600;
+          color:#F4F3EE;
+          font-family:Syne, sans-serif;
+          letter-spacing:-0.01em;
+          line-height:1.2;
+          margin:0;
+        }
+        .team-role{
+          font-size:12px;
+          color:#7B94FC;
+          letter-spacing:0.06em;
+          text-transform:uppercase;
+          font-weight:500;
+          line-height:1.4;
+          margin:0;
+        }
+        .team-bio{
+          font-size:13px;
+          color:rgba(244,243,238,0.65);
+          line-height:1.6;
+          font-weight:300;
+          margin:0;
+        }
+        .team-scroll-hint{
+          display:none;
+          text-align:center;
+          font-size:11px;
+          color:rgba(244,243,238,0.4);
+          letter-spacing:0.04em;
+          margin-bottom:14px;
+        }
+        @media(max-width:1024px) and (min-width:769px){
+          .team-grid{
+            grid-template-columns:repeat(2, 1fr);
+          }
+        }
+        @media(max-width:768px){
+          .team-scroll-hint{
+            display:block !important;
+          }
+          .team-grid{
+            display:flex !important;
+            flex-direction:row !important;
+            grid-template-columns:none !important;
+            overflow-x:auto !important;
+            overflow-y:hidden !important;
+            gap:14px !important;
+            padding:4px 16px 8px 32px !important;
+            margin:32px -20px 0 0 !important;
+            scroll-snap-type:x mandatory !important;
+            scrollbar-width:none !important;
+            -webkit-overflow-scrolling:touch !important;
+          }
+          .team-grid::-webkit-scrollbar{
+            display:none !important;
+          }
+          .team-card{
+            flex:0 0 82% !important;
+            min-width:82% !important;
+            max-width:82% !important;
+            scroll-snap-align:start !important;
+          }
+        }
+      `}</style>
       <p
         data-reveal
         style={{
@@ -298,128 +423,37 @@ function Team() {
           lineHeight: 1.75,
           fontWeight: 300,
           maxWidth: 620,
-          marginBottom: 56,
+          marginBottom: 0,
         }}
       >
         Un gruppo piccolo, per scelta. Ogni cliente parla con chi davvero lavora sul progetto, non con
         un account che poi inoltra.
       </p>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,300px),1fr))',
-          gap: 24,
-        }}
-      >
+      <div className="team-scroll-hint">← scorri per vedere il team →</div>
+
+      <div className="team-grid">
         {TEAM.map((member, i) => (
           <div
-            key={member.name}
+            key={member.id}
+            className="team-card"
             data-reveal
             style={{
               ...rev(0.2 + i * 0.08),
-              borderRadius: 14,
-              background: C.bg2,
-              border: `1px solid ${C.border}`,
-              overflow: 'hidden',
-              display: 'flex',
-              flexDirection: 'column',
             }}
           >
-            <div
-              style={{
-                aspectRatio: '4/3.2',
-                background:
-                  'radial-gradient(ellipse 60% 80% at 50% 40%, rgba(75,107,251,0.18), rgba(13,15,20,0.6) 70%), linear-gradient(160deg, rgba(123,148,252,0.08), rgba(13,15,20,0.8))',
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderBottom: `1px solid ${C.border}`,
-              }}
-            >
-              {member.photo ? (
+            <div className="team-photo">
+              {member.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={member.photo}
-                  alt={member.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
+                <img src={member.image} alt={member.name} />
               ) : (
-                <>
-                  <div
-                    style={{
-                      width: 86,
-                      height: 86,
-                      borderRadius: '50%',
-                      background: 'linear-gradient(140deg, rgba(123,148,252,0.22), rgba(75,107,251,0.08))',
-                      border: '1px solid rgba(123,148,252,0.32)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontFamily: 'Syne, sans-serif',
-                      fontSize: 28,
-                      fontWeight: 600,
-                      color: C.acc2,
-                      letterSpacing: '-0.02em',
-                    }}
-                  >
-                    {member.initials}
-                  </div>
-                  <div
-                    style={{
-                      position: 'absolute',
-                      bottom: 12,
-                      right: 14,
-                      fontSize: 10,
-                      color: 'rgba(244,243,238,0.28)',
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      fontWeight: 500,
-                    }}
-                  >
-                    Foto in arrivo
-                  </div>
-                </>
+                <div className="team-photo-placeholder">{member.initials}</div>
               )}
             </div>
 
-            <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 10, flex: 1 }}>
-              <div
-                style={{
-                  fontSize: 10,
-                  letterSpacing: '0.14em',
-                  textTransform: 'uppercase',
-                  color: C.acc2,
-                  fontWeight: 500,
-                }}
-              >
-                {member.role}
-              </div>
-              <h3
-                style={{
-                  fontSize: 22,
-                  fontWeight: 600,
-                  color: C.txt,
-                  fontFamily: 'Syne, sans-serif',
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1.15,
-                }}
-              >
-                {member.name}
-              </h3>
-              <p
-                style={{
-                  fontSize: 14,
-                  color: 'rgba(244,243,238,0.7)',
-                  lineHeight: 1.75,
-                  fontWeight: 300,
-                  marginTop: 4,
-                }}
-              >
-                {member.bio}
-              </p>
-            </div>
+            <p className="team-role">{member.role}</p>
+            <h3 className="team-name">{member.name}</h3>
+            <p className="team-bio">{member.bio}</p>
           </div>
         ))}
       </div>
