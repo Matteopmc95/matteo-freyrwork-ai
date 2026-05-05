@@ -14,7 +14,7 @@ const genericPoints = [
   "Uguale per tutti",
 ];
 
-const freyrworkPoints = [
+const freyrtechnologyPoints = [
   "Lavora attivamente sui tuoi flussi",
   "Costruito sul tuo contesto",
   "Adattabile per la tua realtà",
@@ -246,7 +246,7 @@ export default function SolutionSection() {
                 headerColor="#7B94FC"
                 icon={Check}
                 iconColor="#7B94FC"
-                items={freyrworkPoints}
+                items={freyrtechnologyPoints}
                 label="Agente AI FreyrtechnologyAI"
                 listIcon={Check}
                 listIconColor="#7B94FC"

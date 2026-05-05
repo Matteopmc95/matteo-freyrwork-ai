@@ -1391,7 +1391,7 @@ function CTAFinal() {
       </p>
       <div data-reveal style={{ ...rev(0.25), display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
         <a
-          href="mailto:info@freyrwork.com"
+          href="mailto:info@freyrtechnology.ai"
           style={{
             fontSize: 15,
             fontWeight: 500,

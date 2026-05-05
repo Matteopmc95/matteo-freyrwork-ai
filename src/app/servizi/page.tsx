@@ -508,10 +508,10 @@ export default function ServiziPage() {
           Parliamone partendo da come lavori oggi. Senza impegno, senza tecnicismi.
         </p>
         <div data-reveal style={{ ...rev(0.2), display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
-          <a href="mailto:info@freyrwork.com" style={{ fontSize: 13, fontWeight: 500, color: '#fff', padding: '10px 22px', borderRadius: 8, background: C.acc, border: `1px solid ${C.acc}`, textDecoration: 'none', transition: 'opacity 0.2s' }}>
+          <a href="mailto:info@freyrtechnology.ai" style={{ fontSize: 13, fontWeight: 500, color: '#fff', padding: '10px 22px', borderRadius: 8, background: C.acc, border: `1px solid ${C.acc}`, textDecoration: 'none', transition: 'opacity 0.2s' }}>
             Prenota una consulenza
           </a>
-          <a href="mailto:info@freyrwork.com" style={{ fontSize: 13, fontWeight: 400, color: C.txt, padding: '10px 22px', borderRadius: 8, border: `1px solid ${C.border}`, background: 'transparent', textDecoration: 'none', transition: 'border-color 0.2s' }}>
+          <a href="mailto:info@freyrtechnology.ai" style={{ fontSize: 13, fontWeight: 400, color: C.txt, padding: '10px 22px', borderRadius: 8, border: `1px solid ${C.border}`, background: 'transparent', textDecoration: 'none', transition: 'border-color 0.2s' }}>
             Analizziamo il tuo caso
           </a>
         </div>
