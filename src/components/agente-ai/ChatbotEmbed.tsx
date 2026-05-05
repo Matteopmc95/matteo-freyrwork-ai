@@ -50,6 +50,7 @@ export default function ChatbotEmbed() {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [conversationId, setConversationId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -62,24 +63,26 @@ export default function ChatbotEmbed() {
     const clean = text.trim();
     if (!clean || loading) return;
     setInput('');
-    const next: Msg[] = [...messages, { role: 'user', text: clean }];
-    setMessages(next);
+    setMessages((prev) => [...prev, { role: 'user', text: clean }]);
     setLoading(true);
 
     try {
-      const history = next.map((m) => `${m.role === 'user' ? 'Utente' : 'Agente'}: ${m.text}`).join('\n\n');
-      const prompt = `${SYSTEM}\n\n--- Conversazione ---\n${history}\n\nAgente:`;
-      // @ts-expect-error — window.claude is injected at runtime
-      const reply = await window.claude?.complete(prompt);
-      const cleaned = (reply || 'Scusa, non riesco a rispondere in questo momento. Riprova tra poco.').toString().trim();
-      setMessages((m) => [...m, { role: 'assistant', text: cleaned }]);
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: clean, conversationId }),
+      });
+      const data = await res.json();
+      if (data.error) {
+        setMessages((prev) => [...prev, { role: 'assistant', text: 'Mi dispiace, si è verificato un errore. Riprova tra un momento.' }]);
+      } else {
+        setMessages((prev) => [...prev, { role: 'assistant', text: data.reply }]);
+        if (data.conversationId) setConversationId(data.conversationId);
+      }
     } catch {
-      setMessages((m) => [
-        ...m,
-        {
-          role: 'assistant',
-          text: 'Ho un problema momentaneo nel rispondere. Riprova tra poco, oppure scrivici direttamente per una demo guidata.',
-        },
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', text: 'Errore di connessione. Controlla la tua connessione e riprova.' },
       ]);
     } finally {
       setLoading(false);
