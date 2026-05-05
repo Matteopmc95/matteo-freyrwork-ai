@@ -1,36 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Anthropic from '@anthropic-ai/sdk';
+import WebSocket from 'ws';
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
-
-const SYSTEM_PROMPT = `Sei un agente AI demo di Freyr Technology (freyrtechnology.ai), azienda italiana che progetta e costruisce agenti AI per PMI e imprese locali.
-
-Il tuo ruolo è informare, dimostrare e convertire visitatori interessati.
-
-COMPORTAMENTO:
-- Rispondi sempre in italiano
-- Sii conciso e diretto, massimo 2-3 frasi per risposta
-- Fai UNA domanda alla volta per capire il bisogno dell'utente
-- Sii naturale e professionale, non promozionale
-- Guida sempre la conversazione
-
-CHI È FREYR TECHNOLOGY:
-Freyr Technology costruisce agenti AI su misura per PMI e imprese locali italiane.
-Settori: Hotel, Ristoranti, Saloni, Retail, Professionisti, Delivery.
-Servizi: agenti AI per prenotazioni, supporto operativo, analisi dati, automazione flussi.
-
-TONO:
-- Calmo, naturale, professionale
-- Mai entusiasta o promozionale
-- Diretto e concreto
-- Leggermente cordiale
-
-CTA:
-Quando l'utente è interessato, suggerisci di contattare il team via email info@freyrtechnology.ai o visitare freyrtechnology.ai/contatti`;
-
-const conversationHistory: Map<string, { role: 'user' | 'assistant'; content: string }[]> = new Map();
+const AGENT_ID = 'agent_6601kqbzq5hcf0m9j3qrkv944ypv';
 
 export async function POST(req: NextRequest) {
   try {
@@ -40,29 +11,82 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Message required' }, { status: 400 });
     }
 
-    const convId = conversationId || `conv_${Date.now()}`;
-    const history = conversationHistory.get(convId) || [];
+    const apiKey = process.env.ELEVENLABS_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
+    }
 
-    history.push({ role: 'user', content: message });
+    const reply = await new Promise<string>((resolve, reject) => {
+      const wsUrl = `wss://api.elevenlabs.io/v1/convai/conversation?agent_id=${AGENT_ID}`;
+      const ws = new WebSocket(wsUrl, {
+        headers: { 'xi-api-key': apiKey },
+      });
 
-    const response = await client.messages.create({
-      model: 'claude-sonnet-4-5',
-      max_tokens: 300,
-      system: SYSTEM_PROMPT,
-      messages: history,
+      let agentResponse = '';
+      const timeout = setTimeout(() => {
+        ws.close();
+        reject(new Error('Timeout'));
+      }, 15000);
+
+      ws.on('open', () => {
+        ws.send(JSON.stringify({
+          type: 'conversation_initiation_client_data',
+          conversation_config_override: {
+            conversation: { text_only: true },
+          },
+          ...(conversationId ? { conversation_id: conversationId } : {}),
+        }));
+      });
+
+      ws.on('message', (data: Buffer) => {
+        try {
+          const msg = JSON.parse(data.toString());
+          console.log('ElevenLabs WS message:', JSON.stringify(msg));
+
+          if (msg.type === 'conversation_initiation_metadata') {
+            ws.send(JSON.stringify({
+              type: 'user_message',
+              text: message,
+            }));
+          }
+
+          if (msg.type === 'agent_response') {
+            agentResponse += msg.agent_response?.text || msg.text || '';
+          }
+
+          if (msg.type === 'agent_response_correction') {
+            agentResponse = msg.agent_response?.text || msg.text || agentResponse;
+          }
+
+          if (msg.type === 'turn_end' || msg.type === 'agent_turn_end') {
+            clearTimeout(timeout);
+            ws.close();
+            resolve(agentResponse || 'Risposta non disponibile');
+          }
+        } catch (e) {
+          console.error('WS parse error:', e);
+        }
+      });
+
+      ws.on('error', (err) => {
+        clearTimeout(timeout);
+        console.error('WebSocket error:', err);
+        reject(err);
+      });
+
+      ws.on('close', () => {
+        clearTimeout(timeout);
+        if (agentResponse) resolve(agentResponse);
+      });
     });
 
-    const reply =
-      response.content[0].type === 'text'
-        ? response.content[0].text
-        : 'Mi dispiace, non ho capito. Puoi ripetere?';
+    return NextResponse.json({ reply, conversationId });
 
-    history.push({ role: 'assistant', content: reply });
-    conversationHistory.set(convId, history);
-
-    return NextResponse.json({ reply, conversationId: convId });
   } catch (error) {
     console.error('Chat API error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json({
+      error: 'Internal server error',
+      reply: 'Mi dispiace, si è verificato un errore. Riprova tra un momento.',
+    }, { status: 500 });
   }
 }
