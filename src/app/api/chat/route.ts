@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     }
 
     const response = await fetch(
-      `https://api.elevenlabs.io/v1/convai/agents/${AGENT_ID}/chat`,
+      'https://api.elevenlabs.io/v1/convai/conversation',
       {
         method: 'POST',
         headers: {
@@ -24,8 +24,9 @@ export async function POST(req: NextRequest) {
           'xi-api-key': apiKey,
         },
         body: JSON.stringify({
-          text: message,
-          conversation_id: conversationId || undefined,
+          agent_id: AGENT_ID,
+          user_message: message,
+          ...(conversationId ? { conversation_id: conversationId } : {}),
         }),
       }
     );
@@ -37,9 +38,10 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await response.json();
+    console.log('ElevenLabs response:', JSON.stringify(data));
 
     return NextResponse.json({
-      reply: data.text ?? data.response ?? data.message ?? 'Risposta non disponibile',
+      reply: data.answer ?? data.text ?? data.response ?? data.agent_response ?? data.message ?? JSON.stringify(data),
       conversationId: data.conversation_id ?? conversationId ?? null,
     });
   } catch (error) {
