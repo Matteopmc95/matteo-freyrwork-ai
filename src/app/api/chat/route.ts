@@ -41,27 +41,30 @@ export async function POST(req: NextRequest) {
       ws.on('message', (data: Buffer) => {
         try {
           const msg = JSON.parse(data.toString());
-          console.log('ElevenLabs WS message:', JSON.stringify(msg));
+          console.log('ElevenLabs WS event type:', msg.type, 'full:', JSON.stringify(msg).slice(0, 300));
 
           if (msg.type === 'conversation_initiation_metadata') {
             ws.send(JSON.stringify({
-              type: 'user_message',
-              text: message,
+              user_message: message,
             }));
+            console.log('Sent user message:', message);
           }
 
-          if (msg.type === 'agent_response') {
-            agentResponse += msg.agent_response?.text || msg.text || '';
+          if (msg.type === 'agent_response' && msg.agent_response_event?.agent_response) {
+            agentResponse = msg.agent_response_event.agent_response;
+            console.log('Got agent response:', agentResponse);
           }
 
-          if (msg.type === 'agent_response_correction') {
-            agentResponse = msg.agent_response?.text || msg.text || agentResponse;
+          if (msg.type === 'agent_response_correction' && msg.agent_response_correction_event?.corrected_agent_response) {
+            agentResponse = msg.agent_response_correction_event.corrected_agent_response;
           }
 
-          if (msg.type === 'turn_end' || msg.type === 'agent_turn_end') {
-            clearTimeout(timeout);
-            ws.close();
-            resolve(agentResponse || 'Risposta non disponibile');
+          if (msg.type === 'agent_response' || msg.type === 'turn_end' || msg.type === 'agent_turn_end') {
+            if (agentResponse) {
+              clearTimeout(timeout);
+              ws.close();
+              resolve(agentResponse);
+            }
           }
         } catch (e) {
           console.error('WS parse error:', e);
