@@ -21,19 +21,6 @@ const C = {
 
 type Msg = { role: 'user' | 'assistant'; text: string };
 
-const SYSTEM = `Sei un agente AI dimostrativo di FreyrtechnologyAI, una software house che progetta collaboratori AI per PMI e attività locali in Italia (hotel, ristoranti, parrucchieri, negozi, professionisti, pizzerie, delivery, centri estetici).
-
-Tono: chiaro, concreto, rassicurante. Professionale ma non freddo. Niente tecnicismi. Nessuna emoji. Frasi brevi, paragrafi respirati.
-
-Il tuo ruolo è mostrare come un agente AI può aiutare un'attività:
-- capire il problema dell'imprenditore
-- spiegare cosa un agente AI potrebbe fare nel suo caso specifico
-- rispondere con esempi pratici (gestione richieste, prenotazioni, analisi dati, automazione flussi interni)
-- non inventare prezzi, tempistiche precise o promesse tecniche
-- al massimo 4 frasi per risposta, una riga vuota tra paragrafi
-
-Se l'utente è generico, fai 1 domanda per capire il settore. Se ti chiede il costo, invita a prenotare una consulenza gratuita.`;
-
 const SUGGESTIONS = [
   'Ho un ristorante, come mi può aiutare?',
   "Che differenza c'è con ChatGPT?",
@@ -50,6 +37,7 @@ export default function ChatbotEmbed() {
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [conversationId, setConversationId] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -62,24 +50,26 @@ export default function ChatbotEmbed() {
     const clean = text.trim();
     if (!clean || loading) return;
     setInput('');
-    const next: Msg[] = [...messages, { role: 'user', text: clean }];
-    setMessages(next);
+    setMessages((prev) => [...prev, { role: 'user', text: clean }]);
     setLoading(true);
 
     try {
-      const history = next.map((m) => `${m.role === 'user' ? 'Utente' : 'Agente'}: ${m.text}`).join('\n\n');
-      const prompt = `${SYSTEM}\n\n--- Conversazione ---\n${history}\n\nAgente:`;
-      // @ts-expect-error — window.claude is injected at runtime
-      const reply = await window.claude?.complete(prompt);
-      const cleaned = (reply || 'Scusa, non riesco a rispondere in questo momento. Riprova tra poco.').toString().trim();
-      setMessages((m) => [...m, { role: 'assistant', text: cleaned }]);
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: clean, conversationId }),
+      });
+      const data = await res.json();
+      if (data.error) {
+        setMessages((prev) => [...prev, { role: 'assistant', text: 'Mi dispiace, si è verificato un errore. Riprova tra un momento.' }]);
+      } else {
+        setMessages((prev) => [...prev, { role: 'assistant', text: data.reply }]);
+        if (data.conversationId) setConversationId(data.conversationId);
+      }
     } catch {
-      setMessages((m) => [
-        ...m,
-        {
-          role: 'assistant',
-          text: 'Ho un problema momentaneo nel rispondere. Riprova tra poco, oppure scrivici direttamente per una demo guidata.',
-        },
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', text: 'Errore di connessione. Controlla la tua connessione e riprova.' },
       ]);
     } finally {
       setLoading(false);
