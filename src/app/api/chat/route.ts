@@ -39,15 +39,20 @@ export async function POST(req: NextRequest) {
       });
 
       ws.on('message', (data: Buffer) => {
+        const rawData = data.toString();
+        console.log('Raw WS data:', rawData.slice(0, 500));
         try {
-          const msg = JSON.parse(data.toString());
-          console.log('ElevenLabs WS event type:', msg.type, 'full:', JSON.stringify(msg).slice(0, 300));
+          const msg = JSON.parse(rawData);
+          console.log('ElevenLabs WS event type:', msg.type);
 
           if (msg.type === 'conversation_initiation_metadata') {
-            ws.send(JSON.stringify({
-              user_message: message,
-            }));
-            console.log('Sent user message:', message);
+            setTimeout(() => {
+              ws.send(JSON.stringify({
+                type: 'user_message',
+                text: message,
+              }));
+              console.log('Sent user message (format 1):', message);
+            }, 100);
           }
 
           if (msg.type === 'agent_response' && msg.agent_response_event?.agent_response) {
