@@ -1,319 +1,102 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-/*
-  ChatbotEmbed — chat UI integrata nella pagina per far provare al cliente
-  direttamente l'agente AI. Usa la Claude helper (window.claude.complete) già
-  disponibile nel progetto. Nessuna dipendenza esterna. Stile allineato ai
-  tokens FreyrtechnologyAI (bg2, acc, muted, border).
-*/
-
-const C = {
-  bg: '#0D0F14',
-  bg2: '#0f1117',
-  acc: '#4B6BFB',
-  acc2: '#7B94FC',
-  txt: '#F4F3EE',
-  muted: 'rgba(244,243,238,0.45)',
-  border: 'rgba(255,255,255,0.07)',
-};
-
-type Msg = { role: 'user' | 'assistant'; text: string };
-
-const SUGGESTIONS = [
-  'Ho un ristorante, come mi può aiutare?',
-  "Che differenza c'è con ChatGPT?",
-  'Gestisco un hotel, cosa può automatizzare?',
-  'Quanto tempo serve per partire?',
-];
+const AGENT_ID = 'agent_6601kqbzq5hcf0m9j3qrkv944ypv';
 
 export default function ChatbotEmbed() {
-  const [messages, setMessages] = useState<Msg[]>([
-    {
-      role: 'assistant',
-      text: "Ciao. Sono un agente AI dimostrativo di FreyrtechnologyAI. Raccontami com'è fatta la tua attività o chiedimi qualcosa di concreto — provo a mostrarti come un collaboratore AI potrebbe lavorare nel tuo caso.",
-    },
-  ]);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [conversationId, setConversationId] = useState<string | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const widgetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = scrollRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
-  }, [messages, loading]);
-
-  async function send(text: string) {
-    const clean = text.trim();
-    if (!clean || loading) return;
-    setInput('');
-    setMessages((prev) => [...prev, { role: 'user', text: clean }]);
-    setLoading(true);
-
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: clean, conversationId }),
-      });
-      const data = await res.json();
-      if (data.error) {
-        setMessages((prev) => [...prev, { role: 'assistant', text: 'Mi dispiace, si è verificato un errore. Riprova tra un momento.' }]);
-      } else {
-        setMessages((prev) => [...prev, { role: 'assistant', text: data.reply }]);
-        if (data.conversationId) setConversationId(data.conversationId);
-      }
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        { role: 'assistant', text: 'Errore di connessione. Controlla la tua connessione e riprova.' },
-      ]);
-    } finally {
-      setLoading(false);
+    // Carica lo script ElevenLabs
+    if (!document.querySelector('script[src*="elevenlabs"]')) {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/@elevenlabs/convai-widget-embed';
+      script.async = true;
+      script.type = 'text/javascript';
+      document.head.appendChild(script);
     }
-  }
+
+    // Inietta il custom element nel contenitore
+    const container = widgetRef.current;
+    if (container && !container.querySelector('elevenlabs-convai')) {
+      const widget = document.createElement('elevenlabs-convai');
+      widget.setAttribute('agent-id', AGENT_ID);
+      widget.style.cssText = 'width:100%;height:100%;min-height:500px;display:block;';
+      container.appendChild(widget);
+    }
+  }, []);
 
   return (
     <div
       style={{
-        display: 'grid',
-        gridTemplateRows: 'auto 1fr auto',
-        height: 640,
-        background: 'linear-gradient(180deg, rgba(75,107,251,0.04), rgba(13,15,20,0) 60%), rgba(15,17,23,0.92)',
-        border: `1px solid ${C.border}`,
+        width: '100%',
+        maxWidth: 760,
+        margin: '0 auto',
         borderRadius: 16,
         overflow: 'hidden',
+        border: '1px solid rgba(255,255,255,0.07)',
+        background: '#0f1117',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
-      <style>{`
-        @keyframes chatFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-        @keyframes typing {
-          0% { opacity: 0.2; transform: translateY(0); }
-          30% { opacity: 1; transform: translateY(-2px); }
-          60% { opacity: 0.2; transform: translateY(0); }
-          100% { opacity: 0.2; transform: translateY(0); }
-        }
-        .chat-msg { animation: chatFadeIn 0.35s ease both; }
-        .typing-dot { width: 5px; height: 5px; border-radius: 50%; background: ${C.acc2}; display: inline-block; margin-right: 4px; animation: typing 1.2s ease-in-out infinite; }
-        .typing-dot:nth-child(2) { animation-delay: 0.15s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.3s; }
-      `}</style>
-
       {/* Header */}
       <div
         style={{
-          padding: '16px 20px',
-          borderBottom: `1px solid ${C.border}`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          background: 'rgba(13,15,20,0.6)',
+          padding: '16px 20px',
+          background: '#0f1117',
+          borderBottom: '1px solid rgba(255,255,255,0.07)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div
             style={{
-              width: 34,
-              height: 34,
-              borderRadius: 10,
-              background: 'rgba(75,107,251,0.12)',
-              border: '1px solid rgba(75,107,251,0.35)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 12,
-              fontWeight: 700,
-              fontFamily: 'Syne, sans-serif',
-              color: C.acc2,
-              letterSpacing: '-0.02em',
+              width: 36, height: 36, borderRadius: 9,
+              background: 'rgba(75,107,251,0.15)',
+              border: '1px solid rgba(75,107,251,0.3)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: '#7B94FC', fontWeight: 700, fontSize: 14,
             }}
           >
             AI
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <strong style={{ fontSize: 13, fontWeight: 500, color: C.txt }}>Agente AI — demo</strong>
-            <span style={{ fontSize: 11, color: '#4ade80', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 500, color: '#F4F3EE' }}>Agente AI — demo</div>
+            <div style={{ fontSize: 12, color: '#4ade80', display: 'flex', alignItems: 'center', gap: 6 }}>
               <span
                 style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: '50%',
-                  background: '#4ade80',
-                  animation: 'typing 1.8s ease-in-out infinite',
+                  width: 6, height: 6, borderRadius: '50%',
+                  background: '#4ade80', display: 'inline-block',
                 }}
               />
               Operativo
-            </span>
+            </div>
           </div>
         </div>
-        <span
+        <div
           style={{
-            fontSize: 10,
-            color: C.muted,
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            fontWeight: 500,
+            fontSize: 11, letterSpacing: '0.1em',
+            color: 'rgba(244,243,238,0.35)', textTransform: 'uppercase',
           }}
         >
           Dimostrazione live
-        </span>
+        </div>
       </div>
 
-      {/* Messages */}
+      {/* Widget ElevenLabs — iniettato via useEffect per evitare conflitti TypeScript con custom elements */}
       <div
-        ref={scrollRef}
+        ref={widgetRef}
         style={{
-          overflowY: 'auto',
-          padding: '20px 20px 8px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 12,
+          flex: 1,
+          minHeight: 500,
           background: '#F4F3EE',
-          borderTop: '1px solid rgba(0,0,0,0.08)',
-          borderBottom: '1px solid rgba(0,0,0,0.08)',
+          position: 'relative',
         }}
-      >
-        {messages.map((m, i) => (
-          <div
-            key={i}
-            className="chat-msg"
-            style={{
-              alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start',
-              maxWidth: '82%',
-              padding: '11px 14px',
-              borderRadius: m.role === 'user' ? '12px 12px 4px 12px' : '12px 12px 12px 4px',
-              background: m.role === 'user' ? 'rgba(75,107,251,0.12)' : '#fff',
-              border: `1px solid ${m.role === 'user' ? 'rgba(75,107,251,0.3)' : 'rgba(0,0,0,0.06)'}`,
-              fontSize: 13,
-              lineHeight: 1.65,
-              color: '#0D0F14',
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word',
-            }}
-          >
-            {m.text}
-          </div>
-        ))}
-
-        {loading && (
-          <div
-            className="chat-msg"
-            style={{
-              alignSelf: 'flex-start',
-              padding: '12px 14px',
-              borderRadius: '12px 12px 12px 4px',
-              background: '#fff',
-              border: '1px solid rgba(0,0,0,0.06)',
-            }}
-          >
-            <span className="typing-dot" />
-            <span className="typing-dot" />
-            <span className="typing-dot" />
-          </div>
-        )}
-
-        {messages.length === 1 && !loading && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
-            {SUGGESTIONS.map((s) => (
-              <button
-                key={s}
-                onClick={() => send(s)}
-                style={{
-                  fontSize: 12,
-                  color: '#0D0F14',
-                  padding: '8px 14px',
-                  borderRadius: 999,
-                  background: '#fff',
-                  border: '1px solid rgba(75,107,251,0.3)',
-                  cursor: 'pointer',
-                  fontFamily: 'Inter, sans-serif',
-                  transition: 'background 0.2s, border-color 0.2s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(75,107,251,0.08)';
-                  e.currentTarget.style.borderColor = '#4B6BFB';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#fff';
-                  e.currentTarget.style.borderColor = 'rgba(75,107,251,0.3)';
-                }}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Input */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          send(input);
-        }}
-        style={{
-          padding: 14,
-          borderTop: `1px solid ${C.border}`,
-          display: 'flex',
-          gap: 10,
-          alignItems: 'flex-end',
-          background: 'rgba(13,15,20,0.6)',
-        }}
-      >
-        <textarea
-          ref={inputRef}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              send(input);
-            }
-          }}
-          placeholder="Scrivi la tua domanda…"
-          rows={1}
-          style={{
-            flex: 1,
-            resize: 'none',
-            minHeight: 42,
-            maxHeight: 120,
-            padding: '11px 14px',
-            borderRadius: 10,
-            border: `1px solid ${C.border}`,
-            background: 'rgba(13,15,20,0.7)',
-            color: C.txt,
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 13,
-            lineHeight: 1.5,
-            outline: 'none',
-            transition: 'border-color 0.2s',
-          }}
-          onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(75,107,251,0.45)'; }}
-          onBlur={(e) => { e.currentTarget.style.borderColor = C.border; }}
-        />
-        <button
-          type="submit"
-          disabled={loading || !input.trim()}
-          style={{
-            fontSize: 13,
-            fontWeight: 500,
-            color: '#fff',
-            padding: '11px 20px',
-            borderRadius: 10,
-            background: loading || !input.trim() ? 'rgba(75,107,251,0.4)' : C.acc,
-            border: `1px solid ${loading || !input.trim() ? 'rgba(75,107,251,0.4)' : C.acc}`,
-            cursor: loading || !input.trim() ? 'not-allowed' : 'pointer',
-            transition: 'opacity 0.2s',
-            fontFamily: 'Inter, sans-serif',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          Invia
-        </button>
-      </form>
+      />
     </div>
   );
 }
