@@ -283,21 +283,6 @@ main {
   z-index: 1;
 }
 
-/* ─── ELEVENLABS WIDGET OVERRIDES ──────────────────────────── */
-elevenlabs-convai {
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 500px !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  position: relative !important;
-}
-
-elevenlabs-convai::part(close-button),
-elevenlabs-convai::part(drag-handle) {
-  display: none !important;
-}
-
 /* ─── BADGE / PILL ──────────────────────────────────────────── */
 .badge {
   display: inline-flex;
