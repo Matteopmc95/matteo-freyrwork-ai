@@ -15,34 +15,50 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
     }
 
-    const response = await fetch(
-      'https://api.elevenlabs.io/v1/convai/conversation',
+    // Step 1 — crea o riusa una conversazione
+    let convId = conversationId;
+    if (!convId) {
+      const createResponse = await fetch(
+        'https://api.elevenlabs.io/v1/convai/conversations',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'xi-api-key': apiKey,
+          },
+          body: JSON.stringify({ agent_id: AGENT_ID }),
+        }
+      );
+      console.log('Create conversation status:', createResponse.status);
+      const createData = await createResponse.json();
+      console.log('Create conversation response:', JSON.stringify(createData));
+      convId = createData.conversation_id ?? null;
+    }
+
+    // Step 2 — invia il messaggio
+    const msgResponse = await fetch(
+      `https://api.elevenlabs.io/v1/convai/conversations/${convId}/messages`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'xi-api-key': apiKey,
         },
-        body: JSON.stringify({
-          agent_id: AGENT_ID,
-          user_message: message,
-          ...(conversationId ? { conversation_id: conversationId } : {}),
-        }),
+        body: JSON.stringify({ text: message }),
       }
     );
+    console.log('Send message status:', msgResponse.status);
+    const msgData = await msgResponse.json();
+    console.log('Send message response:', JSON.stringify(msgData));
 
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error('ElevenLabs error:', response.status, errText);
+    if (!msgResponse.ok) {
+      console.error('ElevenLabs message error:', msgResponse.status, JSON.stringify(msgData));
       return NextResponse.json({ error: 'AI service error' }, { status: 500 });
     }
 
-    const data = await response.json();
-    console.log('ElevenLabs response:', JSON.stringify(data));
-
     return NextResponse.json({
-      reply: data.answer ?? data.text ?? data.response ?? data.agent_response ?? data.message ?? JSON.stringify(data),
-      conversationId: data.conversation_id ?? conversationId ?? null,
+      reply: msgData.text ?? msgData.answer ?? msgData.response ?? msgData.agent_response ?? JSON.stringify(msgData),
+      conversationId: convId,
     });
   } catch (error) {
     console.error('Chat API error:', error);
