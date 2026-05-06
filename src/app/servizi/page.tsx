@@ -426,22 +426,38 @@ export default function ServiziPage() {
         visual={<TaskVisual />} visualLast
       />
 
-      {/* 03 Analisi dati */}
-      <ServiceSection
-        id="s3" num="Analisi dati e insight"
-        headline="Capire meglio<br>ciò che succede nella tua attività"
-        sub="Avere dei dati non basta. Il vero valore è riuscire a leggerli in modo utile."
-        body="Molte imprese raccolgono informazioni ogni giorno senza riuscire a trasformarle in lettura operativa. Un agente AI dedicato all'analisi porta ordine, evidenzia trend, anomalie e segnali utili, restituendo informazioni più leggibili per chi deve decidere."
-        meta={[
-          { title: 'Problema che risolve', text: 'Dati presenti ma poco sfruttati, difficoltà nel leggere trend, decisioni senza una visione chiara.' },
-          { title: 'Beneficio finale', text: "Più consapevolezza, decisioni più rapide, maggiore controllo sull'andamento reale del business." },
-        ]}
-        cta="Richiedi una demo" ctaHref="#cta-finale" ctaVariant="primary"
-      />
+      {/* 03 Analisi dati — titolo sopra la dashboard */}
+      <section id="s3" style={{ padding: '96px 8vw 48px', background: C.bg }}>
+        <p data-reveal style={{ ...rev(0), fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc, fontWeight: 500, marginBottom: 16 }}>Analisi dati e insight</p>
+        <h2 data-reveal style={{ ...rev(0.1), fontSize: 'clamp(22px,2.4vw,36px)', fontWeight: 600, lineHeight: 1.12, letterSpacing: '-0.02em', marginBottom: 14, maxWidth: 640 }}>
+          Capire meglio ciò che succede<br />nella tua attività
+        </h2>
+        <p data-reveal style={{ ...rev(0.1), fontSize: 'clamp(14px,1.1vw,16px)', color: C.muted, lineHeight: 1.7, fontWeight: 300, maxWidth: 560 }}>
+          Avere dei dati non basta. Il vero valore è riuscire a leggerli in modo utile.
+        </p>
+      </section>
 
-      {/* Dashboard demo */}
-      <div style={{ marginTop: '72px', marginBottom: '48px', padding: '0 8vw', background: C.bg }}>
+      {/* Dashboard demo — full width */}
+      <div style={{ background: C.bg, paddingBottom: 0 }}>
         <DashboardDemo />
+      </div>
+
+      {/* Testo + CTA sotto la dashboard */}
+      <div style={{ background: C.bg, padding: '40px 24px 72px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+        <p style={{ fontSize: 'clamp(15px,1.2vw,17px)', color: 'rgba(244,243,238,0.7)', lineHeight: 1.7, fontWeight: 300, maxWidth: 820 }}>
+          Molte imprese raccolgono informazioni ogni giorno senza riuscire a trasformarle in lettura operativa. Un agente AI dedicato all&apos;analisi porta ordine, evidenzia trend, anomalie e segnali utili, restituendo informazioni più leggibili per chi deve decidere. Naviga liberamente tra le sezioni della demo: panoramica del business, clienti, prenotazioni, conversazioni gestite dall&apos;agente, insight automatici. Più consapevolezza, decisioni più rapide, maggiore controllo sull&apos;andamento reale del business.
+        </p>
+        <a href="/contatti" style={{
+          display: 'inline-block',
+          marginTop: 28,
+          padding: '12px 28px',
+          background: '#4B6BFB',
+          color: '#fff',
+          borderRadius: 8,
+          fontSize: 14,
+          fontWeight: 500,
+          textDecoration: 'none',
+        }}>Richiedi una demo</a>
       </div>
 
       {/* 04 Automazione flussi */}
