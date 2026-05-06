@@ -10,15 +10,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Message required' }, { status: 400 });
     }
 
-    const response = await fetch(N8N_WEBHOOK_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message,
-        conversationId: conversationId || `conv_${Date.now()}`,
-      }),
+    const params = new URLSearchParams({
+      message,
+      conversationId: conversationId || `conv_${Date.now()}`,
+    });
+
+    const response = await fetch(`${N8N_WEBHOOK_URL}?${params.toString()}`, {
+      method: 'GET',
     });
 
     if (!response.ok) {
