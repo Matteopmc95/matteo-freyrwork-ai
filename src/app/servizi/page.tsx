@@ -427,19 +427,25 @@ export default function ServiziPage() {
       />
 
       {/* 03 Analisi dati */}
-      <section id="s3" style={{ padding: '96px 8vw 40px', background: C.bg }}>
-        <div style={{ maxWidth: 820, margin: '0 auto', padding: '0 24px', textAlign: 'center' }}>
-          <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 600, lineHeight: 1.1, color: '#F4F3EE', margin: '0 0 20px' }}>
-            Analisi dati e insight
-          </h2>
-          <p style={{ fontSize: 'clamp(15px,1.2vw,17px)', color: 'rgba(244,243,238,0.7)', lineHeight: 1.7, fontWeight: 300, margin: 0 }}>
-            Avere dei dati non basta. Il vero valore è riuscire a leggerli in modo utile. Molte imprese raccolgono informazioni ogni giorno senza riuscire a trasformarle in lettura operativa. Un agente AI dedicato all&apos;analisi porta ordine, evidenzia trend, anomalie e segnali utili, restituendo informazioni più leggibili per chi deve decidere. Più consapevolezza, decisioni più rapide, maggiore controllo sull&apos;andamento reale del business. Naviga liberamente tra le sezioni della demo: panoramica del business, clienti, prenotazioni, conversazioni gestite dall&apos;agente, insight automatici.
-          </p>
-        </div>
-      </section>
+      <ServiceSection
+        id="s3" num="Analisi dati e insight" alt
+        headline="Capire meglio ciò che<br>succede nella tua attività"
+        sub="Avere dei dati non basta. Il vero valore è riuscire a leggerli in modo utile."
+        body="Molte imprese raccolgono informazioni ogni giorno senza riuscire a trasformarle in lettura operativa. Un agente AI dedicato all'analisi porta ordine, evidenzia trend, anomalie e segnali utili, restituendo informazioni più leggibili per chi deve decidere."
+        meta={[
+          { title: 'Problema che risolve', text: 'Dati presenti ma poco sfruttati, difficoltà nel leggere trend, decisioni senza una visione chiara.' },
+          { title: 'Beneficio finale', text: "Più consapevolezza, decisioni più rapide, maggiore controllo sull'andamento reale del business." },
+        ]}
+        cta="Richiedi una demo" ctaHref="#cta-finale" ctaVariant="primary"
+        visual={
+          <div style={{ padding: 16, fontSize: 11, color: 'rgba(244,243,238,0.55)', textAlign: 'center' }}>
+            Naviga la dashboard live qui sotto
+          </div>
+        }
+      />
 
-      {/* Dashboard demo — full width */}
-      <div style={{ background: C.bg }}>
+      {/* Dashboard demo — full width SUBITO sotto */}
+      <div style={{ background: C.bg, padding: '0 0 60px' }}>
         <DashboardDemo />
       </div>
 
