@@ -688,27 +688,30 @@ export default function DashboardDemo() {
         .demo-frame *::-webkit-scrollbar { width: 6px; height: 6px }
         .demo-frame *::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px }
         .demo-frame *::-webkit-scrollbar-track { background: transparent }
+        @media (max-width: 768px) {
+          .demo-frame { margin: 0 12px !important; border-radius: 12px !important; border: 1px solid rgba(255,255,255,0.12) !important; }
+          .demo-header-strap { padding: 0 16px 24px !important; }
+          .demo-title { font-size: 26px !important; line-height: 1.2 !important; }
+          .demo-subtitle { font-size: 15px !important; padding: 0 8px; }
+        }
       `}</style>
 
       {/* header */}
-      <div style={{ padding: '0 6vw 32px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 14 }}>
-        <span style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc, fontWeight: 500 }}>Demo</span>
-        <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: 'clamp(26px,3.5vw,48px)', fontWeight: 600, lineHeight: 1.05, letterSpacing: '-0.025em', color: C.txt, margin: 0, maxWidth: 820 }}>
+      <div className="demo-header-strap" style={{ padding: '0 4vw 32px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 14 }}>
+        <h2 className="demo-title" style={{ fontFamily: 'Syne, sans-serif', fontSize: 'clamp(26px,3.5vw,48px)', fontWeight: 600, lineHeight: 1.05, letterSpacing: '-0.025em', color: C.txt, margin: 0, maxWidth: 820 }}>
           La dashboard intelligente che<br /><span style={{ color: '#5972ff', fontWeight: 300 }}>lavora con te ogni giorno</span>
         </h2>
-        <p style={{ fontSize: 'clamp(14px,1.2vw,16px)', color: C.muted, maxWidth: 620, lineHeight: 1.7, fontWeight: 300, padding: '0 8px' }}>
+        <p className="demo-subtitle" style={{ fontSize: 'clamp(14px,1.2vw,16px)', color: C.muted, maxWidth: 620, lineHeight: 1.7, fontWeight: 300, padding: '0 8px' }}>
           Naviga liberamente tra le sezioni: panoramica del business, clienti, prenotazioni, conversazioni gestite dall&apos;agente, insight automatici.
         </p>
       </div>
 
       {/* dashboard frame */}
       <div className="demo-frame" style={{
-        margin: isMobile ? '0' : '0 2vw',
-        borderRadius: isMobile ? 0 : 16,
+        margin: isMobile ? '0 12px' : '0 2vw',
+        borderRadius: 16,
         background: C.bg,
-        border: isMobile ? 'none' : `1px solid ${C.border2}`,
-        borderTop: isMobile ? `1px solid ${C.border2}` : undefined,
-        borderBottom: isMobile ? `1px solid ${C.border2}` : undefined,
+        border: `1px solid ${C.border2}`,
         boxShadow: isMobile ? 'none' : '0 40px 120px rgba(0,0,0,0.6), 0 0 80px rgba(75,107,251,0.08), inset 0 1px 0 rgba(255,255,255,0.04)',
         overflow: 'hidden',
         height: isMobile ? '85vh' : 760,
