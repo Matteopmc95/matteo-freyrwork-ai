@@ -426,38 +426,21 @@ export default function ServiziPage() {
         visual={<TaskVisual />} visualLast
       />
 
-      {/* 03 Analisi dati — titolo sopra la dashboard */}
-      <section id="s3" style={{ padding: '96px 8vw 48px', background: C.bg }}>
-        <p data-reveal style={{ ...rev(0), fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc, fontWeight: 500, marginBottom: 16 }}>Analisi dati e insight</p>
-        <h2 data-reveal style={{ ...rev(0.1), fontSize: 'clamp(22px,2.4vw,36px)', fontWeight: 600, lineHeight: 1.12, letterSpacing: '-0.02em', marginBottom: 14, maxWidth: 640 }}>
-          Capire meglio ciò che succede<br />nella tua attività
-        </h2>
-        <p data-reveal style={{ ...rev(0.1), fontSize: 'clamp(14px,1.1vw,16px)', color: C.muted, lineHeight: 1.7, fontWeight: 300, maxWidth: 560 }}>
-          Avere dei dati non basta. Il vero valore è riuscire a leggerli in modo utile.
-        </p>
+      {/* 03 Analisi dati */}
+      <section id="s3" style={{ padding: '96px 8vw 40px', background: C.bg }}>
+        <div style={{ maxWidth: 820, margin: '0 auto', padding: '0 24px', textAlign: 'center' }}>
+          <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 600, lineHeight: 1.1, color: '#F4F3EE', margin: '0 0 20px' }}>
+            Analisi dati e insight
+          </h2>
+          <p style={{ fontSize: 'clamp(15px,1.2vw,17px)', color: 'rgba(244,243,238,0.7)', lineHeight: 1.7, fontWeight: 300, margin: 0 }}>
+            Avere dei dati non basta. Il vero valore è riuscire a leggerli in modo utile. Molte imprese raccolgono informazioni ogni giorno senza riuscire a trasformarle in lettura operativa. Un agente AI dedicato all&apos;analisi porta ordine, evidenzia trend, anomalie e segnali utili, restituendo informazioni più leggibili per chi deve decidere. Più consapevolezza, decisioni più rapide, maggiore controllo sull&apos;andamento reale del business. Naviga liberamente tra le sezioni della demo: panoramica del business, clienti, prenotazioni, conversazioni gestite dall&apos;agente, insight automatici.
+          </p>
+        </div>
       </section>
 
       {/* Dashboard demo — full width */}
-      <div style={{ background: C.bg, paddingBottom: 0 }}>
+      <div style={{ background: C.bg }}>
         <DashboardDemo />
-      </div>
-
-      {/* Testo + CTA sotto la dashboard */}
-      <div style={{ background: C.bg, padding: '40px 24px 72px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-        <p style={{ fontSize: 'clamp(15px,1.2vw,17px)', color: 'rgba(244,243,238,0.7)', lineHeight: 1.7, fontWeight: 300, maxWidth: 820 }}>
-          Molte imprese raccolgono informazioni ogni giorno senza riuscire a trasformarle in lettura operativa. Un agente AI dedicato all&apos;analisi porta ordine, evidenzia trend, anomalie e segnali utili, restituendo informazioni più leggibili per chi deve decidere. Naviga liberamente tra le sezioni della demo: panoramica del business, clienti, prenotazioni, conversazioni gestite dall&apos;agente, insight automatici. Più consapevolezza, decisioni più rapide, maggiore controllo sull&apos;andamento reale del business.
-        </p>
-        <a href="/contatti" style={{
-          display: 'inline-block',
-          marginTop: 28,
-          padding: '12px 28px',
-          background: '#4B6BFB',
-          color: '#fff',
-          borderRadius: 8,
-          fontSize: 14,
-          fontWeight: 500,
-          textDecoration: 'none',
-        }}>Richiedi una demo</a>
       </div>
 
       {/* 04 Automazione flussi */}
@@ -518,7 +501,7 @@ export default function ServiziPage() {
       <section id="cta-finale" style={{ padding: '100px 8vw', textAlign: 'center', background: `radial-gradient(ellipse 80% 60% at 50% 100%,rgba(75,107,251,0.12) 0%,transparent 70%)` }}>
         <p data-reveal style={{ ...rev(0), fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc, fontWeight: 500, marginBottom: 20 }}>Inizia da qui</p>
         <h2 data-reveal style={{ ...rev(0.1), fontSize: 'clamp(26px,3.5vw,52px)', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.1, maxWidth: 680, margin: '0 auto 18px' }}>
-          Capire qual è il servizio giusto<br />per la tua attività è il primo passo
+          Capire qual è il servizio giusto per la tua attività è il primo passo
         </h2>
         <p data-reveal style={{ ...rev(0.2), fontSize: 'clamp(14px,1.1vw,16px)', color: C.muted, maxWidth: 460, margin: '0 auto 36px', lineHeight: 1.65, fontWeight: 300 }}>
           Parliamone partendo da come lavori oggi. Senza impegno, senza tecnicismi.
