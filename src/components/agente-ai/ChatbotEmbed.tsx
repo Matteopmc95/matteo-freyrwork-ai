@@ -34,12 +34,6 @@ Il tuo ruolo è mostrare come un agente AI può aiutare un'attività:
 
 Se l'utente è generico, fai 1 domanda per capire il settore. Se ti chiede il costo, invita a prenotare una consulenza gratuita.`;
 
-const SUGGESTIONS = [
-  'Ho un ristorante, come mi può aiutare?',
-  "Che differenza c'è con ChatGPT?",
-  'Gestisco un hotel, cosa può automatizzare?',
-  'Quanto tempo serve per partire?',
-];
 
 export default function ChatbotEmbed() {
   const [messages, setMessages] = useState<Msg[]>([
@@ -228,37 +222,6 @@ export default function ChatbotEmbed() {
           </div>
         )}
 
-        {messages.length === 1 && !loading && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
-            {SUGGESTIONS.map((s) => (
-              <button
-                key={s}
-                onClick={() => send(s)}
-                style={{
-                  fontSize: 12,
-                  color: '#0D0F14',
-                  padding: '8px 14px',
-                  borderRadius: 999,
-                  background: '#fff',
-                  border: '1px solid rgba(75,107,251,0.3)',
-                  cursor: 'pointer',
-                  fontFamily: 'Inter, sans-serif',
-                  transition: 'background 0.2s, border-color 0.2s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(75,107,251,0.08)';
-                  e.currentTarget.style.borderColor = '#4B6BFB';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#fff';
-                  e.currentTarget.style.borderColor = 'rgba(75,107,251,0.3)';
-                }}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-        )}
       </div>
 
       {/* Input */}
