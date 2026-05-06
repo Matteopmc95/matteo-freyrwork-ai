@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import WebSocket from 'ws';
 
-const AGENT_ID = 'agent_6601kqbzq5hcf0m9j3qrkv944ypv';
+const N8N_WEBHOOK_URL = 'https://n8n-ai-agent-automations.mioservermt5.win/webhook/freyr-demo-chat';
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,90 +10,39 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Message required' }, { status: 400 });
     }
 
-    const apiKey = process.env.ELEVENLABS_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
-    }
-
-    const reply = await new Promise<string>((resolve, reject) => {
-      const wsUrl = `wss://api.elevenlabs.io/v1/convai/conversation?agent_id=${AGENT_ID}`;
-      const ws = new WebSocket(wsUrl, {
-        headers: { 'xi-api-key': apiKey },
-      });
-
-      let agentResponse = '';
-      const timeout = setTimeout(() => {
-        ws.close();
-        reject(new Error('Timeout'));
-      }, 15000);
-
-      ws.on('open', () => {
-        ws.send(JSON.stringify({
-          type: 'conversation_initiation_client_data',
-          conversation_config_override: {
-            conversation: { text_only: true },
-          },
-          ...(conversationId ? { conversation_id: conversationId } : {}),
-        }));
-      });
-
-      ws.on('message', (data: Buffer) => {
-        const rawData = data.toString();
-        console.log('Raw WS data:', rawData.slice(0, 500));
-        try {
-          const msg = JSON.parse(rawData);
-          console.log('ElevenLabs WS event type:', msg.type);
-
-          if (msg.type === 'conversation_initiation_metadata') {
-            setTimeout(() => {
-              ws.send(JSON.stringify({
-                type: 'user_message',
-                text: message,
-              }));
-              console.log('Sent user message (format 1):', message);
-            }, 100);
-          }
-
-          if (msg.type === 'agent_response' && msg.agent_response_event?.agent_response) {
-            agentResponse = msg.agent_response_event.agent_response;
-            console.log('Got agent response:', agentResponse);
-          }
-
-          if (msg.type === 'agent_response_correction' && msg.agent_response_correction_event?.corrected_agent_response) {
-            agentResponse = msg.agent_response_correction_event.corrected_agent_response;
-          }
-
-          if (msg.type === 'agent_response' || msg.type === 'turn_end' || msg.type === 'agent_turn_end') {
-            if (agentResponse) {
-              clearTimeout(timeout);
-              ws.close();
-              resolve(agentResponse);
-            }
-          }
-        } catch (e) {
-          console.error('WS parse error:', e);
-        }
-      });
-
-      ws.on('error', (err) => {
-        clearTimeout(timeout);
-        console.error('WebSocket error:', err);
-        reject(err);
-      });
-
-      ws.on('close', () => {
-        clearTimeout(timeout);
-        if (agentResponse) resolve(agentResponse);
-      });
+    const response = await fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message,
+        conversationId: conversationId || `conv_${Date.now()}`,
+      }),
     });
 
-    return NextResponse.json({ reply, conversationId });
+    if (!response.ok) {
+      console.error('n8n webhook error:', response.status, await response.text());
+      return NextResponse.json({
+        reply: 'Mi dispiace, si è verificato un errore. Riprova tra un momento.',
+      }, { status: 500 });
+    }
+
+    const data = await response.json();
+    console.log('n8n response:', JSON.stringify(data));
+
+    const reply = data.reply || data.response || data.text || data.message || data.output || 'Risposta non disponibile';
+    const newConversationId = data.conversationId || conversationId;
+
+    return NextResponse.json({
+      reply,
+      conversationId: newConversationId,
+    });
 
   } catch (error) {
     console.error('Chat API error:', error);
     return NextResponse.json({
-      error: 'Internal server error',
-      reply: 'Mi dispiace, si è verificato un errore. Riprova tra un momento.',
+      reply: 'Errore di connessione. Riprova tra un momento.',
     }, { status: 500 });
   }
 }
