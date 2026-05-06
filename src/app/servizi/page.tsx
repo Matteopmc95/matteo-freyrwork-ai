@@ -296,7 +296,7 @@ function ServiceSection({
           <p data-reveal style={{ ...rev(0), fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc, fontWeight: 500, marginBottom: 16 }}>{num}</p>
           <h2 data-reveal style={{ ...rev(0.1), fontSize: 'clamp(22px,2.4vw,36px)', fontWeight: 600, lineHeight: 1.12, letterSpacing: '-0.02em', marginBottom: 14 }} dangerouslySetInnerHTML={{ __html: headline }} />
           <p data-reveal style={{ ...rev(0.1), fontSize: 'clamp(14px,1.1vw,16px)', color: C.muted, lineHeight: 1.7, fontWeight: 300, marginBottom: 24 }}>{sub}</p>
-          <p data-reveal style={{ ...rev(0.2), fontSize: 13, color: C.muted, lineHeight: 1.75, marginBottom: 28, fontWeight: 300 }}>{body}</p>
+          <p data-reveal style={{ ...rev(0.2), fontSize: 'clamp(14px,1.1vw,16px)', color: C.muted, lineHeight: 1.7, fontWeight: 300, marginBottom: 28, maxWidth: 680 }}>{body}</p>
           <div data-reveal style={{ ...rev(0.2), display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 28 }}>
             {meta.map((m) => (
               <div key={m.title} style={{ display: 'flex', gap: 12 }}>
