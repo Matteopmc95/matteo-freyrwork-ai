@@ -437,11 +437,6 @@ export default function ServiziPage() {
           { title: 'Beneficio finale', text: "Più consapevolezza, decisioni più rapide, maggiore controllo sull'andamento reale del business." },
         ]}
         cta="Richiedi una demo" ctaHref="#cta-finale" ctaVariant="primary"
-        visual={
-          <div style={{ padding: 16, fontSize: 11, color: 'rgba(244,243,238,0.55)', textAlign: 'center' }}>
-            Naviga la dashboard live qui sotto
-          </div>
-        }
       />
 
       {/* Dashboard demo — full width SUBITO sotto */}
