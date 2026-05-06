@@ -60,18 +60,23 @@ export default function ChatbotEmbed() {
     setMessages((prev) => [...prev, { role: 'user', text: clean }]);
     setLoading(true);
 
+    let currentConvId = conversationId;
+    if (!currentConvId) {
+      currentConvId = `web_conv_${Date.now()}`;
+      setConversationId(currentConvId);
+    }
+
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: clean, conversationId }),
+        body: JSON.stringify({ message: clean, conversationId: currentConvId }),
       });
       const data = await res.json();
       if (data.error) {
         setMessages((prev) => [...prev, { role: 'assistant', text: 'Mi dispiace, si è verificato un errore. Riprova tra un momento.' }]);
       } else {
         setMessages((prev) => [...prev, { role: 'assistant', text: data.reply }]);
-        if (data.conversationId) setConversationId(data.conversationId);
       }
     } catch {
       setMessages((prev) => [
