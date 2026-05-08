@@ -2,23 +2,16 @@ import type { MetadataRoute } from "next";
 
 export const dynamic = "force-static";
 
-const siteUrl = "https://freyrtechnology.ai";
-const lastModified = new Date("2026-05-05");
-
-const routes = [
-  "",
-  "/agente-ai",
-  "/casi-studio",
-  "/chi-siamo",
-  "/contatti",
-  "/servizi",
-];
+const base = "https://freyrtechnology.ai";
+const lastModified = new Date("2026-05-07");
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return routes.map((route) => ({
-    url: `${siteUrl}${route}`,
-    lastModified,
-    changeFrequency: route === "" ? "weekly" : "monthly",
-    priority: route === "" ? 1 : 0.8,
-  }));
+  return [
+    { url: `${base}/`, lastModified, changeFrequency: "weekly", priority: 1.0 },
+    { url: `${base}/servizi`, lastModified, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/agente-ai`, lastModified, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/casi-studio`, lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/contatti`, lastModified, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/chi-siamo`, lastModified, changeFrequency: "monthly", priority: 0.7 },
+  ];
 }

@@ -1,24 +1,69 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import Navbar from "@/components/layout/Navbar";
+import { OrganizationSchema, WebsiteSchema } from "@/components/SchemaMarkup";
 import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://freyrtechnology.ai"),
-  title: "FreyrtechnologyAI — Collaboratori AI per PMI",
+  title: {
+    default: "FreyrtechnologyAI — Agenti AI su misura per PMI italiane",
+    template: "%s | FreyrtechnologyAI",
+  },
   description:
-    "Agenti AI concreti per piccole e medie imprese. Gestisci richieste, processi e dati con un collaboratore digitale costruito sulla tua attività.",
-  alternates: {
-    canonical: "/",
+    "Sviluppiamo agenti AI personalizzati per hotel, ristoranti, saloni, retail e professionisti. Automazione di prenotazioni, supporto operativo, analisi dati e flussi interni. Soluzioni concrete per il lavoro di tutti i giorni.",
+  keywords: [
+    "agenti AI",
+    "intelligenza artificiale PMI",
+    "automazione AI Italia",
+    "AI per hotel",
+    "AI per ristoranti",
+    "chatbot AI",
+    "agenti AI personalizzati",
+    "AI per piccole imprese",
+    "automazione prenotazioni AI",
+    "AI per saloni",
+  ],
+  authors: [{ name: "FreyrtechnologyAI" }],
+  creator: "FreyrtechnologyAI",
+  publisher: "FreyrtechnologyAI",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   openGraph: {
-    title: "FreyrtechnologyAI — Collaboratori AI per PMI",
-    description:
-      "Agenti AI concreti per piccole e medie imprese. Gestisci richieste, processi e dati con un collaboratore digitale costruito sulla tua attività.",
-    url: "https://freyrtechnology.ai",
-    siteName: "FreyrtechnologyAI",
     type: "website",
     locale: "it_IT",
+    url: "https://freyrtechnology.ai",
+    siteName: "FreyrtechnologyAI",
+    title: "FreyrtechnologyAI — Agenti AI su misura per PMI italiane",
+    description:
+      "Agenti AI personalizzati per automazione di prenotazioni, supporto operativo, analisi dati e flussi interni. Per hotel, ristoranti, saloni, retail e professionisti.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "FreyrtechnologyAI — Agenti AI per PMI",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FreyrtechnologyAI — Agenti AI su misura per PMI italiane",
+    description:
+      "Agenti AI personalizzati per automazione di prenotazioni, supporto operativo, analisi dati e flussi interni.",
+    images: ["/og-image.png"],
+  },
+  alternates: {
+    canonical: "https://freyrtechnology.ai",
   },
   icons: {
     icon: [{ url: "/favicon.png", type: "image/png" }],
@@ -46,6 +91,8 @@ export default function RootLayout({
             gtag('config', 'G-770W824WND');
           `}
         </Script>
+        <OrganizationSchema />
+        <WebsiteSchema />
         <Navbar />
         <main>{children}</main>
       </body>
