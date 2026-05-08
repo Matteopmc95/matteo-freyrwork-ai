@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import NewsletterSection from '@/components/newsletter/NewsletterSection';
 
 const C = {
   bg: '#0D0F14',
@@ -825,7 +824,6 @@ export default function ContattiPage() {
       <InfoGrid />
       <FormAndMap />
       <FAQ />
-      <NewsletterSection />
       <Footer />
     </div>
   );

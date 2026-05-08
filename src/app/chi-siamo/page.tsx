@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import NewsletterSection from '@/components/newsletter/NewsletterSection';
 
 const C = {
   bg: '#0D0F14',
@@ -915,6 +916,7 @@ export default function ChiSiamoPage() {
       <Approccio />
       <Team />
       <Mission />
+      <NewsletterSection />
       <WhyUs />
       <CTAFinal />
       <Footer />

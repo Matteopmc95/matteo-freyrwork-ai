@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import NewsletterSection from "@/components/newsletter/NewsletterSection";
 
 const styles = `
 :root{--bg:#0D0F14;--bg2:#0f1117;--acc:#4B6BFB;--acc2:#7B94FC;--txt:#F4F3EE;--muted:rgba(244,243,238,0.45);--border:rgba(255,255,255,0.07);--font:'Inter',sans-serif}
@@ -911,9 +910,7 @@ document.querySelectorAll(".reveal:not(.visible)").forEach((el) => el.classList.
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: styles }} />
-      <div key={instanceKey} dangerouslySetInnerHTML={{ __html: markupPre }} />
-      <NewsletterSection />
-      <div dangerouslySetInnerHTML={{ __html: markupPost }} />
+      <div key={instanceKey} dangerouslySetInnerHTML={{ __html: markupPre + markupPost }} />
     </>
   );
 }
