@@ -46,21 +46,12 @@ export const metadata: Metadata = {
     title: "FreyrtechnologyAI — Agenti AI su misura per PMI italiane",
     description:
       "Agenti AI personalizzati per automazione di prenotazioni, supporto operativo, analisi dati e flussi interni. Per hotel, ristoranti, saloni, retail e professionisti.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "FreyrtechnologyAI — Agenti AI per PMI",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "FreyrtechnologyAI — Agenti AI su misura per PMI italiane",
     description:
       "Agenti AI personalizzati per automazione di prenotazioni, supporto operativo, analisi dati e flussi interni.",
-    images: ["/og-image.png"],
   },
   alternates: {
     canonical: "https://freyrtechnology.ai",
