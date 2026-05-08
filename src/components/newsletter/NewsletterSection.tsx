@@ -252,7 +252,7 @@ export default function NewsletterSection() {
                   <div>
                     <label htmlFor="nl-fname" style={labelStyle}>Nome</label>
                     <input
-                      id="nl-fname" type="text" placeholder="Marco" required
+                      id="nl-fname" type="text" required
                       value={form.firstName}
                       onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                       style={inputStyle}
@@ -263,7 +263,7 @@ export default function NewsletterSection() {
                   <div>
                     <label htmlFor="nl-lname" style={labelStyle}>Cognome</label>
                     <input
-                      id="nl-lname" type="text" placeholder="Bianchi" required
+                      id="nl-lname" type="text" required
                       value={form.lastName}
                       onChange={(e) => setForm({ ...form, lastName: e.target.value })}
                       style={inputStyle}
@@ -278,7 +278,7 @@ export default function NewsletterSection() {
                   <div>
                     <label htmlFor="nl-email" style={labelStyle}>Email</label>
                     <input
-                      id="nl-email" type="email" placeholder="marco@latuaattivita.it" required
+                      id="nl-email" type="email" required
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
                       style={inputStyle}
@@ -289,7 +289,7 @@ export default function NewsletterSection() {
                   <div>
                     <label htmlFor="nl-company" style={labelStyle}>Azienda / Attività</label>
                     <input
-                      id="nl-company" type="text" placeholder="La Mia Attività" required
+                      id="nl-company" type="text" required
                       value={form.company}
                       onChange={(e) => setForm({ ...form, company: e.target.value })}
                       style={inputStyle}
@@ -318,7 +318,7 @@ export default function NewsletterSection() {
                 <div>
                   <label htmlFor="nl-phone" style={labelStyle}>Telefono <span style={{ color: C.muted40, textTransform: 'none', letterSpacing: 0 }}>(opzionale)</span></label>
                   <input
-                    id="nl-phone" type="tel" placeholder="+39 333 1234567"
+                    id="nl-phone" type="tel"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
                     style={inputStyle}
