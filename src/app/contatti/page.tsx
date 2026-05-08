@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import NewsletterSection from '@/components/newsletter/NewsletterSection';
 
 const C = {
   bg: '#0D0F14',
@@ -139,9 +140,9 @@ const INFO_CARDS: InfoCard[] = [
   },
   {
     label: 'Email',
-    title: 'info@freyrtechnology.ai',
+    title: 'info@freirtechnology.it',
     detail: 'Scrivici una mail. Ti rispondiamo entro 24h lavorative.',
-    href: 'mailto:info@freyrtechnology.ai',
+    href: 'mailto:info@freirtechnology.it',
     cta: 'Invia email',
     icon: (
       <svg {...iconProps}>
@@ -824,6 +825,7 @@ export default function ContattiPage() {
       <InfoGrid />
       <FormAndMap />
       <FAQ />
+      <NewsletterSection />
       <Footer />
     </div>
   );

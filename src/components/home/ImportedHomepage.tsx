@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import NewsletterSection from "@/components/newsletter/NewsletterSection";
 
 const styles = `
 :root{--bg:#0D0F14;--bg2:#0f1117;--acc:#4B6BFB;--acc2:#7B94FC;--txt:#F4F3EE;--muted:rgba(244,243,238,0.45);--border:rgba(255,255,255,0.07);--font:'Inter',sans-serif}
@@ -124,7 +125,7 @@ footer{padding:40px 8vw;display:flex;align-items:center;justify-content:space-be
 }
 `;
 
-const markup = `
+const markupPre = `
 <section id="hero">
   <canvas id="hero-canvas"></canvas>
   <div class="hero-center">
@@ -290,6 +291,9 @@ const markup = `
     <a href="/casi-studio" class="btn-ghost">Vedi un esempio concreto</a>
   </div>
 </section>
+`;
+
+const markupPost = `
 <section id="come" class="alt">
   <p class="section-tag reveal">Come lavoriamo</p>
   <h2 class="section-headline reveal reveal-d1">Non ti lasciamo da solo<br>davanti a uno strumento</h2>
@@ -907,7 +911,9 @@ document.querySelectorAll(".reveal:not(.visible)").forEach((el) => el.classList.
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: styles }} />
-      <div key={instanceKey} dangerouslySetInnerHTML={{ __html: markup }} />
+      <div key={instanceKey} dangerouslySetInnerHTML={{ __html: markupPre }} />
+      <NewsletterSection />
+      <div dangerouslySetInnerHTML={{ __html: markupPost }} />
     </>
   );
 }
