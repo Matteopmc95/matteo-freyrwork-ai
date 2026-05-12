@@ -312,10 +312,37 @@ function FormAndMap() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (status === 'sending') return;
     setStatus('sending');
-    setTimeout(() => setStatus('sent'), 900);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          company: form.company,
+          message: form.message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus('sent');
+        setForm({ name: '', email: '', phone: '', company: '', message: '' });
+      } else {
+        setStatus('idle');
+        alert(data.error || "Errore durante l'invio. Riprova.");
+      }
+    } catch {
+      setStatus('idle');
+      alert('Errore di connessione. Riprova.');
+    }
   };
 
   const inputStyle: React.CSSProperties = {
