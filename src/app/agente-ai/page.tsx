@@ -238,10 +238,10 @@ function CTAFinal() {
         Può avere un senso concreto nella tua attività? La risposta dipende dai tuoi flussi e dai punti in cui oggi senti più dispersione. Per questo ha senso partire da una valutazione concreta.
       </p>
       <div data-reveal style={{ ...rev(0.2), display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
-        <a href="mailto:info@freyrtechnology.ai" style={{ fontSize: 15, fontWeight: 500, color: '#fff', padding: '14px 28px', borderRadius: 10, background: C.acc2, border: `1px solid ${C.acc2}`, textDecoration: 'none', boxShadow: '0 18px 44px rgba(123,148,252,.24)' }}>
+        <a href="mailto:info@freyrtechnology.it" style={{ fontSize: 15, fontWeight: 500, color: '#fff', padding: '14px 28px', borderRadius: 10, background: C.acc2, border: `1px solid ${C.acc2}`, textDecoration: 'none', boxShadow: '0 18px 44px rgba(123,148,252,.24)' }}>
           Scopri come può funzionare per te
         </a>
-        <a href="mailto:info@freyrtechnology.ai" style={{ fontSize: 15, fontWeight: 400, color: C.txt, padding: '14px 28px', borderRadius: 10, border: `1px solid ${C.border}`, background: 'rgba(255,255,255,0.02)', textDecoration: 'none' }}>
+        <a href="mailto:info@freyrtechnology.it" style={{ fontSize: 15, fontWeight: 400, color: C.txt, padding: '14px 28px', borderRadius: 10, border: `1px solid ${C.border}`, background: 'rgba(255,255,255,0.02)', textDecoration: 'none' }}>
           Analizziamo il tuo caso
         </a>
       </div>

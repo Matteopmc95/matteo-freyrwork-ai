@@ -118,9 +118,9 @@ export default function Navbar() {
             </Link>
 
             <div className="mobile-menu-contacts">
-              <a href="mailto:info@freyrtechnology.ai" className="mobile-menu-contact">
+              <a href="mailto:info@freyrtechnology.it" className="mobile-menu-contact">
                 <span className="mobile-menu-contact-label">Email</span>
-                <span className="mobile-menu-contact-value">info@freyrtechnology.ai</span>
+                <span className="mobile-menu-contact-value">info@freyrtechnology.it</span>
               </a>
               <a href="tel:+390743297711" className="mobile-menu-contact">
                 <span className="mobile-menu-contact-label">Telefono</span>

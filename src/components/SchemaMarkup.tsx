@@ -7,7 +7,7 @@ export function OrganizationSchema() {
     logo: 'https://freyrtechnology.ai/logo/logo.png',
     description:
       'Software house italiana specializzata nello sviluppo di agenti AI personalizzati per PMI: hotel, ristoranti, saloni, retail e professionisti.',
-    email: 'info@freyrtechnology.ai',
+    email: 'info@freyrtechnology.it',
     telephone: '+390743297711',
     address: {
       '@type': 'PostalAddress',

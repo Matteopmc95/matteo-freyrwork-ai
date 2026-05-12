@@ -139,9 +139,9 @@ const INFO_CARDS: InfoCard[] = [
   },
   {
     label: 'Email',
-    title: 'info@freirtechnology.it',
+    title: 'info@freyrtechnology.it',
     detail: 'Scrivici una mail. Ti rispondiamo entro 24h lavorative.',
-    href: 'mailto:info@freirtechnology.it',
+    href: 'mailto:info@freyrtechnology.it',
     cta: 'Invia email',
     icon: (
       <svg {...iconProps}>
