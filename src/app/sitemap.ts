@@ -13,5 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/casi-studio`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/contatti`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/chi-siamo`, lastModified, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/privacy-policy`, lastModified, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/cookie-policy`, lastModified, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/termini-condizioni`, lastModified, changeFrequency: "yearly", priority: 0.3 },
   ];
 }

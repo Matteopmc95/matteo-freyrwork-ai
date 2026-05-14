@@ -71,6 +71,44 @@ export default function RootLayout({
   return (
     <html lang="it">
       <body>
+        {/* Iubenda Cookie Solution — deve stare prima di GA */}
+        <Script id="iubenda-cs-config" strategy="beforeInteractive">
+          {`
+            var _iub = _iub || [];
+            _iub.csConfiguration = {
+              "siteId": IUBENDA_SITE_ID,
+              "cookiePolicyId": IUBENDA_PRIVACY_ID,
+              "lang": "it",
+              "storage": {"useSiteId": true},
+              "banner": {
+                "acceptButtonDisplay": true,
+                "customizeButtonDisplay": true,
+                "rejectButtonDisplay": true,
+                "position": "float-bottom-center",
+                "acceptButtonColor": "#4B6BFB",
+                "acceptButtonCaptionColor": "#FFFFFF",
+                "rejectButtonColor": "#1a1d24",
+                "rejectButtonCaptionColor": "#F4F3EE",
+                "customizeButtonColor": "#1a1d24",
+                "customizeButtonCaptionColor": "#F4F3EE",
+                "backgroundColor": "#0D0F14",
+                "textColor": "#F4F3EE",
+                "fontSizeBody": "14px",
+                "closeButtonRejects": true,
+                "linksTextColor": "#7B94FC",
+                "explicitWithdrawal": true,
+                "listPurposes": true,
+                "showTitle": false
+              },
+              "consentOnContinuedBrowsing": false,
+              "perPurposeConsent": true,
+              "googleAdditionalConsentMode": true
+            };
+          `}
+        </Script>
+        <Script src="//cs.iubenda.com/autoblocking/IUBENDA_SITE_ID.js" strategy="beforeInteractive" />
+        <Script src="//cdn.iubenda.com/cs/gpp/stub.js" strategy="beforeInteractive" />
+        <Script src="//cdn.iubenda.com/cs/iubenda_cs.js" strategy="beforeInteractive" charSet="UTF-8" async />
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-770W824WND"
