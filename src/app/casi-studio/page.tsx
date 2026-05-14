@@ -1427,33 +1427,6 @@ function CTAFinal() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   FOOTER
-   ═══════════════════════════════════════════════════════════════ */
-function Footer() {
-  return (
-    <footer
-      style={{
-        padding: '40px 8vw',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: 16,
-      }}
-    >
-      <span style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, fontWeight: 600, color: 'rgba(244,243,238,0.3)' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo/logo.png" alt="FreyrtechnologyAI" style={{ width: 28, height: 28, objectFit: 'contain' }} />
-        <span>Freyr<span style={{ color: C.acc, opacity: 0.6 }}>technology</span>AI</span>
-      </span>
-      <span style={{ fontSize: 12, color: 'rgba(244,243,238,0.18)' }}>
-        © 2025 FreyrtechnologyAI. Agenti AI per PMI e imprese locali.
-      </span>
-    </footer>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
    DATA CASI — direttamente dal copy
    ═══════════════════════════════════════════════════════════════ */
 const CASES: Case[] = [
@@ -1622,7 +1595,6 @@ export default function CasiStudioPage() {
       ))}
       <FlowBeforeAfter />
       <CTAFinal />
-      <Footer />
     </div>
   );
 }

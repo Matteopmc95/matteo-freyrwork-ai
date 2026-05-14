@@ -333,10 +333,6 @@ const markupPost = `
   </div>
   <p class="cta-micro reveal reveal-d3">Nessun tecnicismo inutile. Partiamo da come lavori oggi.</p>
 </section>
-<footer>
-  <span class="footer-logo"><img src="/logo/logo.png" alt="FreyrtechnologyAI"><span>Freyr<span class="brand-accent">technology</span>AI</span></span>
-  <span class="footer-copy">© 2025 FreyrtechnologyAI. Agenti AI per PMI e imprese locali.</span>
-</footer>
 `;
 
 // ---- canvas types ----
