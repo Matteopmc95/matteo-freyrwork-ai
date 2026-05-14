@@ -71,44 +71,28 @@ export default function RootLayout({
   return (
     <html lang="it">
       <body>
-        {/* Iubenda Cookie Solution — deve stare prima di GA */}
-        <Script id="iubenda-cs-config" strategy="beforeInteractive">
+        {/* Iubenda widget — blocca GA4 fino al consenso */}
+        <Script
+          id="iubenda-cs"
+          src="https://embeds.iubenda.com/widgets/70fd3810-f943-4d4f-9868-5772819730b1.js"
+          strategy="beforeInteractive"
+        />
+        {/* GA4 Consent Mode v2 — default deny prima del caricamento GA */}
+        <Script id="ga4-consent-default" strategy="beforeInteractive">
           {`
-            var _iub = _iub || [];
-            _iub.csConfiguration = {
-              "siteId": IUBENDA_SITE_ID,
-              "cookiePolicyId": IUBENDA_PRIVACY_ID,
-              "lang": "it",
-              "storage": {"useSiteId": true},
-              "banner": {
-                "acceptButtonDisplay": true,
-                "customizeButtonDisplay": true,
-                "rejectButtonDisplay": true,
-                "position": "float-bottom-center",
-                "acceptButtonColor": "#4B6BFB",
-                "acceptButtonCaptionColor": "#FFFFFF",
-                "rejectButtonColor": "#1a1d24",
-                "rejectButtonCaptionColor": "#F4F3EE",
-                "customizeButtonColor": "#1a1d24",
-                "customizeButtonCaptionColor": "#F4F3EE",
-                "backgroundColor": "#0D0F14",
-                "textColor": "#F4F3EE",
-                "fontSizeBody": "14px",
-                "closeButtonRejects": true,
-                "linksTextColor": "#7B94FC",
-                "explicitWithdrawal": true,
-                "listPurposes": true,
-                "showTitle": false
-              },
-              "consentOnContinuedBrowsing": false,
-              "perPurposeConsent": true,
-              "googleAdditionalConsentMode": true
-            };
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+              'ad_storage': 'denied',
+              'ad_user_data': 'denied',
+              'ad_personalization': 'denied',
+              'analytics_storage': 'denied',
+              'functionality_storage': 'granted',
+              'security_storage': 'granted',
+              'wait_for_update': 500
+            });
           `}
         </Script>
-        <Script src="//cs.iubenda.com/autoblocking/IUBENDA_SITE_ID.js" strategy="beforeInteractive" />
-        <Script src="//cdn.iubenda.com/cs/gpp/stub.js" strategy="beforeInteractive" />
-        <Script src="//cdn.iubenda.com/cs/iubenda_cs.js" strategy="beforeInteractive" charSet="UTF-8" async />
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-770W824WND"
