@@ -15,7 +15,7 @@ export default function CookiePolicyPage() {
           Cookie Policy
         </h1>
         <IubendaEmbed
-          policyId="IUBENDA_PRIVACY_ID"
+          policyId="53946882"
           type="cookie"
           linkText="Cookie Policy"
         />

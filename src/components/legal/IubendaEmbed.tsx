@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 interface IubendaEmbedProps {
   policyId: string;
-  type: "privacy" | "cookie" | "terms";
+  type: "privacy" | "cookie";
   linkText: string;
 }
 
@@ -15,25 +15,26 @@ export default function IubendaEmbed({ policyId, type, linkText }: IubendaEmbedP
     script.async = true;
     document.body.appendChild(script);
     return () => {
-      document.body.removeChild(script);
+      try {
+        document.body.removeChild(script);
+      } catch {
+        // script già rimosso
+      }
     };
   }, []);
 
   const href =
-    type === "terms"
-      ? `https://www.iubenda.com/termini-e-condizioni/${policyId}`
-      : type === "cookie"
+    type === "cookie"
       ? `https://www.iubenda.com/privacy-policy/${policyId}/cookie-policy`
       : `https://www.iubenda.com/privacy-policy/${policyId}`;
 
-  const className =
-    type === "terms"
-      ? "iub-terms-and-conditions iubenda-white iubenda-noiframe iubenda-embed"
-      : "iubenda-white iubenda-noiframe iubenda-embed iub-no-markup iub-body-embed";
-
   return (
     <div style={{ color: "#F4F3EE", fontFamily: "Inter, sans-serif", lineHeight: 1.7 }}>
-      <a href={href} className={className} title={linkText}>
+      <a
+        href={href}
+        className="iubenda-white iubenda-noiframe iubenda-embed iub-no-markup iub-body-embed"
+        title={linkText}
+      >
         {linkText}
       </a>
     </div>

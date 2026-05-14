@@ -15,9 +15,9 @@ export default function PrivacyPolicyPage() {
           Privacy Policy
         </h1>
         <IubendaEmbed
-          policyId="IUBENDA_PRIVACY_ID"
+          policyId="53946882"
           type="privacy"
-          linkText="Privacy Policy estesa"
+          linkText="Privacy Policy"
         />
       </div>
     </main>
