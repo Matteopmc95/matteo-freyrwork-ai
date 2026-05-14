@@ -7,7 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://freyrtechnology.ai"),
   title: {
-    default: "FreyrtechnologyAI — Agenti AI su misura per PMI italiane",
+    default: "Agenti AI per la tua azienda",
     template: "%s | FreyrtechnologyAI",
   },
   description:
@@ -43,13 +43,13 @@ export const metadata: Metadata = {
     locale: "it_IT",
     url: "https://freyrtechnology.ai",
     siteName: "FreyrtechnologyAI",
-    title: "FreyrtechnologyAI — Agenti AI su misura per PMI italiane",
+    title: "Agenti AI per la tua azienda",
     description:
       "Agenti AI personalizzati per automazione di prenotazioni, supporto operativo, analisi dati e flussi interni. Per hotel, ristoranti, saloni, retail e professionisti.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "FreyrtechnologyAI — Agenti AI su misura per PMI italiane",
+    title: "Agenti AI per la tua azienda",
     description:
       "Agenti AI personalizzati per automazione di prenotazioni, supporto operativo, analisi dati e flussi interni.",
   },
