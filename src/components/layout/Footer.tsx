@@ -102,7 +102,6 @@ export default function Footer() {
             <div>
               <p className="ft-col-title">Contatti</p>
               <a href="mailto:info@freyrtechnology.it" className="ft-link">info@freyrtechnology.it</a>
-              <a href="mailto:freyrtechnologysrl@legalmail.it" className="ft-link">freyrtechnologysrl@legalmail.it</a>
               <span style={{ display: 'block', fontSize: 13, color: 'rgba(244,243,238,0.55)', lineHeight: 1.6, marginTop: 4 }}>
                 Via dei Filosofi 2<br />06049 Spoleto (PG)
               </span>
