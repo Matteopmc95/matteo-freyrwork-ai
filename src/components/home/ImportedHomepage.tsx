@@ -28,7 +28,7 @@ section.alt::before{content:"";position:absolute;top:-60px;left:0;right:0;height
 section.alt + section:not(.alt){position:relative}
 section.alt + section:not(.alt)::before{content:"";position:absolute;top:-60px;left:0;right:0;height:60px;background:linear-gradient(to bottom,var(--bg2),var(--bg));pointer-events:none;z-index:1}
 .section-tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);font-weight:500;margin-bottom:18px}
-.section-headline{font-size:clamp(24px,3vw,44px);font-weight:600;line-height:1.12;letter-spacing:-.02em;max-width:700px}
+.section-headline{font-size:clamp(24px,3vw,44px);font-weight:600;line-height:1.12;letter-spacing:-.02em;max-width:860px}
 .section-sub{font-size:clamp(14px,1.2vw,17px);color:var(--muted);line-height:1.7;max-width:560px;margin-top:16px;font-weight:300}
 .section-body{font-size:clamp(14px,1.1vw,16px);color:var(--muted);line-height:1.75;max-width:620px;margin-top:20px;font-weight:300}
 #problema .prob-layout{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;margin-top:56px}
