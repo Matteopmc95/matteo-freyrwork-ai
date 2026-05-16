@@ -171,12 +171,12 @@ const INFO_CARDS: InfoCard[] = [
   },
   {
     label: 'Orari',
-    title: 'Lun — Ven',
+    title: 'Lun-Ven',
     detail: (
       <>
-        Mattino 9:00 — 13:00
+        Mattino 9:00-13:00
         <br />
-        Pomeriggio 15:00 — 19:00
+        Pomeriggio 15:00-19:00
       </>
     ),
     icon: (

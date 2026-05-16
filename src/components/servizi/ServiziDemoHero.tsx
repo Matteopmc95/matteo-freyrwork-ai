@@ -56,7 +56,7 @@ const FLOW: Record<Sector, Step[]> = {
       actions: [
         { system: 'PMS · Channel Manager', detail: 'Verifica disponibilità 14-16/06' },
         { system: 'CRM Ospiti', detail: 'Nuovo lead profilato: famiglia, 4 ospiti' },
-        { system: 'Risposta WhatsApp', detail: 'Disponibili 2 Deluxe vista lago — €220/notte' },
+        { system: 'Risposta WhatsApp', detail: 'Disponibili 2 Deluxe vista lago, €220/notte' },
       ],
       manual: 612, agent: 4.2,
     },
@@ -74,7 +74,7 @@ const FLOW: Record<Sector, Step[]> = {
     },
     {
       channel: 'call', from: '+39 347 ••• ••31',
-      request: 'Chiamata in arrivo alle 22:47 — richiesta disponibilità camere',
+      request: 'Chiamata in arrivo alle 22:47: richiesta disponibilità camere',
       thought: 'Chiamata fuori orario ricevuta. Avvio conversazione automatica: rispondo alla richiesta, verifico disponibilità e gestisco la prenotazione in tempo reale senza rimandare.',
       classify: 'Prenotazione · Fuori orario',
       actions: [

@@ -240,7 +240,7 @@ function FlowVisual() {
         @keyframes flowPulse{0%,100%{background:rgba(75,107,251,.08);border-color:rgba(75,107,251,.4)}50%{background:rgba(75,107,251,.2);border-color:rgba(75,107,251,.8)}}
       `}</style>
       <div style={{ fontSize: 12, fontWeight: 500, color: C.txt, marginBottom: 20, paddingBottom: 12, borderBottom: `1px solid ${C.border}` }}>
-        Flusso automatizzato — Gestione prenotazione
+        Flusso automatizzato: gestione prenotazione
       </div>
       {nodes.map((n) => (
         <div key={n.id} id={n.id >= 2 ? `fn${n.id}` : undefined} style={{ display: 'flex', alignItems: 'stretch', gap: 16 }}>
@@ -417,7 +417,7 @@ export default function ServiziPage() {
         id="s2" num="Supporto operativo" alt flip
         headline="Un supporto concreto nelle attività<br>che si ripetono ogni giorno"
         sub="Non tutto ciò che occupa tempo crea valore. Spesso una parte del lavoro pesa solo perché si ripete troppo."
-        body="Ci sono compiti che non fanno notizia ma consumano ore: ricontrollare informazioni, recuperare dati, rispondere a richieste simili, organizzare passaggi interni. FreyrtechnologyAI sviluppa agenti AI che affiancano l'operatività proprio su questo piano — per togliere attrito alle attività più dispersive."
+        body="Ci sono compiti che non fanno notizia ma consumano ore: ricontrollare informazioni, recuperare dati, rispondere a richieste simili, organizzare passaggi interni. FreyrtechnologyAI sviluppa agenti AI che affiancano l'operatività proprio su questo piano, per togliere attrito alle attività più dispersive."
         meta={[
           { title: 'Problema che risolve', text: 'Sovraccarico operativo, troppe attività manuali, perdita di tempo su compiti a basso valore.' },
           { title: 'Beneficio finale', text: 'Meno interruzioni, meno energia dispersa, più tempo per le attività che contano davvero.' },

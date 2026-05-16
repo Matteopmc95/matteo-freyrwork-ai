@@ -112,10 +112,10 @@ export default function Footer() {
           {/* Dati societari */}
           <div style={{ marginTop: 48, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
             <p className="ft-legal">
-              Freyr Technology S.r.l. — P.IVA e C.F. 03848780544 — REA PG-357026 — Capitale sociale € 3.000,00 i.v. — Sede legale: Via dei Filosofi 2, 06049 Spoleto (PG)
+              Freyr Technology S.r.l. · P.IVA e C.F. 03848780544 · REA PG-357026 · Capitale sociale € 3.000,00 i.v. · Sede legale: Via dei Filosofi 2, 06049 Spoleto (PG)
             </p>
             <p className="ft-legal">
-              © 2026 Freyr Technology S.r.l. — Tutti i diritti riservati
+              © 2026 Freyr Technology S.r.l. Tutti i diritti riservati
             </p>
           </div>
         </div>

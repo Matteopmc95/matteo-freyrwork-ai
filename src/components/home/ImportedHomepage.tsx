@@ -132,7 +132,7 @@ const markupPre = `
     <p class="hero-kicker">per la tua azienda</p>
   </div>
   <div class="hero-bottom">
-    <p class="hero-sub">Non semplici chatbot. Agenti AI costruiti sui processi reali della tua impresa — per lavorare con meno dispersione e più controllo.</p>
+    <p class="hero-sub">Non semplici chatbot. Agenti AI costruiti sui processi reali della tua impresa, per lavorare con meno dispersione e più controllo.</p>
     <div class="hero-actions">
       <a href="#cta-finale" class="btn-primary">Scopri come funziona</a>
       <a href="#cta-finale" class="btn-ghost">Prenota una consulenza</a>
@@ -189,7 +189,7 @@ const markupPre = `
     </div>
     <div class="agent-visual reveal reveal-d2">
       <div class="agent-header">
-        <span class="agent-name">Agente AI — La tua attività</span>
+        <span class="agent-name">Agente AI: la tua attività</span>
         <span class="agent-status"><span class="agent-dot"></span>Operativo</span>
       </div>
       <div class="vis-row on">

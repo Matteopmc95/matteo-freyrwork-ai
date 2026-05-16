@@ -39,7 +39,7 @@ export default function ChatbotEmbed() {
   const [messages, setMessages] = useState<Msg[]>([
     {
       role: 'assistant',
-      text: "Ciao. Sono un agente AI dimostrativo di FreyrtechnologyAI. Raccontami com'è fatta la tua attività o chiedimi qualcosa di concreto — provo a mostrarti come un collaboratore AI potrebbe lavorare nel tuo caso.",
+      text: "Ciao. Sono un agente AI dimostrativo di FreyrtechnologyAI. Raccontami com'è fatta la tua attività o chiedimi qualcosa di concreto. Provo a mostrarti come un collaboratore AI potrebbe lavorare nel tuo caso.",
     },
   ]);
   const [input, setInput] = useState('');
@@ -146,7 +146,7 @@ export default function ChatbotEmbed() {
             AI
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <strong style={{ fontSize: 13, fontWeight: 500, color: C.txt }}>Agente AI — demo</strong>
+            <strong style={{ fontSize: 13, fontWeight: 500, color: C.txt }}>Agente AI: demo</strong>
             <span style={{ fontSize: 11, color: '#4ade80', display: 'flex', alignItems: 'center', gap: 6 }}>
               <span
                 style={{

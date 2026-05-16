@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
           email,
           name,
         },
-        subject: `Nuovo contatto dal sito — ${name}${company ? ` (${company})` : ''}`,
+        subject: `Nuovo contatto dal sito: ${name}${company ? ` (${company})` : ''}`,
         htmlContent: `
           <h2>Nuovo messaggio dal form contatti</h2>
           <p><strong>Nome:</strong> ${name}</p>

@@ -483,7 +483,7 @@ export default function AgenteAIHero() {
         </div>
         <div className="ah-bottom">
           <p className="ah-sub">
-            Un agente AI osserva informazioni, organizza richieste, legge dati e supporta decisioni. Lavora sul contesto reale della tua attività — non su risposte generiche.
+            Un agente AI osserva informazioni, organizza richieste, legge dati e supporta decisioni. Lavora sul contesto reale della tua attività, non su risposte generiche.
           </p>
           <div className="ah-actions">
             <a href="#prova" className="ah-btn-primary">Provalo ora</a>

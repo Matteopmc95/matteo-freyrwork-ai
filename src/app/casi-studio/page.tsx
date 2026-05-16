@@ -23,7 +23,7 @@ const HOTEL_REQUESTS = [
   { id: 'early-checkin', ch: 'Email', color: '#FB923C', text: 'Richiesta check-in anticipato', cat: 'Info ospite', reply: 'Info inviata' },
   { id: 'june-availability', ch: 'WhatsApp', color: '#25D366', text: 'Disponibilità 12-14 giugno?', cat: 'Prenotazione', reply: 'Verificata + proposta' },
   { id: 'gluten-free-breakfast', ch: 'Form', color: C.acc, text: 'Colazione senza glutine', cat: 'Preferenze', reply: 'Nota salvata' },
-  { id: 'late-arrival', ch: 'Booking', color: '#003580', text: 'Ritardo arrivo — ore 23:00', cat: 'Operativo', reply: 'Reception notificata' },
+  { id: 'late-arrival', ch: 'Booking', color: '#003580', text: 'Ritardo arrivo, ore 23:00', cat: 'Operativo', reply: 'Reception notificata' },
   { id: 'spa-services', ch: 'Instagram', color: '#E1306C', text: 'Che servizi spa offrite?', cat: 'Info servizi', reply: 'Risposta inviata' },
 ];
 
@@ -317,7 +317,7 @@ function Hero() {
         }}
       >
         Ogni caso studio mostra come un collaboratore AI può intervenire su problemi operativi reali e
-        generare benefici tangibili. Non solo il risultato — ti mostriamo come l&apos;agente è entrato nel
+        generare benefici tangibili. Non solo il risultato: ti mostriamo come l&apos;agente è entrato nel
         flusso e cosa ha automatizzato.
       </p>
       <div
@@ -740,7 +740,7 @@ function RistoranteAutomation() {
                   animation: 'pulseAgent 1.6s ease-in-out infinite',
                 }}
               />
-              Servizio di oggi — unificato dall&apos;agente
+              Servizio di oggi, unificato dall&apos;agente
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {RESTAURANT_RESERVATIONS.map((p, i) => (
@@ -850,7 +850,7 @@ function SaloneAutomation() {
             marginBottom: 14,
           }}
         >
-          Agenda — giovedì 21
+          Agenda: giovedì 21
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           {SALON_SLOTS.map((s, i) => (
@@ -1387,7 +1387,7 @@ function CTAFinal() {
         }}
       >
         Ogni caso parte da un problema diverso, ma l&apos;approccio è lo stesso. Raccontaci com&apos;è
-        fatta la tua attività — partiamo da lì.
+        fatta la tua attività: partiamo da lì.
       </p>
       <div data-reveal style={{ ...rev(0.25), display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
         <a

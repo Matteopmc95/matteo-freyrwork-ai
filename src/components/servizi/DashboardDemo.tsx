@@ -214,8 +214,8 @@ function OverviewTab({ counters, isMobile }: { counters: { booked: number; handl
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           {[
-            { icon: i.check, color: C.ok, text: 'Prenotazione confermata — Marco Bianchi (WhatsApp)', time: 'ora' },
-            { icon: i.msg, color: C.acc2, text: 'Risposta inviata su WhatsApp — "Disponibilità sabato"', time: '1 min' },
+            { icon: i.check, color: C.ok, text: 'Prenotazione confermata: Marco Bianchi (WhatsApp)', time: 'ora' },
+            { icon: i.msg, color: C.acc2, text: 'Risposta inviata su WhatsApp: "Disponibilità sabato"', time: '1 min' },
             { icon: i.cal, color: C.warn, text: 'Follow-up programmato per cliente Rossi', time: '4 min' },
             { icon: i.spark, color: C.pink, text: '12 clienti dormienti identificati', time: '8 min' },
             { icon: i.bolt, color: C.acc, text: 'Report giornaliero generato e inviato al team', time: '14 min' },
@@ -382,7 +382,7 @@ function BookingsTab({ isMobile }: { isMobile: boolean }) {
     { time: '09:00', name: 'Marco Bianchi', service: 'Camera Suite · 2 notti', source: 'WhatsApp', state: 'confirmed' },
     { time: '10:30', name: 'Laura Rossi', service: 'Tavolo 4 persone', source: 'Instagram', state: 'pending' },
     { time: '12:00', name: 'Andrea Serra', service: 'Consulenza 1h', source: 'Email', state: 'confirmed' },
-    { time: '14:30', name: 'Giulia Ferri', service: 'VIP — Cena privata x6', source: 'Telefono', state: 'vip' },
+    { time: '14:30', name: 'Giulia Ferri', service: 'VIP: cena privata x6', source: 'Telefono', state: 'vip' },
     { time: '16:00', name: 'Stefano Conti', service: 'Trattamento massaggio', source: 'WhatsApp', state: 'confirmed' },
     { time: '18:00', name: 'Elena Marchetti', service: 'Cena terrazza x2', source: 'Form sito', state: 'pending' },
     { time: '20:00', name: 'Davide Russo', service: 'Tavolo 2 persone', source: 'WhatsApp', state: 'confirmed' },

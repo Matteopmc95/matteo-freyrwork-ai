@@ -73,7 +73,7 @@ function SectionChe() {
     >
       <div data-reveal style={{ ...rev(0.3), marginTop: 48, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,280px),1fr))', gap: 1, background: C.border, border: `1px solid ${C.border}`, borderRadius: 12, overflow: 'hidden' }}>
         {[
-          { num: '01', title: 'Osserva', text: 'Legge le informazioni del tuo contesto — richieste, dati, calendario, messaggi.' },
+          { num: '01', title: 'Osserva', text: 'Legge le informazioni del tuo contesto: richieste, dati, calendario, messaggi.' },
           { num: '02', title: 'Organizza', text: 'Classifica, collega e struttura ciò che prima restava sparso.' },
           { num: '03', title: 'Supporta', text: 'Risponde, sintetizza, suggerisce. Lavora sui tuoi processi, non su compiti astratti.' },
         ].map((b) => (
@@ -184,12 +184,12 @@ function SectionProva() {
   return (
     <section id="prova" style={{ position: 'relative', padding: '120px 8vw', background: `radial-gradient(ellipse 70% 55% at 50% 0%, rgba(75,107,251,0.14) 0%, transparent 70%), ${C.bg}` }}>
       <div style={{ textAlign: 'center', maxWidth: 820, margin: '0 auto 56px' }}>
-        <p data-reveal style={{ ...rev(0), fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc2, fontWeight: 500, marginBottom: 20 }}>Provalo ora — demo live</p>
+        <p data-reveal style={{ ...rev(0), fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: C.acc2, fontWeight: 500, marginBottom: 20 }}>Provalo ora: demo live</p>
         <h2 data-reveal style={{ ...rev(0.1), fontSize: 'clamp(32px,4.2vw,60px)', fontWeight: 600, lineHeight: 1.06, letterSpacing: '-0.03em', fontFamily: 'Syne, sans-serif', color: C.txt, marginBottom: 20 }}>
           Parla direttamente<br />con un agente AI
         </h2>
         <p data-reveal style={{ ...rev(0.2), fontSize: 'clamp(15px,1.3vw,18px)', color: C.muted, lineHeight: 1.75, fontWeight: 300, maxWidth: 640, margin: '0 auto' }}>
-          Invece di spiegartelo in astratto, te lo facciamo provare. Raccontagli il tuo settore o una situazione reale — ti mostra come un collaboratore AI ragiona sul tuo caso.
+          Invece di spiegartelo in astratto, te lo facciamo provare. Raccontagli il tuo settore o una situazione reale: ti mostra come un collaboratore AI ragiona sul tuo caso.
         </p>
       </div>
       <div data-reveal style={{ ...rev(0.25), maxWidth: 960, margin: '0 auto', position: 'relative' }}>
@@ -211,7 +211,7 @@ function SectionUtile() {
   return (
     <Section id="utile" alt tag="Perché è utile"
       headline={<>{"Perché può fare la differenza"}<br />{"per chi guida un'attività"}</>}
-      body="Chi gestisce un'impresa spesso non ha bisogno di più strumenti. Ha bisogno di meno confusione, più leggibilità e più tempo utile. È proprio qui che un agente AI ben progettato diventa una leva concreta — non simbolica. Il beneficio non è teorico: è gestionale, organizzativo, economico."
+      body="Chi gestisce un'impresa spesso non ha bisogno di più strumenti. Ha bisogno di meno confusione, più leggibilità e più tempo utile. È proprio qui che un agente AI ben progettato diventa una leva concreta, non simbolica. Il beneficio non è teorico: è gestionale, organizzativo, economico."
     >
       <div data-reveal style={{ ...rev(0.3), marginTop: 48, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,240px),1fr))', gap: 1, background: C.border, border: `1px solid ${C.border}`, borderRadius: 12, overflow: 'hidden' }}>
         {benefits.map((b) => (
