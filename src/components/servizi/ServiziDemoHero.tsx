@@ -246,7 +246,7 @@ export default function ServiziDemoHero() {
         const full = step.thought;
         let i = 0;
         const si = setInterval(() => {
-          i += 2;
+          i += 1;
           setThoughtText(full.slice(0, i));
           if (i >= full.length) {
             clearInterval(si);
@@ -266,7 +266,7 @@ export default function ServiziDemoHero() {
               }, 700);
             }, 600));
           }
-        }, 35);
+        }, 55);
       }, 1400));
     };
 
@@ -462,8 +462,8 @@ const sdStyles = `
 .sd-metric-num.ok{color:${C.ok}}
 .sd-metric-unit{font-size:12px;color:${C.muted};font-weight:400}
 .sd-metric.glow .sd-metric-num{text-shadow:0 0 20px rgba(123,148,252,.3)}
-.sd-cinema{position:relative;z-index:2;flex:1;display:grid;grid-template-columns:1fr 44px 1.2fr 44px 1fr;gap:14px;padding:26px 32px;min-height:0;align-items:stretch}
-.sd-pane{display:flex;flex-direction:column;border:1px solid ${C.border};background:linear-gradient(180deg,${C.bg2} 0%,rgba(13,15,20,.8) 100%);border-radius:14px;overflow:hidden;transition:border-color .4s,box-shadow .4s}
+.sd-cinema{position:relative;z-index:2;display:grid;grid-template-columns:1fr 44px 1.2fr 44px 1fr;gap:14px;padding:20px 32px 32px;min-height:0;align-items:start}
+.sd-pane{display:flex;flex-direction:column;border:1px solid ${C.border};background:linear-gradient(180deg,${C.bg2} 0%,rgba(13,15,20,.8) 100%);border-radius:14px;overflow:hidden;transition:border-color .4s,box-shadow .4s;min-height:340px}
 .sd-pane.highlight{background:linear-gradient(180deg,rgba(17,20,30,1) 0%,rgba(13,15,20,.85) 100%)}
 .sd-pane.active{border-color:rgba(75,107,251,.45);box-shadow:0 0 0 1px rgba(75,107,251,.18),0 22px 58px rgba(75,107,251,.15)}
 .sd-pane.success{border-color:rgba(74,222,128,.25)}
@@ -531,7 +531,7 @@ const sdStyles = `
 .sd-compare-save-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:${C.dim};font-weight:500;margin-bottom:6px}
 .sd-compare-save{font-size:22px;font-weight:600;color:${C.ok};letter-spacing:-.02em;line-height:1.15}
 .sd-compare-x{display:block;font-size:11px;font-weight:400;color:${C.muted};margin-top:3px}
-.sd-section-wrap{overflow:hidden;min-height:100svh}
+.sd-section-wrap{overflow:hidden}
 .sd-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 70% 40% at 20% 30%,rgba(75,107,251,.1),transparent 70%),radial-gradient(ellipse 50% 40% at 85% 75%,rgba(123,148,252,.08),transparent 70%)}
 .sd-grid{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 80% 70% at 50% 40%,#000 30%,transparent 80%)}
 @keyframes sdLive{0%,100%{opacity:1}50%{opacity:.35}}
@@ -557,8 +557,8 @@ const sdStyles = `
   .sd-pill{font-size:11px;padding:6px 10px}
   .sd-compare-title{font-size:16px}
   .sd-compare-save{font-size:18px}
-  .sd-section-wrap{overflow:visible !important;min-height:auto !important;height:auto !important;padding-bottom:80px !important;margin-bottom:40px !important}
-  .sd-cinema{display:flex !important;flex-direction:column !important;grid-template-columns:none !important;grid-template-rows:none !important;gap:16px !important;padding:20px 20px 60px !important;flex:none !important;height:auto !important;min-height:auto !important;overflow:visible !important}
+  .sd-section-wrap{overflow:visible !important;min-height:auto !important;height:auto !important;padding-bottom:40px !important;margin-bottom:20px !important}
+  .sd-cinema{display:flex !important;flex-direction:column !important;grid-template-columns:none !important;grid-template-rows:none !important;gap:14px !important;padding:16px 16px 20px !important;flex:none !important;height:auto !important;min-height:auto !important;overflow:visible !important}
   .sd-arrow{height:auto !important;min-height:30px !important;flex-direction:row !important;padding:0 !important}
   .sd-pane{width:100% !important;min-width:0 !important;flex:none !important;height:auto !important;min-height:auto !important;overflow:visible !important;margin-bottom:4px !important}
   .sd-pane-body{overflow:visible !important;flex:none !important;height:auto !important;padding:16px 16px 20px !important}
