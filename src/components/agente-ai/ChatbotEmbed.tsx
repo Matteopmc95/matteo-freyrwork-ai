@@ -267,7 +267,7 @@ export default function ChatbotEmbed() {
             background: 'rgba(13,15,20,0.7)',
             color: C.txt,
             fontFamily: 'Inter, sans-serif',
-            fontSize: 13,
+            fontSize: 16,
             lineHeight: 1.5,
             outline: 'none',
             transition: 'border-color 0.2s',
